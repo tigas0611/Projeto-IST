@@ -12,10 +12,8 @@ f=open('salaxx.txt','r')
 class Table:
     def __init__(self,values,win):
         self.group_tables=[]
-        self.group_division=[]
         self.tables(values)
-        self.division(values)
-        self.planta(win)
+        self.draw_group(win)
 
         
     def tables(self,line):
@@ -27,7 +25,14 @@ class Table:
                     self.group_tables.append(g.Rectangle(g.Point(line[1]+j*198,line[2]+k*84),
                                                    g.Point(line[3]+j*198,line[4]+k*84)))
 
-            
+
+class table_division():   
+    def __init__(self,values,win):
+        self.group_division=[]
+        self.division(values)
+        self.draw_group(win)
+        
+        
     def division(self,line):
         if line[0]=='divisória':
             for i in range(1,len(values)):
@@ -35,8 +40,24 @@ class Table:
             for j in range(2): 
                 self.group_division.append(g.Rectangle(g.Point(line[1]+j*198,line[2]),
                                                g.Point(line[3]+j*198,line[4])))
+class docking_station():
+    def __init(self,values):
+        self.group_docking=[]
+        self.docking(values)
+        self.draw_group()
+    
+    def docking(self,line):
+        if line[0]=='docking':
+            for i in range(1,len(values)):
+                values[i]=int(values[i])
+            for j in range(2): 
+                self.group_docking.append(g.Rectangle(g.Point(line[1],line[2]),
+                                               g.Point(line[3],line[4])))
+    def draw_group():
         
-    def planta(self,win):
+        
+        
+def planta(self,win):
         for table in self.group_tables:
             table.draw(win)
         for divisoria in self.group_division:
