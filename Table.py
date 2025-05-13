@@ -14,7 +14,7 @@ class Table:
         self.group_tables=[]
         self.group_division=[]
         self.tables(values)
-        self.division(values[1],values[2])
+        self.division(values)
         self.planta(win)
 
         
@@ -24,20 +24,23 @@ class Table:
                 values[i]=int(values[i])
             for j in range(2):
                 for k in range(3):
-                    self.group_tables.append(g.Rectangle(g.Point(line[1]+j*132,line[2]+k*56),
-                                                   g.Point(line[3]+j*132,line[4]+k*56)))
+                    self.group_tables.append(g.Rectangle(g.Point(line[1]+j*198,line[2]+k*84),
+                                                   g.Point(line[3]+j*198,line[4]+k*84)))
 
             
-    def division(self,x,y):
+    def division(self,line):
         if line[0]=='divisória':
             for i in range(1,len(values)):
                 values[i]=int(values[i])
-                self.group_division.append(g.Rectangle(g.Point(x+1,y-10),
-                                                       g.Point(x+3,y+6*14)))
+            for j in range(2): 
+                self.group_division.append(g.Rectangle(g.Point(line[1]+j*198,line[2]),
+                                               g.Point(line[3]+j*198,line[4])))
         
     def planta(self,win):
         for table in self.group_tables:
             table.draw(win)
+        for divisoria in self.group_division:
+            divisoria.draw(win)
             
 
 
@@ -56,4 +59,5 @@ for line in f:
             values[i]=int(values[i])    
         paredes=g.Rectangle(g.Point(values[1],values[2]),g.Point(values[3],values[4]))
         paredes.draw(win)
-
+    
+    print(table.group_tables)
