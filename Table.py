@@ -6,7 +6,7 @@ Proj class Table
 """
 import graphics as g
 
-win=g.GraphWin('planta', 600,800)
+win=g.GraphWin('planta', 800,600)
 f=open('salaxx.txt','r')
 
 class Table:
@@ -78,8 +78,10 @@ docking=Docking_Station()
 for line in f:
     if 'Parede'in line:
         value=line.split()
-        parede=eval(value[1])    
+        parede=eval(value[1])
         parede.draw(win)
+        win.setCoords(parede.getP2().getX(),parede.getP2().getY(),
+                       parede.getP1().getX(),parede.getP1().getY())
     table.Position(line)
     table_div.Position(line)
     docking.Position(line)
