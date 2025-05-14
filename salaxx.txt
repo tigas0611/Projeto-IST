@@ -1,4 +1,26 @@
-parede 100 100 550 550
-mesa 166 220 220 262
-mesa 232 220 286 262
-divisória 223 160 229 490
+# graphics is imported as g
+# sala planta(1:3)
+
+Parede g.Rectangle(g.Point(100,100),g.Point(550,550))
+
+Table1 g.Rectangle(g.Point(166,220),g.Point(220,262))
+Table2 g.Rectangle(g.Point(166,304),g.Point(220,346))
+Table3 g.Rectangle(g.Point(166,388),g.Point(220,430))
+
+Table4 g.Rectangle(g.Point(232,220),g.Point(286,262))
+Table5 g.Rectangle(g.Point(232,304),g.Point(286,346))
+Table6 g.Rectangle(g.Point(232,388),g.Point(286,430)) 
+
+Table7 g.Rectangle(g.Point(364,220),g.Point(418,262))
+Table8 g.Rectangle(g.Point(364,304),g.Point(418,346))
+Table9 g.Rectangle(g.Point(364,388),g.Point(418,430))
+
+
+Table10 g.Rectangle(g.Point(430,220),g.Point(484,262))
+Table11 g.Rectangle(g.Point(430,304),g.Point(484,346))
+Table12 g.Rectangle(g.Point(430,388),g.Point(484,430))
+
+Division1 g.Rectangle(g.Point(223,160),g.Point(229,490))
+Division2 g.Rectangle(g.Point(421,160),g.Point(427,490))
+
+Docking1
