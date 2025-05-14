@@ -50,13 +50,15 @@ class Table_Division():
 
 
 class Docking_Station():
-    def __init(self):
+    def __init__(self):
         self.group_docking=[]
-    
+
+
+        
     def Position(self,line):
         if 'Docking'in line:
             value=line.strip().split()
-            self.group_tables.append(eval(value[1]))
+            self.group_docking.append(eval(value[1]))
             #for i in range(1,len(values)):
                 #values[i]=int(values[i])
             #for j in range(2): 
@@ -64,7 +66,6 @@ class Docking_Station():
                                                #g.Point(line[3],line[4])))
     
     def draw_group(self,win):
-        if len(self.group_docking)!=0:    
             for table in self.group_docking:
                 table.draw(win)        
         
@@ -81,11 +82,11 @@ for line in f:
         parede.draw(win)
     table.Position(line)
     table_div.Position(line)
-    #docking.Position(line)
+    docking.Position(line)
     
 table.draw_group(win)
 table_div.draw_group(win)
-#docking.draw_group(win)
+docking.draw_group(win)
 
 
 
