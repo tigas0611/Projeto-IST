@@ -12,19 +12,20 @@ import Table as T
 win=T.win
 class Waiter():
     def __init__(self,win,center,size):
-        self.robô=C.Face(win,center,size)
+        self.robo=C.Face(win,center,size)
         self.colision()
     def move(self):
-        self.robô
+        self.robo
         
     def colision(self):
-        dx=self.robô.center.getX()
-        dy=self.robô.center.getY()
-        
+        dx=self.robo.center.getX()
+        dy=self.robo.center.getY()
+    def drawFace(self):
+        self.robo.drawFace()
         
         
 
-robô=Waiter(win,g.Point(150,106,5))
+robô=Waiter(win,g.Point(130,106),5)
 robô.drawFace()
 T.table.draw_group(win)
 T.table_div.draw_group(win)
