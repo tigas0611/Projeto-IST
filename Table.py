@@ -80,8 +80,8 @@ for line in f:
         value=line.split()
         parede=eval(value[1])
         parede.draw(win)
-        win.setCoords(parede.getP2().getX(),parede.getP2().getY(),
-                       parede.getP1().getX(),parede.getP1().getY())
+        #win.setCoords(parede.getP2().getX(),parede.getP2().getY(),
+                       #parede.getP1().getX(),parede.getP1().getY())
     table.Position(line)
     table_div.Position(line)
     docking.Position(line)
