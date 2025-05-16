@@ -13,10 +13,9 @@ win=T.win
 class Waiter():
     def __init__(self,win,center,size,group):
         self.robo=C.Face(win,center,size)
-        self.move(group)
+        self.move(group,center)
     
-    def move(self,group):
-        i=0
+    def move(self,group,center):
         dx=1 
         dy=0
         while True:
@@ -34,6 +33,8 @@ class Waiter():
                 dx=0
                 dy=1
             self.colision(group)
+            if self.colision(group)==True:
+                self.robo.center=center
             self.robo.move(dx,dy)
             g.update(60)
 
@@ -46,10 +47,9 @@ class Waiter():
             iy1=i.getP1().getY()
             ix2=i.getP2().getX()
             iy2=i.getP2().getY()
-            if ix2>dx>ix1: 
-                if iy1>dy>iy2:
+            if ix2>dx and dx>ix1 and iy2>dy and dy>iy1 : 
                     i.setFill("red")
-                    print(5)
+                    return True
                 
                 
     #def drawFace(self):
