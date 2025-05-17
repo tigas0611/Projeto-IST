@@ -16,16 +16,16 @@ class Table:
 
         
     def Position(self,line):
-        if 'Table'in line:
-            value=line.strip().split()
-            self.group_tables.append(eval(value[1]))
-
-            #for i in range(1,len(values)):
-                #values[i]=int(values[i])
-            #for j in range(2):
-                #for k in range(3):
-                    #self.group_tables.append(g.Rectangle(g.Point(line[1]+j*198,line[2]+k*84),
-                                                   #g.Point(line[3]+j*198,line[4]+k*84)))
+        #if 'Table'in line:
+            #value=line.strip().split()
+            #self.group_tables.append(eval(value[1]))
+            
+            for i in range(1,len(values)):
+                values[i]=int(values[i])
+            for j in range(2):
+                for k in range(3):
+                    self.group_tables.append(g.Rectangle(g.Point(line[1]+j*198,line[2]+k*84),
+                                                   g.Point(line[3]+j*198,line[4]+k*84)))
         
 
     def draw_group(self,win):
@@ -76,12 +76,52 @@ table_div=Table_Division()
 docking=Docking_Station()         
 
 for line in f:
-    if 'Parede'in line:
-        value=line.split()
-        parede=eval(value[1])
-        parede.draw(win)
-        #win.setCoords(parede.getP2().getX(),parede.getP2().getY(),
-                       #parede.getP1().getX(),parede.getP1().getY())
+    if 'Tamanho das mesas' in line:
+        line.split(':')
+        tablesize=line[1]
+    
+    if 'Tamanho das divisórias' in line:
+        line.split(':')
+        divsize=line[1]
+    
+    if 'nº de mesas por divisoria' in line:
+        line.split(':')
+        tablediv=line[1]
+    
+    if 'nº de divisórias por fila' in line:
+        line.split(':')
+        nºdivrows=line[1]
+        
+    if 'nº de filas' in line:
+        line.split(':')
+        nºrows=line[1]
+        
+    if 'espaço entre as mesas e as paredes' in line:
+        line.split(':')
+        tablegap=line[1]
+        
+    if 'espaço entre as mesas e a divisórias' in line:
+        line.split(':')
+        divgap=line[1]
+    
+    if 'Tamanho da docking Station' in line:
+        line.split(':')
+        docking=line[1]
+    
+    if 'Tamanho da docking Station' in line:
+        line.split(':')
+        docking=line[1]
+    
+    if 'escala' in line:
+        line.split(':')
+        scale=line[1]
+
+        
+        
+win.set
+        
+        
+        
     table.Position(line)
     table_div.Position(line)
     docking.Position(line)
