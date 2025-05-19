@@ -2,24 +2,27 @@ escala:1
 
 Tamanho das mesas(altura x largura):14x18
 
-Tamanho das divisórias(altura x largura):x2
+Tamanho das divisórias(largura):2
 
-nº de mesas por divisória(duplas):3
+nº de mesas por divisoria (duplas):3
 
 nº de divisórias por fila:1
 
 nº de filas:2 
 
-espaço entre filas:64
+espaço entre mesas(verticalxhorizontal):14x26
 
 espaço entre as mesas e as paredes(horizontal):22
 
-espaço entre as mesas e a divisórias:1
+espaço entre as mesas e as divisórias(horizontal):1
 
 Tamanho da docking Station(altura x largura):10x26
 
 espaço entre as paredes e a divisórias(vertical):20
- 
+
+extra parte da divisória:20
+
+espaço entre divisórias(vertical):0
 
 Parede g.Rectangle(g.Point(100,100),g.Point(550,550))
 
