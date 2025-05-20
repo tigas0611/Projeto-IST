@@ -6,7 +6,7 @@ Proj class Table
 """
 import graphics as g
 
-win=g.GraphWin('planta', 800,600)
+#win=g.GraphWin('planta', 800,600)
 f=open('salaxx.txt','r')
 
 class Table:
@@ -15,16 +15,16 @@ class Table:
 
 
         
-    def Position(self,scale,nºrows,distable,nºtable,tablesizex,tablesizey,divgap,divsize,distdiv,nºdivrows,tablegapx,tablegapy,Xdiv,splitdiv):
-        for i in range(nºrows):
-            for j in range(nºdivrows):
+    def Position(self,scale,numrows,distable,numtable,tablesizex,tablesizey,divgap,divsize,distdiv,numdivrows,tablegapx,tablegapy,Xdiv,splitdiv):
+        for i in range(numrows):
+            for j in range(numdivrows):
                 for k in range(2):
-                    for l in range(nºtable):
+                    for l in range(numtable):
                         self.group_tables.append(g.Rectangle(
                             g.Point(scale*(distable + (i+k)*(tablesizex+2*divgap + divsize)+ i*(tablegapx+tablesizex)),
-                                    scale*(Xdiv+distdiv + j*(2*Xdiv+nºtable*(tablesizey+tablegapy)-tablegapy) +l*(tablesizey+tablegapy))),
+                                    scale*(Xdiv+distdiv + j*(2*Xdiv+numtable*(tablesizey+tablegapy)-tablegapy) +l*(tablesizey+tablegapy))),
                             g.Point(scale*(tablesizex + distable + (i+k)*(tablesizex+2*divgap + divsize)+ i*(tablegapx+tablesizex)),
-                                    scale*(tablesizey + Xdiv+distdiv + j*(2*Xdiv+nºtable*(tablesizey+tablegapy)-tablegapy+splitdiv) +l*(tablesizey+tablegapy)))))
+                                    scale*(tablesizey + Xdiv+distdiv + j*(2*Xdiv+numtable*(tablesizey+tablegapy)-tablegapy+splitdiv) +l*(tablesizey+tablegapy)))))
         print(self.group_tables)
 
 
@@ -38,10 +38,10 @@ class Table_Division():
 
         
         
-    def Position(self,scale,nºrows,nºdivrows,distable,tablesizex,Xdiv,nºtable,tablesizey,tablegapy,divgap,divsize,distdiv,splitdiv):
-        divlenght=scale*(2*Xdiv+nºtable*(tablesizey+tablegapy)-tablegapy)
-        for i in range(nºrows):
-            for j in range(nºdivrows):
+    def Position(self,scale,numrows,numdivrows,distable,tablesizex,Xdiv,numtable,tablesizey,tablegapy,divgap,divsize,distdiv,splitdiv):
+        divlenght=scale*(2*Xdiv+numtable*(tablesizey+tablegapy)-tablegapy)
+        for i in range(numrows):
+            for j in range(numdivrows):
                 self.group_division.append(g.Rectangle(g.Point(scale*(distable+tablesizex+i*(2*tablesizex+2*divgap+divsize)) , scale*(distdiv+j*(divlenght+splitdiv))),
                                            g.Point(scale*(divsize+distable+tablesizex+i*(2*tablesizex+2*divgap+divsize)),scale*(divlenght+distdiv+j*(divlenght+splitdiv)))))
 
@@ -83,23 +83,23 @@ for line in f:
     elif 'Tamanho das mesas' in line:
         values=line.split(':')
         medidas=values[1].split('x')
-        tablesizey=int(medidas[0])
-        tablesizex=int(medidas[1])
+        tablesizex=int(medidas[0])
+        tablesizey=int(medidas[1])
     elif 'Tamanho das divisórias' in line:
         values=line.split(':')
         divsize=int(values[1])
     
-    elif 'nº de mesas por divisoria' in line:
+    elif 'num de mesas por divisoria' in line:
         values=line.split(':')
-        nºtable=int(values[1])
+        numtable=int(values[1])
     
-    elif 'nº de divisórias por fila' in line:
+    elif 'num de divisórias por fila' in line:
         values=line.split(':')
-        nºdivrows=int(values[1])
+        numdivrows=int(values[1])
         
-    elif 'nº de filas' in line:
+    elif 'num de filas' in line:
         values=line.split(':')
-        nºrows=int(values[1])
+        numrows=int(values[1])
         
     elif 'espaço entre mesas' in line:
         values=line.split(':')
@@ -138,16 +138,16 @@ for line in f:
         values=line.split(':')
         scale=int(values[1])
          
-sizex=nºrows*(2*(tablesizex + divgap) + divsize) + (nºrows-1)*tablegapx + 2*(distable)
+sizex=numrows*(2*(tablesizex + divgap) + divsize) + (numrows-1)*tablegapx + 2*(distable)
 
-sizey=2*(distdiv) + 2*nºdivrows*Xdiv + (nºdivrows-1)*splitdiv + nºtable*tablesizey  
-+ (nºtable-1)*tablegap  
+sizey=2*(distdiv) + 2*numdivrows*Xdiv + (numdivrows-1)*splitdiv + numtable*tablesizey  
++ (numtable-1)*tablegap  
 
 #win.setCoords(0, scale*sizey, scale*sizex, 0)
         
         
-table.Position(scale,nºrows,distable,nºtable,tablesizex,tablesizey,divgap,divsize,distdiv,nºdivrows,tablegapx,tablegapy,Xdiv,splitdiv)
-table_div.Position(scale,nºrows,nºdivrows,distable,tablesizex,Xdiv,nºtable,tablesizey,tablegapy,divgap,divsize,distdiv,splitdiv)
+table.Position(scale,numrows,distable,numtable,tablesizex,tablesizey,divgap,divsize,distdiv,numdivrows,tablegapx,tablegapy,Xdiv,splitdiv)
+table_div.Position(scale,numrows,numdivrows,distable,tablesizex,Xdiv,numtable,tablesizey,tablegapy,divgap,divsize,distdiv,splitdiv)
 #docking.Position(line)
     
 table.draw_group(win)

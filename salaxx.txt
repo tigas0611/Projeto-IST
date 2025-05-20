@@ -2,7 +2,7 @@ Scale:1
 
 Table size (width x height):14x18
 
-Divisory size (width x height):2
+Divider size (width x height):2
 
 Number of tables per divisory (groups of two):3
 
@@ -10,7 +10,7 @@ Number of divisories per row:1
 
 Number of rows:2 
 
-Gap between rows:64
+Gap between tables (vertical x horizontal):14x26
 
 Gap between tables and walls (horizontal):22
 
@@ -19,28 +19,7 @@ Gap between tables and divisories:1
 Docking Station size (width x height):26x10
 
 Gap between walls and divisories (vertical):20
- 
 
-Parede g.Rectangle(g.Point(100,100),g.Point(550,550))
+Divider extra size:20
 
-Table1 g.Rectangle(g.Point(166,220),g.Point(220,262))
-Table2 g.Rectangle(g.Point(166,304),g.Point(220,346))
-Table3 g.Rectangle(g.Point(166,388),g.Point(220,430))
-
-Table4 g.Rectangle(g.Point(232,220),g.Point(286,262))
-Table5 g.Rectangle(g.Point(232,304),g.Point(286,346))
-Table6 g.Rectangle(g.Point(232,388),g.Point(286,430))
-
-Table7 g.Rectangle(g.Point(364,220),g.Point(418,262))
-Table8 g.Rectangle(g.Point(364,304),g.Point(418,346))
-Table9 g.Rectangle(g.Point(364,388),g.Point(418,430))
-
-
-Table10 g.Rectangle(g.Point(430,220),g.Point(484,262))
-Table11 g.Rectangle(g.Point(430,304),g.Point(484,346))
-Table12 g.Rectangle(g.Point(430,388),g.Point(484,430))
-
-Division1 g.Rectangle(g.Point(223,160),g.Point(229,490))
-Division2 g.Rectangle(g.Point(421,160),g.Point(427,490))
-
-Docking1 g.Rectangle(g.Point(286,100),g.Point(364,130))
+Gap between divider (vertical):0
