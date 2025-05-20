@@ -1,8 +1,8 @@
 Scale:1
 
-Table size (width x height):14x18
+Table size (width x height):18x14
 
-Divider size (width x height):2
+Divider width:4
 
 Number of tables per divisory (groups of two):3
 
@@ -14,7 +14,7 @@ Gap between tables (horizontal x vertical):26x14
 
 Gap between walls and tables (horizontal):22
 
-Gap between dividers and tables:1
+Gap between dividers and tables:0
 
 Docking Station size (width x height):26x10
 
