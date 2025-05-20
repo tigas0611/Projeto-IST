@@ -17,7 +17,7 @@ class Table:
             for j in range(numdivrows):
                 for k in range(2):
                     for l in range(numtable):
-                        self.group_tables.append(g.Rectangle(
+                        self.grouptables.append(g.Rectangle(
                             g.Point(scale*(distable + k*(ax)+ i*divgapx),
                                     scale*(Xdiv+distdiv + j*(by) +l*(ay))),
                             g.Point(scale*(tablesizex + distable + k*(ax)+ i*divgapx),
@@ -34,7 +34,7 @@ class TableDivision():
     def Position(self,scale,numrows,numdivrows,distable,tablesizex,divgapx,divgapy,divwidth,distdiv,by):
         for i in range(numrows):
             for j in range(numdivrows):
-                self.group_division.append(g.Rectangle(
+                self.groupdividers.append(g.Rectangle(
                     g.Point(scale*(distable + tablesizex + divtablegap + i*(divgapx)) , scale*(distdiv + j*(by))),
                     g.Point(scale*(divwidth + distable + tablesizex + divtablegap + i*(divgapx)), scale*(divlenght + distdiv + j*(divlenght + divgapy)))))
 
@@ -42,22 +42,20 @@ class TableDivision():
             for divider in self.groupdividers:
                 divider.draw(win)
 
-class DockingStation():
+class kitchenpass():
     def __init__(self):
-        self.group_docking = []
+        self.kitchenpass = []
         
-    def Position(self,line):
-        if 'Docking'in line:
-            value=line.strip().split()
-            self.group_docking.append(eval(value[1]))
+    def Position(self,sizex,kitchenpassx,kitchenpassy): 
+        self.kitchenpass.append(g.Rectangle(g.Point((sizex/2) - kitchenpassx, 0), g.Point((sizex/2) + kitchenpassx, kitchenpassy)))
     
     def draw_group(self,win):
-            for table in self.group_docking:
-                table.draw(win)        
+            for kitchenpass in self.kitchenpass:
+                kitchenpass.draw(win)        
     
 table = Table()
 table_div = TableDivision()   
-docking = DockingStation()
+docking = kitchenpass()
 
 for line in f:
     if line == None:
@@ -97,11 +95,11 @@ for line in f:
         values = line.split(': ')
         divtablegap = int(values[1])
     
-    elif 'Docking Station size' in line:
+    elif 'Kitchen pass size' in line:
         values = line.split(': ')
-        docking = values[1].split(' x ')
-        dockingx = int(docking[0])
-        dockingy = int(docking[1])
+        kitchenpass = values[1].split(' x ')
+        kitchenpassx = int(kitchenpass[0])
+        kitchenpassy = int(kitchenpass[1])
     
     elif 'Gap between walls and dividers' in line:
         values = line.split(': ')
@@ -132,10 +130,9 @@ sizex = 2*(tablesizex + divtablegap + distable) + divwidth + (numrows - 1)*divga
 divlenght=scale*(2*Xdiv + numtable*(tablesizey + tablegapy) - tablegapy)
 
 sizey = 2*(distdiv) + (numdivrows - 1)*divgapy + divlenght
-print(sizex,sizey)
+
 ax = tablesizex + 2*divtablegap + divwidth
 ay = tablegapy + tablesizey
-
 
 by = divlenght + divgapy
 
@@ -144,11 +141,11 @@ win.setCoords(0, sizex, sizey, 0)
 
 table.Position(scale,numrows,distable,numtable,tablesizex,tablesizey,distdiv,numdivrows,Xdiv,ax,divgapx,ay,by)
 table_div.Position(scale,numrows,numdivrows,distable,tablesizex,divgapx,divgapy,divwidth,distdiv,by)
-#docking.Position(line)
+docking.Position(sizex,kitchenpassx,kitchenpassy)
     
 table.draw_group(win)
 table_div.draw_group(win)
-#docking.draw_group(win)
+docking.draw_group(win)
 
 win.getMouse()
 win.close()

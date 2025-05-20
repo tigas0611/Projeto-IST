@@ -16,7 +16,7 @@ Gap between walls and tables (horizontal): 22
 
 Gap between dividers and tables: 0
 
-Docking Station size (width x height): 26 x 10
+Kitchen pass size (width x height): 26 x 10
 
 Gap between walls and dividers (vertical): 20
 
