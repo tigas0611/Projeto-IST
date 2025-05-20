@@ -78,61 +78,63 @@ table_div=Table_Division()
 docking=Docking_Station()         
 #indiferença o nome da variavel values ou qualquer outro intermedio ser igual pois usamos só para aceder a valores dentro dela
 for line in f:
-    if 'Tamanho das mesas' in line:
+    if line==None:
+        continue
+    elif 'Tamanho das mesas' in line:
         values=line.split(':')
         medidas=values[1].split('x')
         tablesizey=int(medidas[0])
         tablesizex=int(medidas[1])
-    if 'Tamanho das divisórias' in line:
+    elif 'Tamanho das divisórias' in line:
         values=line.split(':')
         divsize=int(values[1])
     
-    if 'nº de mesas por divisoria' in line:
+    elif 'nº de mesas por divisoria' in line:
         values=line.split(':')
         nºtable=int(values[1])
     
-    if 'nº de divisórias por fila' in line:
+    elif 'nº de divisórias por fila' in line:
         values=line.split(':')
         nºdivrows=int(values[1])
         
-    if 'nº de filas' in line:
+    elif 'nº de filas' in line:
         values=line.split(':')
         nºrows=int(values[1])
         
-    if 'espaço entre mesas' in line:
+    elif 'espaço entre mesas' in line:
         values=line.split(':')
         tablegap=values[1].split('x')
         tablegapy=int(tablegap[0])
         tablegapx=int(tablegap[1])
             
         
-    if 'espaço entre as mesas e as paredes' in line:
+    elif 'espaço entre as mesas e as paredes' in line:
         values=line.split(':')
         distable=int(values[1])
         
-    if 'espaço entre as mesas e as divisórias' in line:
+    elif 'espaço entre as mesas e as divisórias' in line:
         values=line.split(':')
         divgap=int(values[1])
     
-    if 'Tamanho da docking Station' in line:
+    elif 'Tamanho da docking Station' in line:
         values=line.split(':')
         docking=values[1].split('x')
         dockingx=int(docking[1])
         dockingy=int(docking[0])
     
-    if 'espaço entre as paredes e a divisórias' in line:
+    elif 'espaço entre as paredes e a divisórias' in line:
         values=line.split(':')
         distdiv=int(values[1])
     
-    if 'extra parte da divisória' in line:
+    elif 'extra parte da divisória' in line:
         values=line.split(':')
         Xdiv=int(values[1])
         
-    if 'espaço entre divisórias' in line:
+    elif 'espaço entre divisórias' in line:
         values=line.split(':')
         splitdiv=int(values[1])
         
-    if 'escala' in line:
+    elif 'escala' in line:
         values=line.split(':')
         scale=int(values[1])
          
@@ -152,6 +154,6 @@ table.draw_group(win)
 table_div.draw_group(win)
 #docking.draw_group(win)
 
-
+f.close()
 
 
