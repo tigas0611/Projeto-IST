@@ -1,28 +1,25 @@
-Scale:3
+Scale:1
 
-Table size (width x height):18x14
+Table size (width x height):14x18
 
-Divisor size (width):2
+Divisory size (width x height):2
 
-number of table per divisor (duplas):3
+Number of tables per divisory (groups of two):3
 
-number  de divisórias por fila:2
+Number of divisories per row:1
 
-n de filas:2 
+Number of rows:2 
 
-espaço entre mesas(verticalxhorizontal):14x26
+Gap between rows:64
 
-espaço entre as mesas e as paredes(horizontal):22
+Gap between tables and walls (horizontal):22
 
-espaço entre as mesas e as divisórias(horizontal):1
+Gap between tables and divisories:1
 
-Tamanho da docking Station(altura x largura):10x26
+Docking Station size (width x height):26x10
 
-espaço entre as paredes e a divisórias(vertical):20
-
-extra parte da divisória:20
-
-espaço entre divisórias(vertical):0
+Gap between walls and divisories (vertical):20
+ 
 
 Parede g.Rectangle(g.Point(100,100),g.Point(550,550))
 
