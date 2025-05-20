@@ -1,4 +1,4 @@
-escala:1
+escala:3
 
 Tamanho das mesas(altura x largura):14x18
 

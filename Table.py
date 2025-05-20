@@ -15,15 +15,16 @@ class Table:
 
 
         
-    def Position(self,scale,nºrows,distable,nºtable,tablesizex,tablesizey,divgap,divsize,distdiv,nºdivrows,tablegapx,tablegapy,Xdiv):
+    def Position(self,scale,nºrows,distable,nºtable,tablesizex,tablesizey,divgap,divsize,distdiv,nºdivrows,tablegapx,tablegapy,Xdiv,splitdiv):
         for i in range(nºrows):
             for j in range(nºdivrows):
                 for k in range(2):
                     for l in range(nºtable):
-                        self.group_tables.append(g.Rectangle(g.Point(scale*(distable + (i+k)*(tablesizex+2*divgap + divsize)+ i*(tablegapx+tablesizex)),
-                                                                     scale*(Xdiv+distdiv + j*(2*Xdiv+nºtable*(tablesizey+tablegapy)-tablegapy) +l*(tablesizey+tablegapy))),
-                                                         g.Point(scale*(tablesizex + distable + (i+k)*(tablesizex+2*divgap + divsize)+ i*(tablegapx+tablesizex)),
-                                                                 scale*(tablesizey + 2*distdiv + j*(2*Xdiv+nºtable*(tablesizey+tablegapy)-tablegapy) +l*(tablesizey+tablegapy)))))
+                        self.group_tables.append(g.Rectangle(
+                            g.Point(scale*(distable + (i+k)*(tablesizex+2*divgap + divsize)+ i*(tablegapx+tablesizex)),
+                                    scale*(Xdiv+distdiv + j*(2*Xdiv+nºtable*(tablesizey+tablegapy)-tablegapy) +l*(tablesizey+tablegapy))),
+                            g.Point(scale*(tablesizex + distable + (i+k)*(tablesizex+2*divgap + divsize)+ i*(tablegapx+tablesizex)),
+                                    scale*(tablesizey + Xdiv+distdiv + j*(2*Xdiv+nºtable*(tablesizey+tablegapy)-tablegapy+splitdiv) +l*(tablesizey+tablegapy)))))
         print(self.group_tables)
 
 
@@ -37,13 +38,16 @@ class Table_Division():
 
         
         
-    def Position(self,line):
-        
-            self.group_division.append(eval(value[1]))
+    def Position(self,scale,nºrows,nºdivrows,distable,tablesizex,Xdiv,nºtable,tablesizey,tablegapy,divgap,divsize,distdiv,splitdiv):
+        divlenght=scale*(2*Xdiv+nºtable*(tablesizey+tablegapy)-tablegapy)
+        for i in range(nºrows):
+            for j in range(nºdivrows):
+                self.group_division.append(g.Rectangle(g.Point(scale*(distable+tablesizex+i*(2*tablesizex+2*divgap+divsize)) , scale*(distdiv+j*(divlenght+splitdiv))),
+                                           g.Point(scale*(divsize+distable+tablesizex+i*(2*tablesizex+2*divgap+divsize)),scale*(divlenght+distdiv+j*(divlenght+splitdiv)))))
 
     def draw_group(self,win):    
-            for table in self.group_division:
-                table.draw(win)
+            for division in self.group_division:
+                division.draw(win)
 
 
 
@@ -140,12 +144,12 @@ sizey=2*(distdiv) + 2*nºdivrows*Xdiv + (nºdivrows-1)*splitdiv + nºtable*table
 #win.setCoords(0, scale*sizey, scale*sizex, 0)
         
         
-table.Position(scale,nºrows,distable,nºtable,tablesizex,tablesizey,divgap,divsize,distdiv,nºdivrows,tablegapx,tablegapy,Xdiv)
-#table_div.Position(line)
+table.Position(scale,nºrows,distable,nºtable,tablesizex,tablesizey,divgap,divsize,distdiv,nºdivrows,tablegapx,tablegapy,Xdiv,splitdiv)
+table_div.Position(scale,nºrows,nºdivrows,distable,tablesizex,Xdiv,nºtable,tablesizey,tablegapy,divgap,divsize,distdiv,splitdiv)
 #docking.Position(line)
     
 table.draw_group(win)
-#table_div.draw_group(win)
+table_div.draw_group(win)
 #docking.draw_group(win)
 
 
