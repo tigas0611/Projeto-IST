@@ -10,7 +10,7 @@ f = open('salaxx.txt','r')
 
 class Table:
     def __init__(self):
-        self.group_tables=[]
+        self.grouptables = []
         
     def Position(self,scale,numrows,distable,numtable,tablesizex,tablesizey,distdiv,numdivrows,Xdiv,ax,divgapx,ay,by):
         for i in range(numrows):
@@ -22,30 +22,29 @@ class Table:
                                     scale*(Xdiv+distdiv + j*(by) +l*(ay))),
                             g.Point(scale*(tablesizex + distable + k*(ax)+ i*divgapx),
                                     scale*(tablesizey + Xdiv+distdiv + j*(by) +l*(ay)))))
-        print(self.group_tables)
 
     def draw_group(self,win):
-        for table in self.group_tables:
+        for table in self.grouptables:
             table.draw(win)
             
 class TableDivision():
     def __init__(self):
-        self.group_division=[]
+        self.groupdividers = []
         
-    def Position(self,scale,numrows,numdivrows,distable,tablesizex,Xdiv,numtable,tablesizey,tablegapy,divgap,divsize,distdiv,splitdiv):
-        divlenght=scale*(2*Xdiv+numtable*(tablesizey+tablegapy)-tablegapy)
+    def Position(self,scale,numrows,numdivrows,distable,tablesizex,divgapx,divgapy,divwidth,distdiv,by):
         for i in range(numrows):
             for j in range(numdivrows):
-                self.group_division.append(g.Rectangle(g.Point(scale*(distable+tablesizex+i*(2*tablesizex+2*divgap+divsize)) , scale*(distdiv+j*(divlenght+splitdiv))),
-                                           g.Point(scale*(divsize+distable+tablesizex+i*(2*tablesizex+2*divgap+divsize)),scale*(divlenght+distdiv+j*(divlenght+splitdiv)))))
+                self.group_division.append(g.Rectangle(
+                    g.Point(scale*(distable + tablesizex + divtablegap + i*(divgapx)) , scale*(distdiv + j*(by))),
+                    g.Point(scale*(divwidth + distable + tablesizex + divtablegap + i*(divgapx)), scale*(divlenght + distdiv + j*(divlenght + divgapy)))))
 
     def draw_group(self,win):    
-            for division in self.group_division:
-                division.draw(win)
+            for divider in self.groupdividers:
+                divider.draw(win)
 
 class DockingStation():
     def __init__(self):
-        self.group_docking=[]
+        self.group_docking = []
         
     def Position(self,line):
         if 'Docking'in line:
@@ -144,7 +143,7 @@ win.setCoords(0, sizex, sizey, 0)
         
 
 table.Position(scale,numrows,distable,numtable,tablesizex,tablesizey,distdiv,numdivrows,Xdiv,ax,divgapx,ay,by)
-#table_div.Position(scale,numrows,numdivrows,distable,tablesizex,Xdiv,numtable,tablesizey,tablegapy,divtablegap,divwidth,distdiv,splitdiv)
+table_div.Position(scale,numrows,numdivrows,distable,tablesizex,divgapx,divgapy,divwidth,distdiv,by)
 #docking.Position(line)
     
 table.draw_group(win)
