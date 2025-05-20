@@ -70,9 +70,9 @@ for line in f:
         tablesizex = int(medidas[0])
         tablesizey = int(medidas[1])
         
-    elif 'Divider size' in line:
+    elif 'Divider width' in line:
         values = line.split(':')
-        divsize = int(values[1])
+        divwidth = int(values[1])
     
     elif 'Number of tables per divisory' in line:
         values = line.split(':')
@@ -98,7 +98,7 @@ for line in f:
         
     elif 'Gap between dividers and tables' in line:
         values = line.split(':')
-        divgap = int(values[1])
+        divtablegap = int(values[1])
     
     elif 'Docking Station size' in line:
         values = line.split(':')
@@ -125,15 +125,24 @@ for line in f:
 f.close()
        
 win = g.GraphWin('Planta da Sala', 800,600)
-sizex = numrows*(2*(tablesizex + divgap) + divsize) + (numrows-1)*tablegapx + 2*(distable)
+
+sizex = numrows*(2*(tablesizex + divtablegap) + divwidth) + (numrows-1)*tablegapx + 2*(distable)
+
 sizey = 2*(distdiv) + 2*numdivrows*Xdiv + (numdivrows-1)*splitdiv + numtable*tablesizey 
-+ (numtable-1)*tablegap  
++ (numtable-1)*tablegap
+  
 divlenght=scale*(2*Xdiv+numtable*(tablesizey+tablegapy)-tablegapy)
+
+ax = tablesizex + 2*divtablegap + divwidth
+ay = tablegapy + tablesizey
+
+bx = ax + tablesizex + tablegapx
+by = numtable*(ay) - tablesizey
 #win.setCoords(0, scale*sizey, scale*sizex, 0)
         
-        
-table.Position(scale,numrows,distable,numtable,tablesizex,tablesizey,divgap,divsize,distdiv,numdivrows,tablegapx,tablegapy,Xdiv,splitdiv)
-table_div.Position(scale,numrows,numdivrows,distable,tablesizex,Xdiv,numtable,tablesizey,tablegapy,divgap,divsize,distdiv,splitdiv)
+
+table.Position(scale,numrows,distable,numtable,tablesizex,tablesizey,divtablegap,divwidth,distdiv,numdivrows,tablegapx,tablegapy,Xdiv,splitdiv)
+table_div.Position(scale,numrows,numdivrows,distable,tablesizex,Xdiv,numtable,tablesizey,tablegapy,divtablegap,divwidth,distdiv,splitdiv)
 #docking.Position(line)
     
 table.draw_group(win)
