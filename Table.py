@@ -88,9 +88,7 @@ for line in f:
         
     elif 'Gap between tables' in line:
         values = line.split(': ')
-        tablegap = values[1].split(' x ')
-        tablegapx = int(tablegap[0])
-        tablegapy = int(tablegap[1])
+        tablegapy = int(values[1])
         
     elif 'Gap between walls and tables' in line:
         values = line.split(': ')
