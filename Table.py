@@ -128,12 +128,12 @@ f.close()
        
 win = g.GraphWin('Planta da Sala', 800,600)
 
-sizex = tablesizex + divtablegap + divwidth + (numrows - 1)*divgapx + 2*(distable)
+sizex = 2*(tablesizex + divtablegap + distable) + divwidth + (numrows - 1)*divgapx
 
 divlenght=scale*(2*Xdiv + numtable*(tablesizey + tablegapy) - tablegapy)
 
 sizey = 2*(distdiv) + (numdivrows - 1)*divgapy + divlenght
-
+print(sizex,sizey)
 ax = tablesizex + 2*divtablegap + divwidth
 ay = tablegapy + tablesizey
 
