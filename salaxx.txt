@@ -1,14 +1,14 @@
-escala:3
+Scale:3
 
-Tamanho das mesas(altura x largura):14x18
+Table size (width x height):18x14
 
-Tamanho das divisórias(largura):2
+Divisor size (width):2
 
-nº de mesas por divisoria (duplas):3
+number of table per divisor (duplas):3
 
-nº de divisórias por fila:2
+number  de divisórias por fila:2
 
-nº de filas:2 
+n de filas:2 
 
 espaço entre mesas(verticalxhorizontal):14x26
 
