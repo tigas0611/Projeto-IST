@@ -12,16 +12,16 @@ class Table:
     def __init__(self):
         self.group_tables=[]
         
-    def Position(self,scale,numrows,distable,numtable,tablesizex,tablesizey,divgap,divsize,distdiv,numdivrows,tablegapx,tablegapy,Xdiv,splitdiv,ax,bx):
+    def Position(self,scale,numrows,distable,numtable,tablesizex,tablesizey,distdiv,numdivrows,Xdiv,ax,divgapx,ay,by):
         for i in range(numrows):
             for j in range(numdivrows):
                 for k in range(2):
                     for l in range(numtable):
                         self.group_tables.append(g.Rectangle(
-                            g.Point(scale*(distable + k*(ax)+ i*bx),
-                                    scale*(Xdiv+distdiv + j*(2*Xdiv+numtable*(tablesizey+tablegapy)-tablegapy) +l*(tablesizey+tablegapy))),
-                            g.Point(scale*(tablesizex + distable + (i+k)*(tablesizex+2*divgap + divsize)+ i*(tablegapx+tablesizex)),
-                                    scale*(tablesizey + Xdiv+distdiv + j*(2*Xdiv+numtable*(tablesizey+tablegapy)-tablegapy+splitdiv) +l*(tablesizey+tablegapy)))))
+                            g.Point(scale*(distable + k*(ax)+ i*divgapx),
+                                    scale*(Xdiv+distdiv + j*(by) +l*(ay))),
+                            g.Point(scale*(tablesizex + distable + k*(ax)+ i*divgapx),
+                                    scale*(tablesizey + Xdiv+distdiv + j*(by) +l*(ay)))))
         print(self.group_tables)
 
     def draw_group(self,win):
@@ -112,9 +112,13 @@ for line in f:
         values = line.split(': ')
         Xdiv = int(values[1])
         
-    elif 'Gap between divider' in line:
+    elif 'Gap between dividers (vertical)' in line:
         values = line.split(': ')
-        splitdiv = int(values[1])
+        divgapy = int(values[1])
+    
+    elif 'Gap between dividers (horizontal)' in line:
+        values = line.split(': ')
+        divgapx = int(values[1])
         
     elif 'Scale' in line:
         values = line.split(': ')
@@ -124,23 +128,23 @@ f.close()
        
 win = g.GraphWin('Planta da Sala', 800,600)
 
-sizex = numrows*(2*(tablesizex + divtablegap) + divwidth) + (numrows-1)*tablegapx + 2*(distable)
+sizex = tablesizex + divtablegap + divwidth + (numrows - 1)*divgapx + 2*(distable)
 
-sizey = 2*(distdiv) + 2*numdivrows*Xdiv + (numdivrows-1)*splitdiv + numtable*tablesizey + (numtable-1)*tablegapy + dockingy
-  
-divlenght=scale*(2*Xdiv+numtable*(tablesizey+tablegapy)-tablegapy)
+divlenght=scale*(2*Xdiv + numtable*(tablesizey + tablegapy) - tablegapy)
+
+sizey = 2*(distdiv) + (numdivrows - 1)*divgapy + divlenght
 
 ax = tablesizex + 2*divtablegap + divwidth
 ay = tablegapy + tablesizey
 
-bx = ax + tablesizex + tablegapx
-by = numtable*(ay) - tablesizey
-print(sizex,sizey)
+
+by = divlenght + divgapy
+
 win.setCoords(0, sizex, sizey, 0)
         
 
-table.Position(scale,numrows,distable,numtable,tablesizex,tablesizey,divtablegap,divwidth,distdiv,numdivrows,tablegapx,tablegapy,Xdiv,splitdiv,ax,bx)
-table_div.Position(scale,numrows,numdivrows,distable,tablesizex,Xdiv,numtable,tablesizey,tablegapy,divtablegap,divwidth,distdiv,splitdiv)
+table.Position(scale,numrows,distable,numtable,tablesizex,tablesizey,distdiv,numdivrows,Xdiv,ax,divgapx,ay,by)
+#table_div.Position(scale,numrows,numdivrows,distable,tablesizex,Xdiv,numtable,tablesizey,tablegapy,divtablegap,divwidth,distdiv,splitdiv)
 #docking.Position(line)
     
 table.draw_group(win)
