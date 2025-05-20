@@ -10,7 +10,7 @@ Number of dividers per row:1
 
 Number of rows:2 
 
-Gap between tables (vertical x horizontal):14x26
+Gap between tables (horizontal x vertical):26x14
 
 Gap between walls and tables (horizontal):22
 
