@@ -6,7 +6,7 @@ Proj class Table
 """
 import graphics as g
 
-#win=g.GraphWin('planta', 800,600)
+win=g.GraphWin('planta', 800,600)
 f=open('salaxx.txt','r')
 
 class Table:
@@ -80,61 +80,62 @@ docking=Docking_Station()
 for line in f:
     if line==None:
         continue
-    elif 'Tamanho das mesas' in line:
+    elif 'Table size' in line:
         values=line.split(':')
         medidas=values[1].split('x')
         tablesizex=int(medidas[0])
         tablesizey=int(medidas[1])
-    elif 'Tamanho das divisórias' in line:
+    elif 'Divider size' in line:
         values=line.split(':')
         divsize=int(values[1])
     
-    elif 'num de mesas por divisoria' in line:
+    elif 'Number of tables per divisory' in line:
         values=line.split(':')
         numtable=int(values[1])
     
-    elif 'num de divisórias por fila' in line:
+    elif 'Number of dividers per row' in line:
         values=line.split(':')
         numdivrows=int(values[1])
         
-    elif 'num de filas' in line:
+    elif 'Number of rows' in line:
         values=line.split(':')
         numrows=int(values[1])
         
-    elif 'espaço entre mesas' in line:
+    elif 'Gap between tables' in line:
         values=line.split(':')
         tablegap=values[1].split('x')
+        print(tablegap)
         tablegapy=int(tablegap[0])
         tablegapx=int(tablegap[1])
             
         
-    elif 'espaço entre as mesas e as paredes' in line:
+    elif 'Gap between walls and tables' in line:
         values=line.split(':')
         distable=int(values[1])
         
-    elif 'espaço entre as mesas e as divisórias' in line:
+    elif 'Gap between dividers and tables' in line:
         values=line.split(':')
         divgap=int(values[1])
     
-    elif 'Tamanho da docking Station' in line:
+    elif 'Docking Station size' in line:
         values=line.split(':')
         docking=values[1].split('x')
         dockingx=int(docking[1])
         dockingy=int(docking[0])
     
-    elif 'espaço entre as paredes e a divisórias' in line:
+    elif 'Gap between walls and dividers' in line:
         values=line.split(':')
         distdiv=int(values[1])
     
-    elif 'extra parte da divisória' in line:
+    elif 'Divider extra size' in line:
         values=line.split(':')
         Xdiv=int(values[1])
         
-    elif 'espaço entre divisórias' in line:
+    elif 'Gap between divider' in line:
         values=line.split(':')
         splitdiv=int(values[1])
         
-    elif 'escala' in line:
+    elif 'Scale' in line:
         values=line.split(':')
         scale=int(values[1])
          

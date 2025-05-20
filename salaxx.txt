@@ -6,19 +6,19 @@ Divider size (width x height):2
 
 Number of tables per divisory (groups of two):3
 
-Number of divisories per row:1
+Number of dividers per row:1
 
 Number of rows:2 
 
 Gap between tables (vertical x horizontal):14x26
 
-Gap between tables and walls (horizontal):22
+Gap between walls and tables (horizontal):22
 
-Gap between tables and divisories:1
+Gap between dividers and tables:1
 
 Docking Station size (width x height):26x10
 
-Gap between walls and divisories (vertical):20
+Gap between walls and dividers (vertical):20
 
 Divider extra size:20
 
