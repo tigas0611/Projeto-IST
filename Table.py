@@ -20,10 +20,10 @@ class Table:
             for j in range(nºdivrows):
                 for k in range(2):
                     for l in range(nºtable):
-                        self.group_tables.append(g.Rectangle(g.Point(scale*(distable + k*(sizex+2*divgap + divsize)+ i*(tablegapx+sizex)),
-                                                                     scale*(2*distdiv + j*(2*Xdiv+nºtable*(sizey+tablegapy)-tablegapy) +l*(sizey+tablegapy))),
-                                                         g.Point(scale*(sizex + distable + k*(sizex+2*divgap + divsize)+ i*(tablegapx+sizex)),
-                                                                 scale*(sizey + 2*distdiv + j*(2*Xdiv+nºtable*(sizey+tablegapy)-tablegapy) +l*(sizey+tablegapy)))))
+                        self.group_tables.append(g.Rectangle(g.Point(scale*(distable + (i+k)*(tablesizex+2*divgap + divsize)+ i*(tablegapx+tablesizex)),
+                                                                     scale*(Xdiv+distdiv + j*(2*Xdiv+nºtable*(tablesizey+tablegapy)-tablegapy) +l*(tablesizey+tablegapy))),
+                                                         g.Point(scale*(tablesizex + distable + (i+k)*(tablesizex+2*divgap + divsize)+ i*(tablegapx+tablesizex)),
+                                                                 scale*(tablesizey + 2*distdiv + j*(2*Xdiv+nºtable*(tablesizey+tablegapy)-tablegapy) +l*(tablesizey+tablegapy)))))
         print(self.group_tables)
 
 
@@ -38,8 +38,7 @@ class Table_Division():
         
         
     def Position(self,line):
-        if 'Division'in line:
-            value=line.split()
+        
             self.group_division.append(eval(value[1]))
 
     def draw_group(self,win):    

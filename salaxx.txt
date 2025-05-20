@@ -4,11 +4,11 @@ Tamanho das mesas(altura x largura):14x18
 
 Tamanho das divisórias(largura):2
 
-nº de mesas por divisoria (duplas):3
+nº de mesas por divisoria (duplas):5
 
-nº de divisórias por fila:1
+nº de divisórias por fila:2
 
-nº de filas:2 
+nº de filas:10 
 
 espaço entre mesas(verticalxhorizontal):14x26
 
