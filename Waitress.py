@@ -56,5 +56,4 @@ class Waiter():
         #self.robo.drawFace()
         
         
-
-robô=Waiter(win,g.Point(390,120),15,T.table.group_tables)
+robô=Waiter(win,g.Point(T.docking.kitchenpass[0].getP2().getX()+10,120),15,T.table.grouptables)
