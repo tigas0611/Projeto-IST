@@ -12,13 +12,13 @@ class Table:
     def __init__(self):
         self.group_tables=[]
         
-    def Position(self,scale,numrows,distable,numtable,tablesizex,tablesizey,divgap,divsize,distdiv,numdivrows,tablegapx,tablegapy,Xdiv,splitdiv):
+    def Position(self,scale,numrows,distable,numtable,tablesizex,tablesizey,divgap,divsize,distdiv,numdivrows,tablegapx,tablegapy,Xdiv,splitdiv,ax,bx):
         for i in range(numrows):
             for j in range(numdivrows):
                 for k in range(2):
                     for l in range(numtable):
                         self.group_tables.append(g.Rectangle(
-                            g.Point(scale*(distable + (i+k)*(tablesizex+2*divgap + divsize)+ i*(tablegapx+tablesizex)),
+                            g.Point(scale*(distable + k*(ax)+ i*bx),
                                     scale*(Xdiv+distdiv + j*(2*Xdiv+numtable*(tablesizey+tablegapy)-tablegapy) +l*(tablesizey+tablegapy))),
                             g.Point(scale*(tablesizex + distable + (i+k)*(tablesizex+2*divgap + divsize)+ i*(tablegapx+tablesizex)),
                                     scale*(tablesizey + Xdiv+distdiv + j*(2*Xdiv+numtable*(tablesizey+tablegapy)-tablegapy+splitdiv) +l*(tablesizey+tablegapy)))))
@@ -141,7 +141,7 @@ by = numtable*(ay) - tablesizey
 #win.setCoords(0, scale*sizey, scale*sizex, 0)
         
 
-table.Position(scale,numrows,distable,numtable,tablesizex,tablesizey,divtablegap,divwidth,distdiv,numdivrows,tablegapx,tablegapy,Xdiv,splitdiv)
+table.Position(scale,numrows,distable,numtable,tablesizex,tablesizey,divtablegap,divwidth,distdiv,numdivrows,tablegapx,tablegapy,Xdiv,splitdiv,ax,bx)
 table_div.Position(scale,numrows,numdivrows,distable,tablesizex,Xdiv,numtable,tablesizey,tablegapy,divtablegap,divwidth,distdiv,splitdiv)
 #docking.Position(line)
     
