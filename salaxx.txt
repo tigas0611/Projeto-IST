@@ -1,25 +1,25 @@
-Scale:1
+Scale: 1
 
-Table size (width x height):18x14
+Table size (width x height): 18 x 14
 
-Divider width:4
+Divider width: 4
 
-Number of tables per divisory (groups of two):3
+Number of tables per divisory (groups of two): 3
 
-Number of dividers per row:1
+Number of dividers per row: 1
 
-Number of rows:2 
+Number of rows: 2
 
-Gap between tables (horizontal x vertical):26x14
+Gap between tables (horizontal x vertical): 26 x 14
 
-Gap between walls and tables (horizontal):22
+Gap between walls and tables (horizontal): 22
 
-Gap between dividers and tables:0
+Gap between dividers and tables: 0
 
-Docking Station size (width x height):26x10
+Docking Station size (width x height): 26 x 10
 
-Gap between walls and dividers (vertical):20
+Gap between walls and dividers (vertical): 20
 
-Divider extra size:20
+Divider extra size: 20
 
-Gap between divider (vertical):0
+Gap between divider (vertical): 0

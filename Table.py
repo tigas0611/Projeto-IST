@@ -28,7 +28,7 @@ class Table:
         for table in self.group_tables:
             table.draw(win)
             
-class Table_Division():   
+class TableDivision():
     def __init__(self):
         self.group_division=[]
         
@@ -43,7 +43,7 @@ class Table_Division():
             for division in self.group_division:
                 division.draw(win)
 
-class Docking_Station():
+class DockingStation():
     def __init__(self):
         self.group_docking=[]
         
@@ -57,69 +57,69 @@ class Docking_Station():
                 table.draw(win)        
     
 table = Table()
-table_div = Table_Division()   
-docking = Docking_Station()
+table_div = TableDivision()   
+docking = DockingStation()
 
 for line in f:
     if line == None:
         continue
     
     elif 'Table size' in line:
-        values = line.split(':')
-        medidas = values[1].split('x')
+        values = line.split(': ')
+        medidas = values[1].split(' x ')
         tablesizex = int(medidas[0])
         tablesizey = int(medidas[1])
         
     elif 'Divider width' in line:
-        values = line.split(':')
+        values = line.split(': ')
         divwidth = int(values[1])
     
     elif 'Number of tables per divisory' in line:
-        values = line.split(':')
+        values = line.split(': ')
         numtable = int(values[1])
     
     elif 'Number of dividers per row' in line:
-        values = line.split(':')
+        values = line.split(': ')
         numdivrows = int(values[1])
         
     elif 'Number of rows' in line:
-        values = line.split(':')
+        values = line.split(': ')
         numrows = int(values[1])
         
     elif 'Gap between tables' in line:
-        values = line.split(':')
-        tablegap = values[1].split('x')
+        values = line.split(': ')
+        tablegap = values[1].split(' x ')
         tablegapx = int(tablegap[0])
         tablegapy = int(tablegap[1])
         
     elif 'Gap between walls and tables' in line:
-        values = line.split(':')
+        values = line.split(': ')
         distable = int(values[1])
         
     elif 'Gap between dividers and tables' in line:
-        values = line.split(':')
+        values = line.split(': ')
         divtablegap = int(values[1])
     
     elif 'Docking Station size' in line:
-        values = line.split(':')
-        docking = values[1].split('x')
+        values = line.split(': ')
+        docking = values[1].split(' x ')
         dockingx = int(docking[0])
         dockingy = int(docking[1])
     
     elif 'Gap between walls and dividers' in line:
-        values = line.split(':')
+        values = line.split(': ')
         distdiv = int(values[1])
     
     elif 'Divider extra size' in line:
-        values = line.split(':')
+        values = line.split(': ')
         Xdiv = int(values[1])
         
     elif 'Gap between divider' in line:
-        values = line.split(':')
+        values = line.split(': ')
         splitdiv = int(values[1])
         
     elif 'Scale' in line:
-        values = line.split(':')
+        values = line.split(': ')
         scale = int(values[1])
   
 f.close()
@@ -128,8 +128,7 @@ win = g.GraphWin('Planta da Sala', 800,600)
 
 sizex = numrows*(2*(tablesizex + divtablegap) + divwidth) + (numrows-1)*tablegapx + 2*(distable)
 
-sizey = 2*(distdiv) + 2*numdivrows*Xdiv + (numdivrows-1)*splitdiv + numtable*tablesizey 
-+ (numtable-1)*tablegap
+sizey = 2*(distdiv) + 2*numdivrows*Xdiv + (numdivrows-1)*splitdiv + numtable*tablesizey + (numtable-1)*tablegapy + dockingy
   
 divlenght=scale*(2*Xdiv+numtable*(tablesizey+tablegapy)-tablegapy)
 
@@ -138,7 +137,8 @@ ay = tablegapy + tablesizey
 
 bx = ax + tablesizex + tablegapx
 by = numtable*(ay) - tablesizey
-#win.setCoords(0, scale*sizey, scale*sizex, 0)
+print(sizex,sizey)
+win.setCoords(0, sizex, sizey, 0)
         
 
 table.Position(scale,numrows,distable,numtable,tablesizex,tablesizey,divtablegap,divwidth,distdiv,numdivrows,tablegapx,tablegapy,Xdiv,splitdiv,ax,bx)
