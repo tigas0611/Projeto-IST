@@ -12,13 +12,19 @@ class Table:
     def __init__(self):
         self.grouptables = []
         
-    def Position(self,numrows,tablewallgapX,numtables,tablesizeX,tablesizeY,dividerwallgapY,numdividers,dividerextrasizeY,ax,dividergapX,ay,by):
-        for i in range(numrows):
-            for j in range(numdividers):
-                for k in range(2):
-                    for l in range(numtables):
-                        self.grouptables.append(g.Rectangle(g.Point((tablewallgapX + k*(ax) + i*dividergapX),(dividerextrasizeY + dividerwallgapY + j*(by) + l*(ay))),
-                                                            g.Point((tablesizeX + tablewallgapX + k*(ax) + i*dividergapX),(tablesizeY + dividerextrasizeY+dividerwallgapY + j*(by) + l*(ay)))))
+    def Position(self,numrows,tablewallgapX,numtables,tablesizeX,tablesizeY,dividerwallgapY,numdividers,dividerextrasizeY,tableoffsetX,dividergapX,tableoffsetY,divideroffsetY):
+        for rownum in range(numrows):
+            for dividernum in range(numdividers):
+                for d in range(2):
+                    for tablenum in range(numtables):
+                        
+                        currentoffsetX = tablewallgapX + d*tableoffsetX + rownum*dividergapX
+                        currentoffsetY = dividerextrasizeY + dividerwallgapY + dividernum*divideroffsetY + tablenum*tableoffsetY
+                        
+                        tablestart = g.Point(currentoffsetX, currentoffsetY)
+                        tablefinish = g.Point(tablesizeX + currentoffsetX, tablesizeY + currentoffsetY)
+                        
+                        self.grouptables.append(g.Rectangle(tablestart, tablefinish))
 
     def draw_group(self,win):
         for table in self.grouptables:
@@ -28,11 +34,17 @@ class Divider():
     def __init__(self):
         self.groupdividers = []
         
-    def Position(self,numrows,numdividers,tablewallgapX,tablesizeX,dividergapX,dividergapY,dividerX,dividerwallgapY,by):
-        for i in range(numrows):
-            for j in range(numdividers):
-                self.groupdividers.append(g.Rectangle(g.Point((tablewallgapX + tablesizeX + tabledividergapX + i*(dividergapX)) , (dividerwallgapY + j*(by))),
-                                                      g.Point((dividerX + tablewallgapX + tablesizeX + tabledividergapX + i*(dividergapX)), (divlenght + dividerwallgapY + j*(divlenght + dividergapY)))))
+    def Position(self,numrows,numdividers,tablewallgapX,tablesizeX,dividergapX,dividergapY,dividersizeX,dividerwallgapY,divideroffsetY):
+        for rownum in range(numrows):
+            for dividernum in range(numdividers):
+                
+                currentoffsetX = tablewallgapX + tablesizeX + tabledividergapX + rownum*dividergapX
+                currentoffsetY = dividerwallgapY + dividernum*divideroffsetY
+                
+                dividerstart = g.Point(currentoffsetX, currentoffsetY)
+                dividerfinish = g.Point(dividersizeX + currentoffsetX, dividersizeY + currentoffsetY)
+                
+                self.groupdividers.append(g.Rectangle(dividerstart, dividerfinish))
 
     def draw_group(self,win):    
             for divider in self.groupdividers:
@@ -42,8 +54,12 @@ class Platedelivery():
     def __init__(self):
         self.Platedelivery = []
         
-    def Position(self,sizeX,Platedeliveryx,Platedeliveryy): 
-        self.Platedelivery.append(g.Rectangle(g.Point((sizeX/2) - (Platedeliveryx/2), 0), g.Point((sizeX/2) + (Platedeliveryx/2), Platedeliveryy)))
+    def Position(self,sizeX,Platedeliveryx,Platedeliveryy):
+        
+        platedeliverystart = g.Point((sizeX - Platedeliveryx)/2, 0)
+        platedeliveryfinish = g.Point((sizeX + Platedeliveryx)/2, Platedeliveryy)
+        
+        self.Platedelivery.append(g.Rectangle(platedeliverystart,platedeliveryfinish))
     
     def draw_group(self,win):
             for Platedelivery in self.Platedelivery:
@@ -65,7 +81,7 @@ for line in f:
         
     elif 'Divider width' in line:
         values = line.split(': ')
-        dividerX = int(values[1])
+        dividersizeX = int(values[1])
     
     elif 'Number of tables per divisory' in line:
         values = line.split(': ')
@@ -117,27 +133,27 @@ f.close()
        
 win = g.GraphWin('Planta da Sala', 800,600)
 
-sizeX = 2*(tablewallgapX + tablesizeX + tabledividergapX) + dividerX + (numrows - 1)*dividergapX
+sizeX = 2*(tablewallgapX + tablesizeX + tabledividergapX) + numrows*(dividersizeX + dividergapX) - dividergapX
 
-divlenght = (2*dividerextrasizeY + numtables*(tablesizeY + tablegapY) - tablegapY)
+dividersizeY = 2*dividerextrasizeY + numtables*(tablesizeY + tablegapY) - tablegapY
 
-sizeY = 2*(dividerwallgapY) + (numdividers - 1)*dividergapY + divlenght
+sizeY = 2*(dividerwallgapY) + numdividers*(dividergapY + dividersizeY) - dividergapY
 
-ax = tablesizeX + 2*tabledividergapX + dividerX
-ay = tablegapY + tablesizeY
+tableoffsetX = tablesizeX + 2*tabledividergapX + dividersizeX
+tableoffsetY = tablegapY + tablesizeY
 
-by = divlenght + dividergapY
+divideroffsetY = dividersizeY + dividergapY
 
-win.setCoords(0, sizeX, sizeY, 0)
+win.setCoords(0, sizeY, sizeX, 0)
         
 
-table.Position(numrows,tablewallgapX,numtables,tablesizeX,tablesizeY,dividerwallgapY,numdividers,dividerextrasizeY,ax,dividergapX,ay,by)
-divider.Position(numrows,numdividers,tablewallgapX,tablesizeX,dividergapX,dividergapY,dividerX,dividerwallgapY,by)
+table.Position(numrows,tablewallgapX,numtables,tablesizeX,tablesizeY,dividerwallgapY,numdividers,dividerextrasizeY,tableoffsetX,dividergapX,tableoffsetY,divideroffsetY)
+divider.Position(numrows,numdividers,tablewallgapX,tablesizeX,dividergapX,dividergapY,dividersizeX,dividerwallgapY,divideroffsetY)
 platedelivery.Position(sizeX,Platedeliveryx,Platedeliveryy)
     
 table.draw_group(win)
 divider.draw_group(win)
 platedelivery.draw_group(win)
 
-#win.getMouse()
-#win.close()
+win.getMouse()
+win.close()
