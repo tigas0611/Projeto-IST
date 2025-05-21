@@ -10,13 +10,14 @@ import graphics as g
 import Table as T
 
 win=T.win
+kitchenpass=T.docking.kitchenpass[0].getP2()
 class Waiter():
     def __init__(self,win,center,size,group):
         self.robo=C.Face(win,center,size)
         self.move(group,center)
     
     def move(self,group,center):
-        dx=1 
+        dx=0 
         dy=0
         while True:
             botão=win.checkKey()
@@ -36,7 +37,7 @@ class Waiter():
             if self.colision(group)==True:
                 self.robo.center=center
             self.robo.move(dx,dy)
-            g.update(60)
+            g.update(30)
 
         
     def colision(self,group):
@@ -47,7 +48,7 @@ class Waiter():
             iy1=i.getP1().getY()
             ix2=i.getP2().getX()
             iy2=i.getP2().getY()
-            if ix2>dx and dx>ix1 and iy2>dy and dy>iy1 : 
+            if ix2>dx and dx-5>ix1 and iy2>dy-5 and dy+5>iy1 : 
                     i.setFill("red")
                     return True
                 
@@ -56,4 +57,4 @@ class Waiter():
         #self.robo.drawFace()
         
         
-robô=Waiter(win,g.Point(T.docking.kitchenpass[0].getP2().getX()+10,120),15,T.table.grouptables)
+robô=Waiter(win,g.Point(kitchenpass.getX() + 5,kitchenpass.getY() - 5),5,T.table.grouptables)
