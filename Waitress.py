@@ -48,7 +48,7 @@ class Waiter():
             iy1=i.getP1().getY()
             ix2=i.getP2().getX()
             iy2=i.getP2().getY()
-            if ix2>dx and dx-5>ix1 and iy2>dy-5 and dy+5>iy1 : 
+            if ix2+5>dx and dx>ix1-5 and iy2+5>dy and dy>iy1-5 : 
                     i.setFill("red")
                     return True
                 
