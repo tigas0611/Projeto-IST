@@ -6,7 +6,7 @@ Number of tables per divisory (groups of two): 3
 
 Number of dividers per row: 1
 
-Number of rows: 3
+Number of rows: 2
 
 Gap between tables (vertical): 14
 
