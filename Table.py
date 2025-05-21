@@ -145,7 +145,6 @@ tableoffsetY = tablegapY + tablesizeY
 divideroffsetY = dividersizeY + dividergapY
 
 win.setCoords(0, sizeY, sizeX, 0)
-        
 
 table.Position(numrows,tablewallgapX,numtables,tablesizeX,tablesizeY,dividerwallgapY,numdividers,dividerextrasizeY,tableoffsetX,dividergapX,tableoffsetY,divideroffsetY)
 divider.Position(numrows,numdividers,tablewallgapX,tablesizeX,dividergapX,dividergapY,dividersizeX,dividerwallgapY,divideroffsetY)
