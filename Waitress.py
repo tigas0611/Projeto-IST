@@ -10,46 +10,48 @@ import graphics as g
 import Table as T
 
 win=T.win
-kitchenpass=T.docking.kitchenpass[0].getP2()
+Platedelivery=T.plates.Platedelivery[0].getP2()
 class Waiter():
     def __init__(self,win,center,size,group):
         self.robo=C.Face(win,center,size)
         self.move(group,center)
     
     def move(self,group,center):
-        dx=0 
-        dy=0
         while True:
-            botão=win.checkKey()
-            if botão=='d':
-                dx=1
-                dy=0
-            if botão=='w':
-                dx=0
-                dy=-1
-            if botão=='a':
-                dx=-1
-                dy=0
-            if botão=='s':
-                dx=0
-                dy=1
-            self.colision(group)
-            if self.colision(group)==True:
-                self.robo.center=center
+            dx = 0 
+            dy = 0
+            cx = self.robo.center.getX()
+            cy = self.robo.center.getY()
+            botão = win.getMouse()
+            print(botão)
+            bx = botão.getX()
+            by = botão.getY()
+            for i in group:
+                ix1 = i.getP1().getX()
+                iy1 = i.getP1().getY()
+                ix2 = i.getP2().getX()
+                iy2 = i.getP2().getY()
+                if ix2>bx and bx>ix1 and iy2>by and by>iy1 :
+                    mark = g.Circle(i.getCenter(),1)
+                    mark.setFill('red')
+                    mark.draw(win)
+                    dx = bx-cx
+                    dy = by-cy
+
+            #self.colision(group)
             self.robo.move(dx,dy)
-            g.update(30)
 
         
     def colision(self,group):
-        dx=self.robo.center.getX()
-        dy=self.robo.center.getY()
+        dx = self.robo.center.getX()
+        dy = self.robo.center.getY()
         for i in group:
-            ix1=i.getP1().getX()
-            iy1=i.getP1().getY()
-            ix2=i.getP2().getX()
-            iy2=i.getP2().getY()
+            ix1 = i.getP1().getX()
+            iy1 = i.getP1().getY()
+            ix2 = i.getP2().getX()
+            iy2 = i.getP2().getY()
             if ix2+5>dx and dx>ix1-5 and iy2+5>dy and dy>iy1-5 : 
-                    i.setFill("red")
+                    i.setFill("black")
                     return True
                 
                 
@@ -57,4 +59,4 @@ class Waiter():
         #self.robo.drawFace()
         
         
-robô=Waiter(win,g.Point(kitchenpass.getX() + 5,kitchenpass.getY() - 5),5,T.table.grouptables)
+robô=Waiter(win,g.Point(Platedelivery.getX() + 5,Platedelivery.getY() - 5),5,T.table.grouptables)
