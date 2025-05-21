@@ -118,7 +118,7 @@ f.close()
 win = g.GraphWin('Planta da Sala', 800,600)
 
 sizeX = 2*(tablewallgapX + tablesizeX + tabledividergapX) + dividerX + (numrows - 1)*dividergapX
-print(sizeX)
+
 divlenght = (2*dividerextrasizeY + numtables*(tablesizeY + tablegapY) - tablegapY)
 
 sizeY = 2*(dividerwallgapY) + (numdividers - 1)*dividergapY + divlenght
@@ -139,5 +139,5 @@ table.draw_group(win)
 divider.draw_group(win)
 platedelivery.draw_group(win)
 
-win.getMouse()
-win.close()
+#win.getMouse()
+#win.close()
