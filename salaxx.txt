@@ -1,5 +1,3 @@
-Scale: 1
-
 Table size (width x height): 18 x 14
 
 Divider width: 4
@@ -16,12 +14,12 @@ Gap between walls and tables (horizontal): 22
 
 Gap between dividers and tables: 0
 
-Kitchen pass size (width x height): 26 x 10
+Plate delivery size (width x height): 26 x 10
 
 Gap between walls and dividers (vertical): 20
 
 Divider extra size: 20
 
-Gap between dividers (vertical): 0
+Gap between dividers (vertical): 14
 
 Gap between dividers (horizontal): 66
