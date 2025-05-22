@@ -12,7 +12,6 @@ import Table as t
 win = t.win
 Platedelivery = t.platedelivery.Platedelivery[0].getP2()
 
-
 class Waiter():
     def __init__(self, win, center, size, group):
         self.robo = c.Face(win, center, size)

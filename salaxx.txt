@@ -4,7 +4,7 @@ Divider width: 4
 
 Number of tables per divisory (groups of two): 3
 
-Number of dividers per row: 1
+Number of dividers per row: 2
 
 Number of rows: 2
 
@@ -20,6 +20,6 @@ Gap between walls and dividers (vertical): 20
 
 Divider extra size: 20
 
-Gap between dividers (vertical): 14
-
 Gap between dividers (horizontal): 66
+
+Gap between dividers (vertical): 14

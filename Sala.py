@@ -121,22 +121,18 @@ for line in f:
         values = line.split(': ')
         dividerextrasizeY = int(values[1])
         
+    elif 'Gap between dividers (horizontal)' in line:
+        values = line.split(': ')
+        dividergapX = int(values[1])
+        
     elif 'Gap between dividers (vertical)' in line:
         values = line.split(': ')
         dividergapY = int(values[1])
     
-    elif 'Gap between dividers (horizontal)' in line:
-        values = line.split(': ')
-        dividergapX = int(values[1])
-  
 f.close()
-       
-win = g.GraphWin('Planta da Sala', 800,600)
 
 sizeX = 2*(tablewallgapX + tablesizeX + tabledividergapX) + numrows*(dividersizeX + dividergapX) - dividergapX
-
 dividersizeY = 2*dividerextrasizeY + numtables*(tablesizeY + tablegapY) - tablegapY
-
 sizeY = 2*(dividerwallgapY) + numdividers*(dividergapY + dividersizeY) - dividergapY
 
 tableoffsetX = tablesizeX + 2*tabledividergapX + dividersizeX
@@ -144,12 +140,13 @@ tableoffsetY = tablegapY + tablesizeY
 
 divideroffsetY = dividersizeY + dividergapY
 
-win.setCoords(0, sizeY, sizeX, 0)
-
 table.Position(numrows,tablewallgapX,numtables,tablesizeX,tablesizeY,dividerwallgapY,numdividers,dividerextrasizeY,tableoffsetX,dividergapX,tableoffsetY,divideroffsetY)
 divider.Position(numrows,numdividers,tablewallgapX,tablesizeX,dividergapX,dividergapY,dividersizeX,dividerwallgapY,divideroffsetY)
 platedelivery.Position(sizeX,Platedeliveryx,Platedeliveryy)
-    
+
+win = g.GraphWin('Planta da Sala', 800,600)
+win.setCoords(0, sizeY, sizeX, 0)    
+
 table.draw_group(win)
 divider.draw_group(win)
 platedelivery.draw_group(win)
