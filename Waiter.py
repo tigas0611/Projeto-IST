@@ -16,31 +16,29 @@ class Waiter():
         self.move(group, center)
 
     def move(self, group, center):
-        mark = []
         while True:
-            dx = 0
-            dy = 0
-            cx = self.robo.center.getX()
-            cy = self.robo.center.getY()
-            botão = self.win.getMouse()
-            print(botão,cx,cy)
-            bx = botão.getX()
-            by = botão.getY() 
-            for j in mark:
-                j.undraw()
+            centerX = self.robo.center.getX()
+            centerY = self.robo.center.getY()
+            button = self.win.getMouse()
+            buttonX = button.getX()
+            buttonY = button.getY() 
             for i in group:
-                mark.append(gr.Circle(i.getCenter(), 1))
+                mark = gr.Circle(i.getCenter(), 1)
                 ix1 = i.getP1().getX()
                 iy1 = i.getP1().getY()
                 ix2 = i.getP2().getX()
                 iy2 = i.getP2().getY()
-                if ix2 > bx and bx > ix1 and iy2 > by and by > iy1:
-                    mark[group.index(i)].setFill('red')
-                    mark[group.index(i)].draw(self.win)
-            dx = bx-cx
-            dy = by-cy
+                if ix1 < buttonX < ix2 and iy1 < buttonY < iy2:
+                    mark = gr.Circle(i.getCenter(), 1)
+                    mark.setFill('red')
+                    mark.draw(self.win)
+                    dx = buttonX-centerX
+                    dy = buttonY-centerY
+                    self.robo.move(dx, dy)
+                    mark.undraw()
             #self.colision(group)
-            self.robo.move(dx, dy)
+            
+            
 
     def colision(self, group):
         dx = self.robo.center.getX()
