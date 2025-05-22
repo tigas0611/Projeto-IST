@@ -154,5 +154,5 @@ table.draw_group(win)
 divider.draw_group(win)
 platedelivery.draw_group(win)
 
-win.getMouse()
-win.close()
+#win.getMouse()
+#win.close()

@@ -5,17 +5,17 @@ Waiter
 @author: tiago
 """
 
-import Cara as C
+import Cara as c
 import graphics as g
-import Table as T
+import Table as t
 
-win = T.win
-Platedelivery = T.platedelivery.Platedelivery[0].getP2()
+win = t.win
+Platedelivery = t.platedelivery.Platedelivery[0].getP2()
 
 
 class Waiter():
     def __init__(self, win, center, size, group):
-        self.robo = C.Face(win, center, size)
+        self.robo = c.Face(win, center, size)
         self.move(group, center)
 
     def move(self, group, center):
@@ -63,4 +63,4 @@ class Waiter():
 
 
 robô = Waiter(win, g.Point(Platedelivery.getX() + 5,
-              Platedelivery.getY() - 5), 5, T.table.grouptables)
+              Platedelivery.getY() - 5), 5, t.table.grouptables)
