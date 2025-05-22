@@ -4,7 +4,7 @@ Created on Thu May 22 16:51:07 2025
 
 @author: gabri
 """
-
+import Waiter as wa
 import graphics as gr
 import Sala as sa
 
@@ -95,6 +95,8 @@ win.setCoords(0, sizeY, sizeX, 0)
 table.draw_group(win)
 divider.draw_group(win)
 platedelivery.draw_group(win)
+
+robô = wa.Waiter(win, gr.Point((sizeX + Platedeliveryx)/2 + 5, Platedeliveryy/2), table.grouptables)
 
 win.getMouse()
 win.close()

@@ -5,16 +5,14 @@ Waiter
 @author: tiago
 """
 
-import Cara as c
+import Robot as ro
 import graphics as g
-import Sala as t
 
-win = t.win
-Platedelivery = t.platedelivery.Platedelivery[0].getP2()
 
 class Waiter():
-    def __init__(self, win, center, size, group):
-        self.robo = c.Face(win, center, size)
+    def __init__(self, win, center, group):
+        self.win = win
+        self.robo = ro.Robot(win, center)
         self.move(group, center)
 
     def move(self, group, center):
@@ -24,8 +22,8 @@ class Waiter():
             dy = 0
             cx = self.robo.center.getX()
             cy = self.robo.center.getY()
-            botão = win.getMouse()
-            print(botão)
+            botão = self.win.getMouse()
+            print(botão,cx,cy)
             bx = botão.getX()
             by = botão.getY() 
             for j in mark:
@@ -38,10 +36,9 @@ class Waiter():
                 iy2 = i.getP2().getY()
                 if ix2 > bx and bx > ix1 and iy2 > by and by > iy1:
                     mark[group.index(i)].setFill('red')
-                    mark[group.index(i)].draw(win)
-                    dx = bx-cx
-                    dy = by-cy
-
+                    mark[group.index(i)].draw(self.win)
+            dx = bx-cx
+            dy = by-cy
             #self.colision(group)
             self.robo.move(dx, dy)
 
@@ -61,5 +58,3 @@ class Waiter():
         # self.robo.drawFace()
 
 
-robô = Waiter(win, g.Point(Platedelivery.getX() + 5,
-              Platedelivery.getY() - 5), 5, t.table.grouptables)
