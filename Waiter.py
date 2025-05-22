@@ -7,7 +7,7 @@ Waiter
 
 import Cara as c
 import graphics as g
-import Table as t
+import Sala as t
 
 win = t.win
 Platedelivery = t.platedelivery.Platedelivery[0].getP2()
