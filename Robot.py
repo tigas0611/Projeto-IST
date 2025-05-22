@@ -5,32 +5,28 @@ Classe Cara
 @author: tiago
 """
 
-import graphics as g
+import graphics as gr
 
 class Robot:
-    def __init__(self, window, center):
+    def __init__(self, win, center):
         self.center = center
-        self.OvalP1X = self.center.getX() - 3
-        self.OvalP1Y = self.center.getY() - 4
-        self.OvalP2X = self.center.getX() + 3
-        self.OvalP2Y = self.center.getY() + 4
-        self.Oval = g.Oval(g.Point(self.OvalP1X,self.OvalP1Y),g.Point(self.OvalP2X,self.OvalP2Y))
-        self.window = window
+        self.ovalstartX = self.center.getX() - 3
+        self.ovalstartY = self.center.getY() - 4
+        self.ovalfinishX = self.center.getX() + 3
+        self.ovalfinishY = self.center.getY() + 4
+        self.oval = gr.Oval(gr.Point(self.ovalstartX, self.ovalstartY), gr.Point(self.ovalfinishX, self.ovalfinishY))
+        self.win = win
         self.drawRobot()
     
     def move(self, dx, dy):
-        self.Oval.move(dx,dy)
-        self.center = self.Oval.getCenter()
-
-
-
+        self.oval.move(dx,dy)
+        self.center = self.oval.getCenter()
 
     def unDraw(self):
-        self.Oval.undraw()
-        
+        self.oval.undraw()
             
     def drawRobot(self):
-        self.Oval.draw(self.window)
+        self.oval.draw(self.win)
     
     
     

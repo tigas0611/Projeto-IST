@@ -96,7 +96,7 @@ table.draw_group(win)
 divider.draw_group(win)
 platedelivery.draw_group(win)
 
-robô = wa.Waiter(win, gr.Point((sizeX + Platedeliveryx)/2 + 5, Platedeliveryy/2), table.grouptables)
+robot = wa.Waiter(win, gr.Point((sizeX + Platedeliveryx)/2 + 4, Platedeliveryy/2), table.grouptables)
 
 win.getMouse()
 win.close()

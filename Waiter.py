@@ -6,7 +6,7 @@ Waiter
 """
 
 import Robot as ro
-import graphics as g
+import graphics as gr
 
 
 class Waiter():
@@ -29,7 +29,7 @@ class Waiter():
             for j in mark:
                 j.undraw()
             for i in group:
-                mark.append(g.Circle(i.getCenter(), 1))
+                mark.append(gr.Circle(i.getCenter(), 1))
                 ix1 = i.getP1().getX()
                 iy1 = i.getP1().getY()
                 ix2 = i.getP2().getX()

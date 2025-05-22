@@ -5,7 +5,7 @@ Created on Thu May 22 16:53:09 2025
 @author: gabri
 """
 
-import graphics as g
+import graphics as gr
 
 class Table:
     def __init__(self):
@@ -20,10 +20,10 @@ class Table:
                         currentoffsetX = tablewallgapX + d*tableoffsetX + rownum*dividergapX
                         currentoffsetY = dividerextrasizeY + dividerwallgapY + dividernum*divideroffsetY + tablenum*tableoffsetY
                         
-                        tablestart = g.Point(currentoffsetX, currentoffsetY)
-                        tablefinish = g.Point(tablesizeX + currentoffsetX, tablesizeY + currentoffsetY)
+                        tablestart = gr.Point(currentoffsetX, currentoffsetY)
+                        tablefinish = gr.Point(tablesizeX + currentoffsetX, tablesizeY + currentoffsetY)
                         
-                        self.grouptables.append(g.Rectangle(tablestart, tablefinish))
+                        self.grouptables.append(gr.Rectangle(tablestart, tablefinish))
 
     def draw_group(self,win):
         for table in self.grouptables:
@@ -40,10 +40,10 @@ class Divider():
                 currentoffsetX = tablewallgapX + tablesizeX + tabledividergapX + rownum*dividergapX
                 currentoffsetY = dividerwallgapY + dividernum*divideroffsetY
                 
-                dividerstart = g.Point(currentoffsetX, currentoffsetY)
-                dividerfinish = g.Point(dividersizeX + currentoffsetX, dividersizeY + currentoffsetY)
+                dividerstart = gr.Point(currentoffsetX, currentoffsetY)
+                dividerfinish = gr.Point(dividersizeX + currentoffsetX, dividersizeY + currentoffsetY)
                 
-                self.groupdividers.append(g.Rectangle(dividerstart, dividerfinish))
+                self.groupdividers.append(gr.Rectangle(dividerstart, dividerfinish))
 
     def draw_group(self,win):    
             for divider in self.groupdividers:
@@ -55,10 +55,10 @@ class Platedelivery():
         
     def Position(self,sizeX,Platedeliveryx,Platedeliveryy):
         
-        platedeliverystart = g.Point((sizeX - Platedeliveryx)/2, 0)
-        platedeliveryfinish = g.Point((sizeX + Platedeliveryx)/2, Platedeliveryy)
+        platedeliverystart = gr.Point((sizeX - Platedeliveryx)/2, 0)
+        platedeliveryfinish = gr.Point((sizeX + Platedeliveryx)/2, Platedeliveryy)
         
-        self.Platedelivery.append(g.Rectangle(platedeliverystart,platedeliveryfinish))
+        self.Platedelivery.append(gr.Rectangle(platedeliverystart,platedeliveryfinish))
     
     def draw_group(self,win):
             for Platedelivery in self.Platedelivery:
