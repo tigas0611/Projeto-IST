@@ -72,7 +72,7 @@ for line in f:
     
 f.close()
 
-sizeX = 2*(tablewallgapX + tablesizeX + tabledividergapX) + numrows*(dividersizeX + dividergapX) - dividergapX
+sizeX = 2*(tablewallgapX + tablesizeX + tabledividergapX) + (numrows - 1)*dividergapX + dividersizeX
 dividersizeY = 2*dividerextrasizeY + numtables*(tablesizeY + tablegapY) - tablegapY
 sizeY = 2*(dividerwallgapY) + numdividers*(dividergapY + dividersizeY) - dividergapY
 

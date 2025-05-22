@@ -20,6 +20,6 @@ Gap between walls and dividers (vertical): 20
 
 Divider extra size: 20
 
-Gap between dividers (horizontal): 76
+Gap between dividers (horizontal): 66
 
 Gap between dividers (vertical): 14
