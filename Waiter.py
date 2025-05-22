@@ -42,7 +42,7 @@ class Waiter():
                     dx = bx-cx
                     dy = by-cy
 
-            # self.colision(group)
+            #self.colision(group)
             self.robo.move(dx, dy)
 
     def colision(self, group):
