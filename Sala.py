@@ -49,17 +49,17 @@ class Divider():
             for divider in self.groupdividers:
                 divider.draw(win)
 
-class Platedelivery():
+class PlateDelivery():
     def __init__(self):
-        self.Platedelivery = []
+        self.platedelivery = []
         
-    def Position(self,sizeX,Platedeliveryx,Platedeliveryy):
+    def Position(self,sizeX,platedeliveryx,platedeliveryy):
         
-        platedeliverystart = gr.Point((sizeX - Platedeliveryx)/2, 0)
-        platedeliveryfinish = gr.Point((sizeX + Platedeliveryx)/2, Platedeliveryy)
+        platedeliverystart = gr.Point((sizeX - platedeliveryx)/2, 0)
+        platedeliveryfinish = gr.Point((sizeX + platedeliveryx)/2, platedeliveryy)
         
-        self.Platedelivery.append(gr.Rectangle(platedeliverystart,platedeliveryfinish))
+        self.platedelivery.append(gr.Rectangle(platedeliverystart,platedeliveryfinish))
     
     def draw_group(self,win):
-            for Platedelivery in self.Platedelivery:
-                Platedelivery.draw(win)
+            for platedelivery in self.platedelivery:
+                platedelivery.draw(win)

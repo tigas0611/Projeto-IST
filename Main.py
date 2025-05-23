@@ -51,8 +51,8 @@ for line in f:
     elif 'Plate delivery size' in line:
         values = line.split(': ')
         values2 = values[1].split(' x ')
-        Platedeliveryx = int(values2[0])
-        Platedeliveryy = int(values2[1])
+        platedeliveryx = int(values2[0])
+        platedeliveryy = int(values2[1])
     
     elif 'Gap between walls and dividers' in line:
         values = line.split(': ')
@@ -83,11 +83,11 @@ divideroffsetY = dividersizeY + dividergapY
 
 table = sa.Table()
 divider = sa.Divider()   
-platedelivery = sa.Platedelivery()
+platedelivery = sa.PlateDelivery()
 
 table.Position(numrows,tablewallgapX,numtables,tablesizeX,tablesizeY,dividerwallgapY,numdividers,dividerextrasizeY,tableoffsetX,dividergapX,tableoffsetY,divideroffsetY)
 divider.Position(numrows,numdividers,tablewallgapX,tablesizeX,dividergapX,dividergapY,dividersizeX,dividerwallgapY,divideroffsetY,tabledividergapX,dividersizeY)
-platedelivery.Position(sizeX,Platedeliveryx,Platedeliveryy)
+platedelivery.Position(sizeX,platedeliveryx,platedeliveryy)
 
 win = gr.GraphWin('Planta da Sala', 800,600)
 win.setCoords(0, sizeY, sizeX, 0)
@@ -96,7 +96,7 @@ table.draw_group(win)
 divider.draw_group(win)
 platedelivery.draw_group(win)
 
-robot = wa.Waiter(win, gr.Point((sizeX + Platedeliveryx)/2 + 4, Platedeliveryy/2), table.grouptables)
+robot = wa.Waiter(win, gr.Point((sizeX + platedeliveryx)/2 + 4, platedeliveryy/2), table.grouptables, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, sizeX)
 
 win.getMouse()
 win.close()
