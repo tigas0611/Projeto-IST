@@ -37,10 +37,8 @@ class Waiter():
                     mark.draw(self.win)
                     #---------------------------------------------
                     "Pathfinding"
-                    self.robot.move(0, selectionlanegapY)
-                    ti.sleep(1)
-                    self.robot.move(dockingplatedeliverygapX, 0)
-                    ti.sleep(1)
+                    self.softmotion(0, selectionlanegapY)
+                    self.softmotion(dockingplatedeliverygapX, 0)
                     
                     "Lane Select"
                     tableeven = None
@@ -68,11 +66,11 @@ class Waiter():
                     elif tableeven is False:
                         targetX = distancenoteven - midlanehalfsizeX
                         extremes = False
-                    self.robot.move(targetX - self.robot.center.getX(), 0)
-                    ti.sleep(1)
+                    print(targetX - self.robot.center.getX())
+                    self.softmotion(targetX - self.robot.center.getX(), 0)
                     
                     "Table Select"
-                    self.robot.move(0, mark.getCenter().getY() - self.robot.center.getY())
+                    self.softmotion(0, mark.getCenter().getY() - self.robot.center.getY())
                     ti.sleep(1)
                     if extremes is True:
                         if tableeven is False:
@@ -104,7 +102,22 @@ class Waiter():
             if currenttablefinishX+5 > dx and dx > currenttablestartX-5 and currenttablefinishY+5 > dy and dy > currenttablestartY-5:
                 i.setFill("black")
                 return True
-
+    def softmotion(self,dx,dy):
+            if dx<0:
+                dx*=-1
+        for i in range(int(dx)):
+                self.robot.move(-1*(dx/round(dx,10)),0)
+                gr.update(30)
+            else:
+                self.robot.move((dx/round(dx,10)),0)
+                gr.update(30)
+        for i in range(int(dy)):
+            if dy<0:
+                self.robot.move(0,-1*(dy/round(dy,10)))
+                gr.update(30)
+            else:
+                self.robot.move(0,(dy/round(dy,10)))
+                gr.update(30)
     # def drawFace(self):
         # self.robot.drawFace()
 
