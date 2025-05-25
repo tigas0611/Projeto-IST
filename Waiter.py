@@ -36,7 +36,6 @@ class Waiter():
                     #---------------------------------------------
                     "Pathfinding"
                     self.softmotion(0, selectionlanegapY,'take order')
-                    #self.softmotion(dockingplatedeliverygapX, 0)
                     
                     "Lane Select"
                     tableeven = None
@@ -97,7 +96,7 @@ class Waiter():
                     self.softmotion(0,mark.getCenter().getY() - self.robot.center.getY() ,'serve table')
                     self.softmotion(deliverypostionX - self.robot.center.getX(), 0,'serve table')
                     
-                    #docking station regress
+                    #docking station regresso
 
 
                     
