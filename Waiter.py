@@ -19,10 +19,8 @@ class Waiter():
         while True:
             centerX = self.robot.center.getX()
             centerY = self.robot.center.getY()
-            
             selectionlanegapY = (dividerwallgapY - platedeliveryy)/2 + platedeliveryy - centerY
             dockingplatedeliverygapX = sizeX/2 - centerX
-            
             button = self.win.getMouse()
             buttonX = button.getX()
             buttonY = button.getY() 
@@ -37,8 +35,8 @@ class Waiter():
                     mark.draw(self.win)
                     #---------------------------------------------
                     "Pathfinding"
-                    self.softmotion(0, selectionlanegapY)
-                    self.softmotion(dockingplatedeliverygapX, 0)
+                    self.softmotion(0, selectionlanegapY,'take order')
+                    #self.softmotion(dockingplatedeliverygapX, 0)
                     
                     "Lane Select"
                     tableeven = None
@@ -66,11 +64,12 @@ class Waiter():
                     elif tableeven is False:
                         targetX = distancenoteven - midlanehalfsizeX
                         extremes = False
-                    print(targetX - self.robot.center.getX())
-                    self.softmotion(targetX - self.robot.center.getX(), 0)
+                        
+                    deliverylane = targetX - self.robot.center.getX()
+                    self.softmotion(deliverylane, 0,'take order')
                     
                     "Table Select"
-                    self.softmotion(0, mark.getCenter().getY() - self.robot.center.getY())
+                    self.softmotion(0, mark.getCenter().getY() - self.robot.center.getY(),'take order')
                     if extremes is True:
                         if tableeven is False:
                             deliverypostionX = tablewallgapX - 4
@@ -81,10 +80,19 @@ class Waiter():
                             deliverypostionX = distanceeven + 4
                         elif tableeven is False: 
                             deliverypostionX = distancenoteven - 4
-                    self.softmotion(deliverypostionX - self.robot.center.getX(), 0)
+                            
+                    deliverytable = deliverypostionX - self.robot.center.getX()
+                    self.softmotion(deliverytable, 0,'take order')
                     #processamento do pedido
                     ti.sleep(2)
-                    self.softmotion(targetX - self.robot.center.getX(), 0)
+                    
+                    #volta ao plate delivery
+                    self.softmotion(targetX - self.robot.center.getX(), 0,'take order')
+                    self.softmotion(0,-1*(mark.getCenter().getY() - self.robot.center.getY()),'take order')
+                    self.softmotion(-1*(targetX - self.robot.center.getX()), 0,'take order')
+                    self.softmotion(sizeX/2 - self.robot.center.getX(), 0, 'take order')
+
+                    
                     #---------------------------------------------
                     mark.undraw()
             #self.colision(group)
@@ -104,28 +112,49 @@ class Waiter():
                 return True
             
             
-    def softmotion(self,dx,dy):
+    def softmotion(self,dx,dy,action):
+        'Action'
+        self.actionindicator(action)
+        
         'X movement'
         if dx<0:
             dx*=-1
             for i in range(int(dx)):
                 self.robot.move(-1*(dx/round(dx,10)),0)
+                self.actionindicator(action)
                 gr.update(30)
         else:
             for i in range(int(dx)):
                 self.robot.move((dx/round(dx,10)),0)
+                self.actionindicator(action)
                 gr.update(30)
+                
         'Y movement'        
         if dy<0:
             dy*=-1
             for i in range(int(dy)):
                 self.robot.move(0,-1*(dy/round(dy,10)))
+                self.actionindicator(action)
                 gr.update(30)
         else:
             for i in range(int(dy)):
                 self.robot.move(0,(dy/round(dy,10)))
+                self.actionindicator(action)
                 gr.update(30)
-    # def drawFace(self):
+                
+                
+    def actionindicator(self,action):
+        'Serving Table'
+        if action == 'serve table':
+            self.robot.robotcolor('blue')
+            
+        'Taking orders'
+        if action == 'take order':
+            self.robot.robotcolor('orange')
+            
+        
+        
+        # def drawFace(self):
         # self.robot.drawFace()
 
 

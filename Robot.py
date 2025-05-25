@@ -28,5 +28,6 @@ class Robot:
     def drawRobot(self):
         self.oval.draw(self.win)
     
-    
+    def robotcolor(self,color):
+        self.oval.setFill(color)
     
