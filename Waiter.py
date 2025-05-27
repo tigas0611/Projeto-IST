@@ -10,93 +10,91 @@ import graphics as gr
 import time as ti
 
 class Waiter():
-    def __init__(self, win, center, group, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, sizeX):
+    def __init__(self, win, center):
         self.win = win
         self.robot = ro.Robot(win, center)
-        self.move(group, center, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, sizeX)
 
-    def move(self, group, center, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, sizeX):
-        while True:
-            centerX = self.robot.center.getX()
-            centerY = self.robot.center.getY()
-            selectionlanegapY = (dividerwallgapY - platedeliveryy)/2 + platedeliveryy - centerY
-            dockingplatedeliverygapX = sizeX/2 - centerX
-            button = self.win.getMouse()
-            buttonX = button.getX()
-            buttonY = button.getY() 
-            for i in group:
-                currenttablestartX = i.getP1().getX()
-                currenttablestartY = i.getP1().getY()
-                currenttablefinishX = i.getP2().getX()
-                currenttablefinishY = i.getP2().getY()
-                if currenttablestartX < buttonX < currenttablefinishX and currenttablestartY < buttonY < currenttablefinishY:
-                    mark = gr.Circle(i.getCenter(), 1)
-                    mark.setFill('red')
-                    mark.draw(self.win)
-                    #---------------------------------------------
-                    "Pathfinding"
-                    self.softmotion(0, selectionlanegapY, 'Take order')
+    def move(self, group, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, sizeX):
+        centerX = self.robot.center.getX()
+        centerY = self.robot.center.getY()
+        selectionlanegapY = (dividerwallgapY - platedeliveryy)/2 + platedeliveryy - centerY
+        dockingplatedeliverygapX = sizeX/2 - centerX
+        button = self.win.getMouse()
+        buttonX = button.getX()
+        buttonY = button.getY() 
+        for i in group:
+            currenttablestartX = i.getP1().getX()
+            currenttablestartY = i.getP1().getY()
+            currenttablefinishX = i.getP2().getX()
+            currenttablefinishY = i.getP2().getY()
+            if currenttablestartX < buttonX < currenttablefinishX and currenttablestartY < buttonY < currenttablefinishY:
+                mark = gr.Circle(i.getCenter(), 1)
+                mark.setFill('red')
+                mark.draw(self.win)
+                #---------------------------------------------
+                "Pathfinding"
+                self.softmotion(0, selectionlanegapY, 'Take order')
+                
+                "Lane Select"
+                tableeven = None
+                rownum = 0
+                while tableeven is None and rownum < numrows:
+                    distancenoteven = tablewallgapX + tabledividergapX + rownum*dividergapX
+                    distanceeven = distancenoteven + 2*tablesizeX + tabledividergapX + dividersizeX
+                    if currenttablestartX < distancenoteven + tablesizeX:
+                        tableeven = False
+                    elif currenttablestartX < distanceeven:
+                        tableeven = True
+                    rownum += 1
+                
+                midlanehalfsizeX = (dividergapX - dividersizeX - 2*(tablesizeX + tabledividergapX))/2
+                
+                if currenttablestartX < tablewallgapX + tablesizeX:
+                    targetX = tablewallgapX/2
+                    extremes = True
+                elif currenttablefinishX > sizeX - tablewallgapX - tablesizeX:
+                    targetX = sizeX - tablewallgapX/2
+                    extremes = True
+                elif tableeven is True:
+                    targetX = distanceeven + midlanehalfsizeX
+                    extremes = False
+                elif tableeven is False:
+                    targetX = distancenoteven - midlanehalfsizeX
+                    extremes = False
                     
-                    "Lane Select"
-                    tableeven = None
-                    rownum = 0
-                    while tableeven is None and rownum < numrows:
-                        distancenoteven = tablewallgapX + tabledividergapX + rownum*dividergapX
-                        distanceeven = distancenoteven + 2*tablesizeX + tabledividergapX + dividersizeX
-                        if currenttablestartX < distancenoteven + tablesizeX:
-                            tableeven = False
-                        elif currenttablestartX < distanceeven:
-                            tableeven = True
-                        rownum += 1
-                    
-                    midlanehalfsizeX = (dividergapX - dividersizeX - 2*(tablesizeX + tabledividergapX))/2
-                    
-                    if currenttablestartX < tablewallgapX + tablesizeX:
-                        targetX = tablewallgapX/2
-                        extremes = True
-                    elif currenttablefinishX > sizeX - tablewallgapX - tablesizeX:
-                        targetX = sizeX - tablewallgapX/2
-                        extremes = True
+                self.softmotion(targetX - self.robot.center.getX(), 0,'Take order')
+                
+                "Table Select"
+                self.softmotion(0,mark.getCenter().getY() - self.robot.center.getY() ,'Take order')
+                if extremes is True:
+                    if tableeven is False:
+                        deliverypostionX = tablewallgapX - 4
                     elif tableeven is True:
-                        targetX = distanceeven + midlanehalfsizeX
-                        extremes = False
-                    elif tableeven is False:
-                        targetX = distancenoteven - midlanehalfsizeX
-                        extremes = False
+                        deliverypostionX = sizeX - tablewallgapX + 4
+                elif extremes is False:
+                    if tableeven is True:
+                        deliverypostionX = distanceeven + 4
+                    elif tableeven is False: 
+                        deliverypostionX = distancenoteven - 4
                         
-                    self.softmotion(targetX - self.robot.center.getX(), 0,'Take order')
-                    
-                    "Table Select"
-                    self.softmotion(0,mark.getCenter().getY() - self.robot.center.getY() ,'Take order')
-                    if extremes is True:
-                        if tableeven is False:
-                            deliverypostionX = tablewallgapX - 4
-                        elif tableeven is True:
-                            deliverypostionX = sizeX - tablewallgapX + 4
-                    elif extremes is False:
-                        if tableeven is True:
-                            deliverypostionX = distanceeven + 4
-                        elif tableeven is False: 
-                            deliverypostionX = distancenoteven - 4
-                            
-                    self.softmotion(deliverypostionX - self.robot.center.getX(), 0,'Take order')
-                    #processamento do pedido
-                    ti.sleep(2)
-                    
-                    #ir ao plate delivery
-                    self.softmotion(targetX - self.robot.center.getX(), 0,'Take order') 
-                    selectionlanegapY = (dividerwallgapY - platedeliveryy)/2 + platedeliveryy - self.robot.center.getY()
-                    self.softmotion(0,selectionlanegapY ,'take order')
-                    dockingplatedeliverygapX = sizeX/2 - self.robot.center.getX()
-                    self.softmotion(dockingplatedeliverygapX, 0,'Take order')
-                    ti.sleep(2)
+                self.softmotion(deliverypostionX - self.robot.center.getX(), 0,'Take order')
+                #processamento do pedido
+                ti.sleep(2)
+                
+                #ir ao plate delivery
+                self.softmotion(targetX - self.robot.center.getX(), 0,'Take order') 
+                selectionlanegapY = (dividerwallgapY - platedeliveryy)/2 + platedeliveryy - self.robot.center.getY()
+                self.softmotion(0,selectionlanegapY ,'Take order')
+                dockingplatedeliverygapX = sizeX/2 - self.robot.center.getX()
+                self.softmotion(dockingplatedeliverygapX, 0,'Take order')
+                ti.sleep(2)
 
-                    #serve table
-                    self.softmotion(targetX - self.robot.center.getX(), 0,'Serve table')
-                    self.softmotion(0,mark.getCenter().getY() - self.robot.center.getY() ,'Serve table')
-                    self.softmotion(deliverypostionX - self.robot.center.getX(), 0,'Serve table')
-                    
-                    #docking station regresso
+                #serve table
+                self.softmotion(targetX - self.robot.center.getX(), 0,'Serve table')
+                self.softmotion(0,mark.getCenter().getY() - self.robot.center.getY() ,'Serve table')
+                self.softmotion(deliverypostionX - self.robot.center.getX(), 0,'Serve table')
+                
+                #docking station regresso
 
 
                     
@@ -104,7 +102,7 @@ class Waiter():
 
                     
                     #---------------------------------------------
-                    mark.undraw()
+                mark.undraw()
             #self.colision(group)
             
             
@@ -117,7 +115,7 @@ class Waiter():
             currenttablestartY = i.getP1().getY()
             currenttablefinishX = i.getP2().getX()
             currenttablefinishY = i.getP2().getY()
-            if currenttablefinishX+5 > dx and dx > currenttablestartX-5 and currenttablefinishY+5 > dy and dy > currenttablestartY-5:
+            if currenttablefinishX+5 > (dx**2 + dy**2)*0.5 > currenttablestartX+5 and currenttablefinishY+5 > (dx**2 + dy**2)*0.5 > currenttablestartY+5:
                 i.setFill("black")
                 return True
             
@@ -132,12 +130,12 @@ class Waiter():
             for i in range(int(dx)):
                 self.robot.move(-1*(dx/round(dx,10)),0)
                 self.actionindicator(action)
-                gr.update(30)
+                gr.update(60)
         else:
             for i in range(int(dx)):
                 self.robot.move((dx/round(dx,10)),0)
                 self.actionindicator(action)
-                gr.update(30)
+                gr.update(60)
                 
         'Y movement'        
         if dy<0:
@@ -145,21 +143,21 @@ class Waiter():
             for i in range(int(dy)):
                 self.robot.move(0,-1*(dy/round(dy,10)))
                 self.actionindicator(action)
-                gr.update(30)
+                gr.update(60)
         else:
             for i in range(int(dy)):
                 self.robot.move(0,(dy/round(dy,10)))
                 self.actionindicator(action)
-                gr.update(30)
+                gr.update(60)
                 
                 
     def actionindicator(self,action):
         'Serving Table'
-        if action == 'serve table':
+        if action == 'Serve table':
             self.robot.robotcolor('blue')
             
         'Taking orders'
-        if action == 'take order':
+        if action == 'Take order':
             self.robot.robotcolor('orange')
             
         

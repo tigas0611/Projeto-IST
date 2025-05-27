@@ -96,7 +96,12 @@ table.draw_group(win)
 divider.draw_group(win)
 platedelivery.draw_group(win)
 
-robot = wa.Waiter(win, gr.Point((sizeX + platedeliveryx)/2 + 4, platedeliveryy/2), table.grouptables, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, sizeX)
 
+
+robot = wa.Waiter(win, gr.Point((sizeX + platedeliveryx)/2 + 4, platedeliveryy/2))
+
+while True:
+    robot.move(table.grouptables, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, sizeX)
+    
 win.getMouse()
 win.close()
