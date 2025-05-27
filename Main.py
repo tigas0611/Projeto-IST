@@ -4,9 +4,11 @@ Created on Thu May 22 16:51:07 2025
 
 @author: gabri
 """
-import Waiter as wa
+
 import graphics as gr
 import Sala as sa
+import QuitButton as qb
+import Waiter as wa
 
 f = open('salaxx.txt','r')
 
@@ -96,12 +98,13 @@ table.draw_group(win)
 divider.draw_group(win)
 platedelivery.draw_group(win)
 
-
-
+quitbutton = qb.QuitButton(win, gr.Point(5, 5), 5, 'Quit')
 robot = wa.Waiter(win, gr.Point((sizeX + platedeliveryx)/2 + 4, platedeliveryy/2))
 
-while True:
+quit = False
+while quit is False:
+    mouseclick = win.getMouse()
+    quit = quitbutton.pressed(mouseclick)
     robot.move(table.grouptables, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, sizeX)
     
-win.getMouse()
 win.close()

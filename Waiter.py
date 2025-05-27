@@ -62,10 +62,10 @@ class Waiter():
                     targetX = distancenoteven - midlanehalfsizeX
                     extremes = False
                     
-                self.softmotion(targetX - self.robot.center.getX(), 0,'Take order')
+                self.softmotion(targetX - self.robot.center.getX(), 0, 'Take order')
                 
                 "Table Select"
-                self.softmotion(0,mark.getCenter().getY() - self.robot.center.getY() ,'Take order')
+                self.softmotion(0,mark.getCenter().getY() - self.robot.center.getY() , 'Take order')
                 if extremes is True:
                     if tableeven is False:
                         deliverypostionX = tablewallgapX - 4
@@ -77,22 +77,22 @@ class Waiter():
                     elif tableeven is False: 
                         deliverypostionX = distancenoteven - 4
                         
-                self.softmotion(deliverypostionX - self.robot.center.getX(), 0,'Take order')
+                self.softmotion(deliverypostionX - self.robot.center.getX(), 0, 'Take order')
                 #processamento do pedido
                 ti.sleep(2)
                 
                 #ir ao plate delivery
-                self.softmotion(targetX - self.robot.center.getX(), 0,'Take order') 
+                self.softmotion(targetX - self.robot.center.getX(), 0, 'Take order') 
                 selectionlanegapY = (dividerwallgapY - platedeliveryy)/2 + platedeliveryy - self.robot.center.getY()
-                self.softmotion(0,selectionlanegapY ,'Take order')
+                self.softmotion(0,selectionlanegapY , 'Take order')
                 dockingplatedeliverygapX = sizeX/2 - self.robot.center.getX()
-                self.softmotion(dockingplatedeliverygapX, 0,'Take order')
+                self.softmotion(dockingplatedeliverygapX, 0, 'Take order')
                 ti.sleep(2)
 
                 #serve table
-                self.softmotion(targetX - self.robot.center.getX(), 0,'Serve table')
-                self.softmotion(0,mark.getCenter().getY() - self.robot.center.getY() ,'Serve table')
-                self.softmotion(deliverypostionX - self.robot.center.getX(), 0,'Serve table')
+                self.softmotion(targetX - self.robot.center.getX(), 0, 'Serve table')
+                self.softmotion(0,mark.getCenter().getY() - self.robot.center.getY() , 'Serve table')
+                self.softmotion(deliverypostionX - self.robot.center.getX(), 0, 'Serve table')
                 
                 #docking station regresso
 
