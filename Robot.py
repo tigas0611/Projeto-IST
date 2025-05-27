@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Created on Tue Apr  1 11:47:07 2025
-Classe Cara
+Classe Robot
 @author: tiago
 """
 

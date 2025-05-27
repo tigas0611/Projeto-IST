@@ -35,14 +35,14 @@ class Waiter():
                     mark.draw(self.win)
                     #---------------------------------------------
                     "Pathfinding"
-                    self.softmotion(0, selectionlanegapY,'take order')
+                    self.softmotion(0, selectionlanegapY, 'Take order')
                     
                     "Lane Select"
                     tableeven = None
                     rownum = 0
                     while tableeven is None and rownum < numrows:
-                        distanceeven = tablewallgapX + 2*(tablesizeX + tabledividergapX) + dividersizeX + rownum*dividergapX
                         distancenoteven = tablewallgapX + tabledividergapX + rownum*dividergapX
+                        distanceeven = distancenoteven + 2*tablesizeX + tabledividergapX + dividersizeX
                         if currenttablestartX < distancenoteven + tablesizeX:
                             tableeven = False
                         elif currenttablestartX < distanceeven:
@@ -64,10 +64,10 @@ class Waiter():
                         targetX = distancenoteven - midlanehalfsizeX
                         extremes = False
                         
-                    self.softmotion(targetX - self.robot.center.getX(), 0,'take order')
+                    self.softmotion(targetX - self.robot.center.getX(), 0,'Take order')
                     
                     "Table Select"
-                    self.softmotion(0,mark.getCenter().getY() - self.robot.center.getY() ,'take order')
+                    self.softmotion(0,mark.getCenter().getY() - self.robot.center.getY() ,'Take order')
                     if extremes is True:
                         if tableeven is False:
                             deliverypostionX = tablewallgapX - 4
@@ -79,22 +79,22 @@ class Waiter():
                         elif tableeven is False: 
                             deliverypostionX = distancenoteven - 4
                             
-                    self.softmotion(deliverypostionX - self.robot.center.getX(), 0,'take order')
+                    self.softmotion(deliverypostionX - self.robot.center.getX(), 0,'Take order')
                     #processamento do pedido
                     ti.sleep(2)
                     
                     #ir ao plate delivery
-                    self.softmotion(targetX - self.robot.center.getX(), 0,'take order') 
+                    self.softmotion(targetX - self.robot.center.getX(), 0,'Take order') 
                     selectionlanegapY = (dividerwallgapY - platedeliveryy)/2 + platedeliveryy - self.robot.center.getY()
                     self.softmotion(0,selectionlanegapY ,'take order')
                     dockingplatedeliverygapX = sizeX/2 - self.robot.center.getX()
-                    self.softmotion(dockingplatedeliverygapX, 0,'take order')
+                    self.softmotion(dockingplatedeliverygapX, 0,'Take order')
                     ti.sleep(2)
 
                     #serve table
-                    self.softmotion(targetX - self.robot.center.getX(), 0,'serve table')
-                    self.softmotion(0,mark.getCenter().getY() - self.robot.center.getY() ,'serve table')
-                    self.softmotion(deliverypostionX - self.robot.center.getX(), 0,'serve table')
+                    self.softmotion(targetX - self.robot.center.getX(), 0,'Serve table')
+                    self.softmotion(0,mark.getCenter().getY() - self.robot.center.getY() ,'Serve table')
+                    self.softmotion(deliverypostionX - self.robot.center.getX(), 0,'Serve table')
                     
                     #docking station regresso
 
