@@ -98,7 +98,7 @@ table.draw_group(win)
 divider.draw_group(win)
 platedelivery.draw_group(win)
 
-quitbutton = qb.QuitButton(win, gr.Point(5, 5), 5, 'Quit')
+quitbutton = qb.QuitButton(win, gr.Point(1, 1), gr.Point(12, 9), 'Quit')
 robot = wa.Waiter(win, gr.Point((sizeX + platedeliveryx)/2 + 4, platedeliveryy/2))
 
 close = False
@@ -107,6 +107,6 @@ while close is False:
     if quitbutton.pressed(mouseclick) is True:
         close = True
     else:
-        robot.move(table.grouptables, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, sizeX)
+        robot.pathfinding(table.grouptables, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, sizeX)
     
 win.close()
