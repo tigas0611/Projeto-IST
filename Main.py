@@ -95,7 +95,7 @@ if scaleX < scaleY:
     scale = scaleX
 else:
     scale = scaleY
-    
+
 
 
 tableoffsetX = tablesizeX + 2*tabledividergapX + dividersizeX
