@@ -1,3 +1,5 @@
+Window size (width x height): 800 x 600
+
 Table size (width x height): 18 x 14
 
 Divider width: 4
