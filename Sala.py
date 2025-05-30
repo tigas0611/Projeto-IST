@@ -23,7 +23,7 @@ class Table:
                         tablestart = gr.Point(currentoffsetX, currentoffsetY)
                         tablefinish = gr.Point(tablesizeX + currentoffsetX, tablesizeY + currentoffsetY)
                         
-                        self.grouptables.append(gr.Rectangle(tablestart, tablefinish))
+                        self.grouptables.append(gr.Rectangle(scale*tablestart, scale*tablefinish))
 
     def draw_group(self,win):
         for table in self.grouptables:
@@ -43,7 +43,7 @@ class Divider():
                 dividerstart = gr.Point(currentoffsetX, currentoffsetY)
                 dividerfinish = gr.Point(dividersizeX + currentoffsetX, dividersizeY + currentoffsetY)
                 
-                self.groupdividers.append(gr.Rectangle(dividerstart, dividerfinish))
+                self.groupdividers.append(gr.Rectangle(scale*dividerstart, scale*dividerfinish))
 
     def draw_group(self,win):    
             for divider in self.groupdividers:
@@ -58,7 +58,7 @@ class PlateDelivery():
         platedeliverystart = gr.Point((sizeX - platedeliveryx)/2, 0)
         platedeliveryfinish = gr.Point((sizeX + platedeliveryx)/2, platedeliveryy)
         
-        self.platedelivery.append(gr.Rectangle(platedeliverystart,platedeliveryfinish))
+        self.platedelivery.append(gr.Rectangle(scale*platedeliverystart,scale*platedeliveryfinish))
     
     def draw_group(self,win):
             for platedelivery in self.platedelivery:
