@@ -84,7 +84,19 @@ roomsizeX = 2*(tablewallgapX + tablesizeX + tabledividergapX) + (numrows - 1)*di
 dividerroomsizeY = 2*dividerextraroomsizeY + numtables*(tableroomsizeY + tablegapY) - tablegapY
 roomsizeY = 2*(dividerwallgapY) + numdividers*(dividergapY + dividerroomsizeY) - dividergapY
 
-scale = windowsizeY/roomsizeY
+
+
+scaleY = windowsizeY/roomsizeY
+scaleX = windowsizeX/roomsizeX
+
+
+# scale used depends on the lower side
+if scaleX < scaleY:
+    scale = scaleX
+else:
+    scale = scaleY
+    
+
 
 tableoffsetX = tablesizeX + 2*tabledividergapX + dividersizeX
 tableoffsetY = tablegapY + tableroomsizeY
@@ -106,7 +118,7 @@ divider.draw_group(win)
 platedelivery.draw_group(win)
 
 quitbutton = qb.QuitButton(win, gr.Point(scale, scale), gr.Point(scale*12, scale*9), 'Quit')
-robot = wa.Waiter(win, gr.Point(scale*(roomsizeX + platedeliveryx)/2 + 7, scale*platedeliveryy/2), 5)
+robot = wa.Waiter(win, gr.Point(scale*((roomsizeX + platedeliveryx)/2 + 7), scale*platedeliveryy/2), 5*scale)
 
 close = False
 while close is False:
