@@ -19,18 +19,18 @@ for line in f:
     elif 'Window size' in line:
         values = line.split(': ')
         values2 = values[1].split(' x ')
-        windowroomsizeX = int(values2[0])
-        windowroomsizeY = int(values2[1])
+        windowsizeX = int(values2[0])
+        windowsizeY = int(values2[1])
     
     elif 'Table size' in line:
         values = line.split(': ')
         values2 = values[1].split(' x ')
-        tableroomsizeX = int(values2[0])
+        tablesizeX = int(values2[0])
         tableroomsizeY = int(values2[1])
         
     elif 'Divider width' in line:
         values = line.split(': ')
-        dividerroomsizeX = int(values[1])
+        dividersizeX = int(values[1])
     
     elif 'Number of tables per divisory' in line:
         values = line.split(': ')
@@ -80,11 +80,13 @@ for line in f:
     
 f.close()
 
-roomsizeX = 2*(tablewallgapX + tableroomsizeX + tabledividergapX) + (numrows - 1)*dividergapX + dividerroomsizeX
+roomsizeX = 2*(tablewallgapX + tablesizeX + tabledividergapX) + (numrows - 1)*dividergapX + dividersizeX
 dividerroomsizeY = 2*dividerextraroomsizeY + numtables*(tableroomsizeY + tablegapY) - tablegapY
 roomsizeY = 2*(dividerwallgapY) + numdividers*(dividergapY + dividerroomsizeY) - dividergapY
 
-tableoffsetX = tableroomsizeX + 2*tabledividergapX + dividerroomsizeX
+scale = windowsizeY/roomsizeY
+
+tableoffsetX = tablesizeX + 2*tabledividergapX + dividersizeX
 tableoffsetY = tablegapY + tableroomsizeY
 
 divideroffsetY = dividerroomsizeY + dividergapY
@@ -93,18 +95,18 @@ table = sa.Table()
 divider = sa.Divider()   
 platedelivery = sa.PlateDelivery()
 
-table.Position(numrows,tablewallgapX,numtables,tableroomsizeX,tableroomsizeY,dividerwallgapY,numdividers,dividerextraroomsizeY,tableoffsetX,dividergapX,tableoffsetY,divideroffsetY)
-divider.Position(numrows,numdividers,tablewallgapX,tableroomsizeX,dividergapX,dividergapY,dividerroomsizeX,dividerwallgapY,divideroffsetY,tabledividergapX,dividerroomsizeY)
-platedelivery.Position(roomsizeX,platedeliveryx,platedeliveryy)
+table.Position(numrows, tablewallgapX, numtables, tablesizeX, tableroomsizeY, dividerwallgapY, numdividers, dividerextraroomsizeY, tableoffsetX, dividergapX, tableoffsetY, divideroffsetY, scale)
+divider.Position(numrows, numdividers, tablewallgapX, tablesizeX, dividergapX, dividergapY, dividersizeX, dividerwallgapY, divideroffsetY, tabledividergapX, dividerroomsizeY, scale)
+platedelivery.Position(roomsizeX, platedeliveryx, platedeliveryy, scale)
 
-win = gr.GraphWin('Planta da Sala', windowroomsizeX, windowroomsizeY)
+win = gr.GraphWin('Planta da Sala', windowsizeX, windowsizeY)
 
 table.draw_group(win)
 divider.draw_group(win)
 platedelivery.draw_group(win)
 
-quitbutton = qb.QuitButton(win, gr.Point(1, 1), gr.Point(12, 9), 'Quit')
-robot = wa.Waiter(win, gr.Point((roomsizeX + platedeliveryx)/2 + 4, platedeliveryy/2), 5)
+quitbutton = qb.QuitButton(win, gr.Point(scale, scale), gr.Point(scale*12, scale*9), 'Quit')
+robot = wa.Waiter(win, gr.Point(scale*(roomsizeX + platedeliveryx)/2 + 7, scale*platedeliveryy/2), 5)
 
 close = False
 while close is False:
@@ -112,6 +114,6 @@ while close is False:
     if quitbutton.pressed(mouseclick) is True:
         close = True
     else:
-        robot.pathfinding(table.grouptables, tablewallgapX, tableroomsizeX, tabledividergapX, dividerwallgapY, dividergapX, dividerroomsizeX, platedeliveryy, numrows, roomsizeX)
+        robot.pathfinding(table.grouptables, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, roomsizeX)
     
 win.close()

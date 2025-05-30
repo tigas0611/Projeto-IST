@@ -109,16 +109,16 @@ class Waiter():
                 self.softmotionY(mark.getCenter().getY() - self.robot.center.getY())
                 if extremes is True:
                     if tableeven is False:
-                        deliverypostionX = tablewallgapX - 4
+                        deliverypositionX = tablewallgapX - 4
                     elif tableeven is True:
-                        deliverypostionX = sizeX - tablewallgapX + 4
+                        deliverypositionX = sizeX - tablewallgapX + 4
                 elif extremes is False:
                     if tableeven is True:
-                        deliverypostionX = distanceeven + 4
+                        deliverypositionX = distanceeven + 4
                     elif tableeven is False: 
-                        deliverypostionX = distancenoteven - 4
+                        deliverypositionX = distancenoteven - 4
                         
-                self.softmotionX(deliverypostionX - self.robot.center.getX())
+                self.softmotionX(deliverypositionX - self.robot.center.getX())
                 #processamento do pedido
                 ti.sleep(2)
                 
@@ -133,7 +133,7 @@ class Waiter():
                 #serve table
                 self.softmotionX(targetX - self.robot.center.getX())
                 self.softmotionY(mark.getCenter().getY() - self.robot.center.getY())
-                self.softmotionX(deliverypostionX - self.robot.center.getX())
+                self.softmotionX(deliverypositionX - self.robot.center.getX())
                 
                 #docking station regresso
 
