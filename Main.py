@@ -92,14 +92,13 @@ divider.Position(numrows,numdividers,tablewallgapX,tablesizeX,dividergapX,divide
 platedelivery.Position(sizeX,platedeliveryx,platedeliveryy)
 
 win = gr.GraphWin('Planta da Sala', 800,600)
-win.setCoords(0, sizeY, sizeX, 0)
 
 table.draw_group(win)
 divider.draw_group(win)
 platedelivery.draw_group(win)
 
 quitbutton = qb.QuitButton(win, gr.Point(1, 1), gr.Point(12, 9), 'Quit')
-robot = wa.Waiter(win, gr.Point((sizeX + platedeliveryx)/2 + 4, platedeliveryy/2))
+robot = wa.Waiter(win, gr.Point((sizeX + platedeliveryx)/2 + 4, platedeliveryy/2), 5)
 
 close = False
 while close is False:

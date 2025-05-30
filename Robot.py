@@ -8,26 +8,22 @@ Classe Robot
 import graphics as gr
 
 class Robot:
-    def __init__(self, win, center):
+    def __init__(self, win, center, size):
         self.center = center
-        self.ovalstartX = self.center.getX() - 3
-        self.ovalstartY = self.center.getY() - 4
-        self.ovalfinishX = self.center.getX() + 3
-        self.ovalfinishY = self.center.getY() + 4
-        self.oval = gr.Oval(gr.Point(self.ovalstartX, self.ovalstartY), gr.Point(self.ovalfinishX, self.ovalfinishY))
+        self.circle = gr.Circle(center, size)
         self.win = win
-        self.drawRobot()
+        self.circle.draw(win)
     
     def move(self, dx, dy):
-        self.oval.move(dx,dy)
-        self.center = self.oval.getCenter()
+        self.circle.move(dx,dy)
+        self.center = self.circle.getCenter()
 
     def unDraw(self):
-        self.oval.undraw()
+        self.circle.undraw()
             
     def drawRobot(self):
-        self.oval.draw(self.win)
+        self.circle.draw(self.win)
     
     def robotcolor(self,color):
-        self.oval.setFill(color)
+        self.circle.setFill(color)
     

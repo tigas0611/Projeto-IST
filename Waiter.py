@@ -10,9 +10,9 @@ import graphics as gr
 import time as ti
 
 class Waiter():
-    def __init__(self, win, center):
+    def __init__(self, win, center, size):
         self.win = win
-        self.robot = ro.Robot(win, center)
+        self.robot = ro.Robot(win, center, size)
         
     def checkX(self, targetX):
         if targetX ==self.center.getX():
