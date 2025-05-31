@@ -122,7 +122,7 @@ roomsizeY = windowsizeY/scale
             
 table.drawGroup(win)
 divider.drawGroup(win)
-platedelivery.drawGroup(win)
+platedelivery.draw(win)
 
 quitbutton = qb.QuitButton(win, gr.Point(1, 1), gr.Point(12, 9), 'Quit')
 waiter = wa.Waiter(win, gr.Point((roomsizeX + platedeliveryx)/2 + 6, platedeliveryy/2), 4)
