@@ -84,19 +84,14 @@ roomsizeX = 2*(tablewallgapX + tablesizeX + tabledividergapX) + (numrows - 1)*di
 dividerroomsizeY = 2*dividerextraroomsizeY + numtables*(tableroomsizeY + tablegapY) - tablegapY
 roomsizeY = 2*(dividerwallgapY) + numdividers*(dividergapY + dividerroomsizeY) - dividergapY
 
-
-
 scaleY = windowsizeY/roomsizeY
 scaleX = windowsizeX/roomsizeX
-
 
 # scale used depends on the lower side
 if scaleX < scaleY:
     scale = scaleX
 else:
     scale = scaleY
-
-
 
 tableoffsetX = tablesizeX + 2*tabledividergapX + dividersizeX
 tableoffsetY = tablegapY + tableroomsizeY
@@ -107,18 +102,19 @@ table = sa.Table()
 divider = sa.Divider()   
 platedelivery = sa.PlateDelivery()
 
-table.Position(numrows, tablewallgapX, numtables, tablesizeX, tableroomsizeY, dividerwallgapY, numdividers, dividerextraroomsizeY, tableoffsetX, dividergapX, tableoffsetY, divideroffsetY, scale)
-divider.Position(numrows, numdividers, tablewallgapX, tablesizeX, dividergapX, dividergapY, dividersizeX, dividerwallgapY, divideroffsetY, tabledividergapX, dividerroomsizeY, scale)
-platedelivery.Position(roomsizeX, platedeliveryx, platedeliveryy, scale)
+table.Position(numrows, tablewallgapX, numtables, tablesizeX, tableroomsizeY, dividerwallgapY, numdividers, dividerextraroomsizeY, tableoffsetX, dividergapX, tableoffsetY, divideroffsetY)
+divider.Position(numrows, numdividers, tablewallgapX, tablesizeX, dividergapX, dividergapY, dividersizeX, dividerwallgapY, divideroffsetY, tabledividergapX, dividerroomsizeY)
+platedelivery.Position(roomsizeX, platedeliveryx, platedeliveryy)
 
 win = gr.GraphWin('Planta da Sala', windowsizeX, windowsizeY)
+win.setCoords(0, windowsizeY/scale, windowsizeX/scale, 0)
 
 table.draw_group(win)
 divider.draw_group(win)
 platedelivery.draw_group(win)
 
-quitbutton = qb.QuitButton(win, gr.Point(scale, scale), gr.Point(scale*12, scale*9), 'Quit')
-robot = wa.Waiter(win, gr.Point(scale*((roomsizeX + platedeliveryx)/2 + 7), scale*platedeliveryy/2), 5*scale)
+quitbutton = qb.QuitButton(win, gr.Point(1, 1), gr.Point(12, 9), 'Quit')
+robot = wa.Waiter(win, gr.Point((roomsizeX + platedeliveryx)/2 + 7, platedeliveryy/2), 5)
 
 close = False
 while close is False:
