@@ -117,6 +117,9 @@ platedelivery.Position(roomsizeX, platedeliveryx, platedeliveryy, bordersX, bord
 win = gr.GraphWin('Planta da Sala', windowsizeX, windowsizeY)
 win.setCoords(0, windowsizeY/scale, windowsizeX/scale, 0)
 
+roomsizeX = windowsizeX/scale
+roomsizeY = windowsizeY/scale
+            
 table.draw_group(win)
 divider.draw_group(win)
 platedelivery.draw_group(win)
