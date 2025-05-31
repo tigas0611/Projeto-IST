@@ -90,15 +90,15 @@ scaleX = windowsizeX/roomsizeX
 # scale used depends on the lower side
 if scaleX < scaleY:
     scale = scaleX
-    bordersY = (windowsizeY/scale - roomsizeY)/2
-    bordersX = 0
+    borderY = (windowsizeY/scale - roomsizeY)/2
+    borderX = 0
 else:
     scale = scaleY
-    bordersX = (windowsizeX/scale - roomsizeX)/2
-    bordersY = 0
+    borderX = (windowsizeX/scale - roomsizeX)/2
+    borderY = 0
 
-dividerwallgapY += bordersY
-tablewallgapX += bordersX
+dividerwallgapY += borderY
+tablewallgapX += borderX
 
 
 tableoffsetX = tablesizeX + 2*tabledividergapX + dividersizeX
@@ -110,9 +110,9 @@ table = sa.Table()
 divider = sa.Divider()   
 platedelivery = sa.PlateDelivery()
 
-table.Position(numrows, tablewallgapX, numtables, tablesizeX, tablesizeY, dividerwallgapY, numdividers, dividerextrasizeY, tableoffsetX, dividergapX, tableoffsetY, divideroffsetY)
-divider.Position(numrows, numdividers, tablewallgapX, tablesizeX, dividergapX, dividergapY, dividersizeX, dividerwallgapY, divideroffsetY, tabledividergapX, dividerroomsizeY)
-platedelivery.Position(roomsizeX, platedeliveryx, platedeliveryy, bordersX, bordersY)
+table.position(numrows, tablewallgapX, numtables, tablesizeX, tablesizeY, dividerwallgapY, numdividers, dividerextrasizeY, tableoffsetX, dividergapX, tableoffsetY, divideroffsetY)
+divider.position(numrows, numdividers, tablewallgapX, tablesizeX, dividergapX, dividergapY, dividersizeX, dividerwallgapY, divideroffsetY, tabledividergapX, dividerroomsizeY)
+platedelivery.position(roomsizeX, platedeliveryx, platedeliveryy, borderX, borderY)
 
 win = gr.GraphWin('Planta da Sala', windowsizeX, windowsizeY)
 win.setCoords(0, windowsizeY/scale, windowsizeX/scale, 0)
@@ -120,12 +120,12 @@ win.setCoords(0, windowsizeY/scale, windowsizeX/scale, 0)
 roomsizeX = windowsizeX/scale
 roomsizeY = windowsizeY/scale
             
-table.draw_group(win)
-divider.draw_group(win)
-platedelivery.draw_group(win)
+table.drawGroup(win)
+divider.drawGroup(win)
+platedelivery.drawGroup(win)
 
 quitbutton = qb.QuitButton(win, gr.Point(1, 1), gr.Point(12, 9), 'Quit')
-robot = wa.Waiter(win, gr.Point(bordersX + (roomsizeX + platedeliveryx)/2 + 7, platedeliveryy/2), 5)
+waiter = wa.Waiter(win, gr.Point((roomsizeX + platedeliveryx)/2 + 6, platedeliveryy/2), 4)
 
 close = False
 while close is False:
@@ -133,6 +133,6 @@ while close is False:
     if quitbutton.pressed(mouseclick) is True:
         close = True
     else:
-        robot.pathfinding(table.grouptables, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, roomsizeX)
+        waiter.pathfinding(table.grouptables, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, roomsizeX, mouseclick)
     
 win.close()

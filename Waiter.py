@@ -26,7 +26,7 @@ class Waiter():
         else:
             return(False)
     
-    def softmotionX(self,dx):
+    def softMotionX(self,dx):
         if dx < 0:
             dx*=-1
             for i in range(int(dx)):
@@ -37,7 +37,7 @@ class Waiter():
                 self.robot.move(1, 0)
                 gr.update(60)
                 
-    def softmotionY(self,dy):
+    def softMotionY(self,dy):
         if dy < 0:
             dy*=-1
             for i in range(int(dy)):
@@ -48,33 +48,35 @@ class Waiter():
                 self.robot.move(0, 1)
                 gr.update(60)
                 
-    def actionindicator(self,action):
-        'Serving Table'
-        if action == 'Serve table':
-            self.robot.robotcolor('blue')
-            
-        'Taking orders'
-        if action == 'Take order':
-            self.robot.robotcolor('orange')
+    def colision(self, group):
+        dx = self.robot.center.getX()
+        dy = self.robot.center.getY()
+        for i in group:
+            currenttablestartX = i.getP1().getX()
+            currenttablestartY = i.getP1().getY()
+            currenttablefinishX = i.getP2().getX()
+            currenttablefinishY = i.getP2().getY()
+            if currenttablefinishX+5 > (dx**2 + dy**2)*0.5 > currenttablestartX+5 and currenttablefinishY+5 > (dx**2 + dy**2)*0.5 > currenttablestartY+5:
+                i.setFill("black")
+                return True
 
-    def pathfinding(self, group, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, sizeX):
+    def pathfinding(self, group, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, sizeX, mouseclick):
         selectionlanegapY = (dividerwallgapY - platedeliveryy)/2 + platedeliveryy - self.robot.center.getY()
         dockingplatedeliverygapX = sizeX/2 - self.robot.center.getX()
-        button = self.win.getMouse()
-        buttonX = button.getX()
-        buttonY = button.getY() 
+        mouseclickX = mouseclick.getX()
+        mouseclickY = mouseclick.getY() 
         for tablenum in group:
             currenttablestartX = tablenum.getP1().getX()
             currenttablestartY = tablenum.getP1().getY()
             currenttablefinishX = tablenum.getP2().getX()
             currenttablefinishY = tablenum.getP2().getY()
-            if currenttablestartX < buttonX < currenttablefinishX and currenttablestartY < buttonY < currenttablefinishY:
+            if currenttablestartX < mouseclickX < currenttablefinishX and currenttablestartY < mouseclickY < currenttablefinishY:
                 mark = gr.Circle(tablenum.getCenter(), 1)
                 mark.setFill('red')
                 mark.draw(self.win)
                 #---------------------------------------------
                 "Pathfinding"
-                self.softmotionY(selectionlanegapY)
+                self.softMotionY(selectionlanegapY)
                 
                 "Lane Select"
                 tableeven = None
@@ -103,39 +105,40 @@ class Waiter():
                     targetX = distancenoteven - midlanehalfsizeX
                     extremes = False
                     
-                self.softmotionX(targetX - self.robot.center.getX())
+                self.softMotionX(targetX - self.robot.center.getX())
                 
                 "Table Select"
-                self.softmotionY(mark.getCenter().getY() - self.robot.center.getY())
+                self.softMotionY(mark.getCenter().getY() - self.robot.center.getY())
                 if extremes is True:
                     if tableeven is False:
-                        deliverypositionX = tablewallgapX - 4
+                        deliverypositionX = tablewallgapX - 6
                     elif tableeven is True:
-                        deliverypositionX = sizeX - tablewallgapX + 4
+                        deliverypositionX = sizeX - tablewallgapX + 6
                 elif extremes is False:
                     if tableeven is True:
-                        deliverypositionX = distanceeven + 4
+                        deliverypositionX = distanceeven + 6
                     elif tableeven is False: 
-                        deliverypositionX = distancenoteven - 4
+                        deliverypositionX = distancenoteven - 6
                         
-                self.softmotionX(deliverypositionX - self.robot.center.getX())
+                self.softMotionX(deliverypositionX - self.robot.center.getX())
                 #processamento do pedido
                 ti.sleep(2)
                 
                 #ir ao plate delivery
-                self.softmotionX(targetX - self.robot.center.getX())
+                self.softMotionX(targetX - self.robot.center.getX())
                 selectionlanegapY = (dividerwallgapY - platedeliveryy)/2 + platedeliveryy - self.robot.center.getY()
-                self.softmotionY(selectionlanegapY)
+                self.softMotionY(selectionlanegapY)
                 dockingplatedeliverygapX = sizeX/2 - self.robot.center.getX()
-                self.softmotionX(dockingplatedeliverygapX)
+                self.softMotionX(dockingplatedeliverygapX)
                 ti.sleep(2)
 
                 #serve table
-                self.softmotionX(targetX - self.robot.center.getX())
-                self.softmotionY(mark.getCenter().getY() - self.robot.center.getY())
-                self.softmotionX(deliverypositionX - self.robot.center.getX())
+                self.softMotionX(targetX - self.robot.center.getX())
+                self.softMotionY(mark.getCenter().getY() - self.robot.center.getY())
+                self.softMotionX(deliverypositionX - self.robot.center.getX())
                 
                 #docking station regresso
+                self.robot.depleteBattery()
 
 
                     
@@ -146,14 +149,4 @@ class Waiter():
                 mark.undraw()
             #self.colision(group)
             
-    def colision(self, group):
-        dx = self.robot.center.getX()
-        dy = self.robot.center.getY()
-        for i in group:
-            currenttablestartX = i.getP1().getX()
-            currenttablestartY = i.getP1().getY()
-            currenttablefinishX = i.getP2().getX()
-            currenttablefinishY = i.getP2().getY()
-            if currenttablefinishX+5 > (dx**2 + dy**2)*0.5 > currenttablestartX+5 and currenttablefinishY+5 > (dx**2 + dy**2)*0.5 > currenttablestartY+5:
-                i.setFill("black")
-                return True
+    
