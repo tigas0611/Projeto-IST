@@ -53,10 +53,10 @@ class PlateDelivery():
     def __init__(self):
         self.platedelivery = []
         
-    def Position(self, roomsizeX, platedeliveryx, platedeliveryy):
+    def Position(self, roomsizeX, platedeliveryx, platedeliveryy, bordersX, bordersY):
         
-        platedeliverystart = gr.Point((roomsizeX - platedeliveryx)/2, 0)
-        platedeliveryfinish = gr.Point((roomsizeX + platedeliveryx)/2, platedeliveryy)
+        platedeliverystart = gr.Point(bordersX + (roomsizeX - platedeliveryx)/2, bordersY)
+        platedeliveryfinish = gr.Point(bordersX + (roomsizeX + platedeliveryx)/2, platedeliveryy + bordersY)
         
         self.platedelivery.append(gr.Rectangle(platedeliverystart, platedeliveryfinish))
     
