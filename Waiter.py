@@ -51,23 +51,23 @@ class Waiter():
     def colision(self, group):
         dx = self.robot.center.getX()
         dy = self.robot.center.getY()
-        for i in group:
-            currenttablestartX = i.getP1().getX()
-            currenttablestartY = i.getP1().getY()
-            currenttablefinishX = i.getP2().getX()
-            currenttablefinishY = i.getP2().getY()
+        for obstacle in group:
+            currenttablestartX = obstacle.getP1().getX()
+            currenttablestartY = obstacle.getP1().getY()
+            currenttablefinishX = obstacle.getP2().getX()
+            currenttablefinishY = obstacle.getP2().getY()
             if currenttablefinishX+5 > (dx**2 + dy**2)*0.5 > currenttablestartX+5 and currenttablefinishY+5 > (dx**2 + dy**2)*0.5 > currenttablestartY+5:
-                i.setFill("black")
+                obstacle.setFill("black")
                 return True
             
     
 
-    def pathfinding(self, group, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, roomsizeX, mouseclick):
+    def pathfinding(self, tablegroup, dividergroup, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, roomsizeX, mouseclick):
         selectionlanegapY = (dividerwallgapY - platedeliveryy)/2 + platedeliveryy - self.robot.center.getY()
         dockingplatedeliverygapX = roomsizeX/2 - self.robot.center.getX()
         mouseclickX = mouseclick.getX()
         mouseclickY = mouseclick.getY() 
-        for tablenum in group:
+        for tablenum in tablegroup:
             currenttablestartX = tablenum.getP1().getX()
             currenttablestartY = tablenum.getP1().getY()
             currenttablefinishX = tablenum.getP2().getX()
@@ -155,6 +155,5 @@ class Waiter():
                     
                     #---------------------------------------------
                 mark.undraw()
-            #self.colision(group)
             
     

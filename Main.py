@@ -135,6 +135,6 @@ while close is False:
         close = True
     else:
         quitbutton.unactive()
-        waiter.pathfinding(table.grouptables, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, roomsizeX, mouseclick)
+        waiter.pathfinding(table.grouptables, divider.groupdividers, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, roomsizeX, mouseclick)
     
 win.close()
