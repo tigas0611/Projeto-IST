@@ -31,22 +31,22 @@ class Waiter():
             dx*=-1
             for i in range(int(dx)):
                 self.robot.move(-1, 0)
-                gr.update(60)
+                gr.update(30)
         else:
             for i in range(int(dx)):
                 self.robot.move(1, 0)
-                gr.update(60)
+                gr.update(30)
                 
     def softMotionY(self,dy):
         if dy < 0:
             dy*=-1
             for i in range(int(dy)):
                 self.robot.move(0, -1)
-                gr.update(60)
+                gr.update(30)
         else:
             for i in range(int(dy)):
                 self.robot.move(0, 1)
-                gr.update(60)
+                gr.update(30)
                 
     def colision(self, group):
         dx = self.robot.center.getX()

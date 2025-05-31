@@ -129,10 +129,12 @@ waiter = wa.Waiter(win, gr.Point((roomsizeX + platedeliveryx)/2 + 6, platedelive
 
 close = False
 while close is False:
+    quitbutton.active(win)
     mouseclick = win.getMouse()
     if quitbutton.pressed(mouseclick) is True:
         close = True
     else:
+        quitbutton.unactive()
         waiter.pathfinding(table.grouptables, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, roomsizeX, mouseclick)
     
 win.close()

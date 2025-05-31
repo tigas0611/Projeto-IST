@@ -11,19 +11,27 @@ class QuitButton:
     def __init__(self, win, startpoint, finishpoint, label):
         self.startpoint = startpoint
         self.finishpoint = finishpoint
-        button = gr.Rectangle(startpoint, finishpoint)
-        button.setFill('red')
-        button.setOutline('black')
-        button.setWidth(3)
-        button.draw(win)
-        label = gr.Text(button.getCenter(), label)
-        label.setFill('white')
-        label.setSize(12)
-        label.setStyle("bold")
-        label.draw(win)
+        self.button = gr.Rectangle(startpoint, finishpoint)
+        self.button.setFill('red')
+        self.button.setOutline('black')
+        self.button.setWidth(3)
+        self.button.draw(win)
+        self.label = gr.Text(self.button.getCenter(), label)
+        self.label.setFill('white')
+        self.label.setSize(12)
+        self.label.setStyle("bold")
+        self.label.draw(win)
         
     def pressed(self,click):
         if self.startpoint.getX() < click.getX() < self.finishpoint.getX() and self.startpoint.getY() < click.getY() < self.finishpoint.getY():
             return(True)
         else:
             return(False)
+        
+    def active(self, win):
+        self.button.setFill('red')
+        self.label.setFill('white')
+        
+    def unactive(self):
+        self.button.setFill('dark red')
+        self.label.setFill('grey')

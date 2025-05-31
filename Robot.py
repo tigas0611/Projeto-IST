@@ -13,6 +13,7 @@ class Robot:
         self.circle = gr.Circle(center, size)
         self.action = gr.Circle(gr.Point(center.getX() - size/2, center.getY()), size/4)
         self.battery = gr.Circle(gr.Point(center.getX() + size/2, center.getY()), size/4)
+        self.dock = gr.Circle(center, size + 1)
         self.circle.setFill('light grey')
         self.action.setFill('pink')
         self.battery.setFill('light green')
@@ -20,6 +21,7 @@ class Robot:
         self.circle.draw(win)
         self.battery.draw(win) 
         self.action.draw(win)
+        self.dock.draw(win)
     
     def move(self, dx, dy):
         self.circle.move(dx,dy)
