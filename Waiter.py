@@ -31,22 +31,22 @@ class Waiter():
             dx*=-1
             for i in range(int(dx)):
                 self.robot.move(-1, 0)
-                gr.update(30)
+                gr.update(60)
         else:
             for i in range(int(dx)):
                 self.robot.move(1, 0)
-                gr.update(30)
+                gr.update(60)
                 
     def softMotionY(self,dy):
         if dy < 0:
             dy*=-1
             for i in range(int(dy)):
                 self.robot.move(0, -1)
-                gr.update(30)
+                gr.update(60)
         else:
             for i in range(int(dy)):
                 self.robot.move(0, 1)
-                gr.update(30)
+                gr.update(60)
                 
     def colision(self, group):
         dx = self.robot.center.getX()
@@ -59,10 +59,12 @@ class Waiter():
             if currenttablefinishX+5 > (dx**2 + dy**2)*0.5 > currenttablestartX+5 and currenttablefinishY+5 > (dx**2 + dy**2)*0.5 > currenttablestartY+5:
                 i.setFill("black")
                 return True
+            
+    
 
-    def pathfinding(self, group, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, sizeX, mouseclick):
+    def pathfinding(self, group, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, roomsizeX, mouseclick):
         selectionlanegapY = (dividerwallgapY - platedeliveryy)/2 + platedeliveryy - self.robot.center.getY()
-        dockingplatedeliverygapX = sizeX/2 - self.robot.center.getX()
+        dockingplatedeliverygapX = roomsizeX/2 - self.robot.center.getX()
         mouseclickX = mouseclick.getX()
         mouseclickY = mouseclick.getY() 
         for tablenum in group:
@@ -76,6 +78,7 @@ class Waiter():
                 mark.draw(self.win)
                 #---------------------------------------------
                 "Pathfinding"
+                self.robot.receivingRequest()
                 self.softMotionY(selectionlanegapY)
                 
                 "Lane Select"
@@ -93,10 +96,16 @@ class Waiter():
                 midlanehalfsizeX = (dividergapX - dividersizeX - 2*(tablesizeX + tabledividergapX))/2
                 
                 if currenttablestartX < tablewallgapX + tablesizeX:
-                    targetX = tablewallgapX/2
+                    if   tablewallgapX/2 < midlanehalfsizeX:
+                        targetX = tablewallgapX/2
+                    else:
+                        targetX = tablewallgapX - midlanehalfsizeX
                     extremes = True
-                elif currenttablefinishX > sizeX - tablewallgapX - tablesizeX:
-                    targetX = sizeX - tablewallgapX/2
+                elif currenttablefinishX > roomsizeX - tablewallgapX - tablesizeX:
+                    if   tablewallgapX/2 < midlanehalfsizeX:
+                        targetX = roomsizeX - tablewallgapX/2
+                    else: 
+                        targetX = roomsizeX - tablewallgapX + midlanehalfsizeX
                     extremes = True
                 elif tableeven is True:
                     targetX = distanceeven + midlanehalfsizeX
@@ -113,7 +122,7 @@ class Waiter():
                     if tableeven is False:
                         deliverypositionX = tablewallgapX - 6
                     elif tableeven is True:
-                        deliverypositionX = sizeX - tablewallgapX + 6
+                        deliverypositionX = roomsizeX - tablewallgapX + 6
                 elif extremes is False:
                     if tableeven is True:
                         deliverypositionX = distanceeven + 6
@@ -121,14 +130,13 @@ class Waiter():
                         deliverypositionX = distancenoteven - 6
                         
                 self.softMotionX(deliverypositionX - self.robot.center.getX())
-                #processamento do pedido
                 ti.sleep(2)
                 
-                #ir ao plate delivery
+                #Going to Plate Delivery
                 self.softMotionX(targetX - self.robot.center.getX())
                 selectionlanegapY = (dividerwallgapY - platedeliveryy)/2 + platedeliveryy - self.robot.center.getY()
                 self.softMotionY(selectionlanegapY)
-                dockingplatedeliverygapX = sizeX/2 - self.robot.center.getX()
+                dockingplatedeliverygapX = roomsizeX/2 - self.robot.center.getX()
                 self.softMotionX(dockingplatedeliverygapX)
                 ti.sleep(2)
 

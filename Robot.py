@@ -6,6 +6,7 @@ Classe Robot
 """
 
 import graphics as gr
+import time as ti
 
 class Robot:
     def __init__(self, win, center, size):
@@ -41,8 +42,9 @@ class Robot:
     def receivingRequest(self):
         self.action.setFill('orange')
         
+        
     def deliveringRequest(self):
-        self.action.setFill('light blue')
+        self.action.setFill('blue')
         
     def depleteBattery(self):
         self.charge -= 1
@@ -54,6 +56,8 @@ class Robot:
             return(True)
         
     def chargeBattery(self):
+        self.battery.setFill('light blue')
+        ti.sleep(2)
         self.charge == 2
         self.battery.setFill('light green')
             
