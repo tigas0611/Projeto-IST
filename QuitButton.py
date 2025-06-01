@@ -28,7 +28,7 @@ class QuitButton:
         else:
             return(False)
         
-    def active(self, win):
+    def active(self):
         self.button.setFill('red')
         self.label.setFill('white')
         

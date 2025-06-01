@@ -8,6 +8,7 @@ Created on Thu May 22 16:51:07 2025
 import graphics as gr
 import Sala as sa
 import QuitButton as qb
+import DropDown as dd
 import Waiter as wa
 
 f = open('salaxx.txt','r')
@@ -125,17 +126,20 @@ divider.drawGroup(win)
 platedelivery.draw(win)
 
 quitbutton = qb.QuitButton(win, gr.Point(1, 1), gr.Point(12, 9), 'Quit')
+dropdown = dd.DropDown(win, gr.Point(17, 1), gr.Point(40, 9), 'Dropdown')
 waiter = wa.Waiter(win, gr.Point((roomsizeX + platedeliveryx)/2 + 6, platedeliveryy/2), 4, table.grouptables, divider.groupdividers)
 
 close = False
 while close is False:
-    quitbutton.active(win)
+    quitbutton.active()
+    dropdown.active()
     mouseclick = win.getMouse()
+    dropdown.pressed(mouseclick, win, roomsizeX, roomsizeY)
     if quitbutton.pressed(mouseclick) is True:
         close = True
     else:
         quitbutton.unactive()
+        dropdown.unactive()
         waiter.pedidotacker(tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividergapY, dividersizeX, dividersizeY, platedeliveryy, numrows, numdividers, roomsizeX, mouseclick)
-    gr.update(60)
     
 win.close()
