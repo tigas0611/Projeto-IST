@@ -62,7 +62,7 @@ class Waiter():
                 obstacle.setFill("black")
                 return True
             
-    def pedidotacker(self, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, roomsizeX, mouseclick):
+    def pedidotacker(self, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividergapY, dividersizeX, dividersizeY, platedeliveryy, numrows, numdividers, roomsizeX, mouseclick):
         mouseclickX = mouseclick.getX()
         mouseclickY = mouseclick.getY() 
         for tablenum in self.tablegroup:
@@ -74,7 +74,7 @@ class Waiter():
                 mark = gr.Circle(tablenum.getCenter(), 1)
                 mark.setFill('red')
                 mark.draw(self.win)
-                return self.pathfinding(tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, roomsizeX, currenttablestartX, currenttablefinishX, mark)
+                return self.pathfinding(tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividergapY, dividersizeX, dividersizeY, platedeliveryy, numrows, numdividers, roomsizeX, currenttablestartX, currenttablefinishX, mark)
 
         
         
@@ -85,14 +85,23 @@ class Waiter():
         
         
 
-    def pathfinding(self, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, roomsizeX, currenttablestartX, currenttablefinishX, mark):
-        intructions = []
+    def pathfinding(self, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividergapY, dividersizeX, dividersizeY, platedeliveryy, numrows, numdividers, roomsizeX, currenttablestartX, currenttablefinishX, mark):
         selectionlanegapY = (dividerwallgapY - platedeliveryy)/2 + platedeliveryy - self.robot.center.getY()
         dockingplatedeliverygapX = roomsizeX/2 - self.robot.center.getX()
                 #---------------------------------------------
         "Pathfinding"
         self.robot.receivingRequest()
-        self.softMotionY(selectionlanegapY)
+        
+        targetaverageY = (mark.getCenter().getY() - self.robot.center.getY())/2
+        affinity = abs(selectionlanegapY - targetaverageY)
+        targetY = selectionlanegapY
+        for dividernum in range(numdividers):
+            currentrowY = dividerwallgapY + (dividersizeY + dividergapY)*dividernum - dividergapY
+            if  abs(currentrowY - targetaverageY) < affinity:
+                affinity = currentrowY - targetaverageY
+                targetY = currentrowY + 2*dividergapY
+            
+        self.softMotionY(targetY)
         
         "Lane Select"
         tableeven = None

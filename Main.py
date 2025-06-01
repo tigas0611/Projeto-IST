@@ -81,8 +81,8 @@ for line in f:
 f.close()
 
 roomsizeX = 2*(tablewallgapX + tablesizeX + tabledividergapX) + (numrows - 1)*dividergapX + dividersizeX
-dividerroomsizeY = 2*dividerextrasizeY + numtables*(tablesizeY + tablegapY) - tablegapY
-roomsizeY = 2*(dividerwallgapY) + numdividers*(dividergapY + dividerroomsizeY) - dividergapY
+dividersizeY = 2*dividerextrasizeY + numtables*(tablesizeY + tablegapY) - tablegapY
+roomsizeY = 2*(dividerwallgapY) + numdividers*(dividergapY + dividersizeY) - dividergapY
 
 scaleY = windowsizeY/roomsizeY
 scaleX = windowsizeX/roomsizeX
@@ -104,14 +104,14 @@ tablewallgapX += borderX
 tableoffsetX = tablesizeX + 2*tabledividergapX + dividersizeX
 tableoffsetY = tablegapY + tablesizeY
 
-divideroffsetY = dividerroomsizeY + dividergapY
+divideroffsetY = dividersizeY + dividergapY
 
 table = sa.Table()
 divider = sa.Divider()   
 platedelivery = sa.PlateDelivery()
 
 table.position(numrows, tablewallgapX, numtables, tablesizeX, tablesizeY, dividerwallgapY, numdividers, dividerextrasizeY, tableoffsetX, dividergapX, tableoffsetY, divideroffsetY)
-divider.position(numrows, numdividers, tablewallgapX, tablesizeX, dividergapX, dividergapY, dividersizeX, dividerwallgapY, divideroffsetY, tabledividergapX, dividerroomsizeY)
+divider.position(numrows, numdividers, tablewallgapX, tablesizeX, dividergapX, dividergapY, dividersizeX, dividerwallgapY, divideroffsetY, tabledividergapX, dividersizeY)
 platedelivery.position(roomsizeX, platedeliveryx, platedeliveryy, borderX, borderY)
 
 win = gr.GraphWin('Planta da Sala', windowsizeX, windowsizeY)
@@ -135,7 +135,7 @@ while close is False:
         close = True
     else:
         quitbutton.unactive()
-        waiter.pedidotacker(tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, roomsizeX, mouseclick)
+        waiter.pedidotacker(tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividergapY, dividersizeX, dividersizeY, platedeliveryy, numrows, numdividers, roomsizeX, mouseclick)
     gr.update(60)
     
 win.close()
