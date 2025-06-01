@@ -42,6 +42,7 @@ class Table:
     "A função drawGroup desenha todas as mesas já criadas."
     def drawGroup(self,win):
         for table in self.grouptables:
+            table.setFill('chocolate4')
             table.draw(win)
            
 "A classe Divider é reponsável por criar e desenhar todos os divisores presentes na sala assim como armazenar informação sobre eles."

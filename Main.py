@@ -125,7 +125,7 @@ divider.drawGroup(win)
 platedelivery.draw(win)
 
 quitbutton = qb.QuitButton(win, gr.Point(1, 1), gr.Point(12, 9), 'Quit')
-waiter = wa.Waiter(win, gr.Point((roomsizeX + platedeliveryx)/2 + 6, platedeliveryy/2), 4)
+waiter = wa.Waiter(win, gr.Point((roomsizeX + platedeliveryx)/2 + 6, platedeliveryy/2), 4, table.grouptables, divider.groupdividers)
 
 close = False
 while close is False:
@@ -135,6 +135,7 @@ while close is False:
         close = True
     else:
         quitbutton.unactive()
-        waiter.pathfinding(table.grouptables, divider.groupdividers, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, roomsizeX, mouseclick)
+        waiter.pathfinding(tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, roomsizeX, mouseclick)
+    gr.update(60)
     
 win.close()

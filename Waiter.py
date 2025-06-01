@@ -10,9 +10,11 @@ import graphics as gr
 import time as ti
 
 class Waiter():
-    def __init__(self, win, center, size):
+    def __init__(self, win, center, size, tablegroup, dividergroup):
         self.win = win
         self.robot = ro.Robot(win, center, size)
+        self.tablegroup = tablegroup
+        self.dividergroup = dividergroup
         
     def checkX(self, targetX):
         if targetX ==self.center.getX():
@@ -62,12 +64,13 @@ class Waiter():
             
     
 
-    def pathfinding(self, tablegroup, dividergroup, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, roomsizeX, mouseclick):
+    def pathfinding(self, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, roomsizeX, mouseclick):
+        intructions = []
         selectionlanegapY = (dividerwallgapY - platedeliveryy)/2 + platedeliveryy - self.robot.center.getY()
         dockingplatedeliverygapX = roomsizeX/2 - self.robot.center.getX()
         mouseclickX = mouseclick.getX()
         mouseclickY = mouseclick.getY() 
-        for tablenum in tablegroup:
+        for tablenum in self.tablegroup:
             currenttablestartX = tablenum.getP1().getX()
             currenttablestartY = tablenum.getP1().getY()
             currenttablefinishX = tablenum.getP2().getX()
