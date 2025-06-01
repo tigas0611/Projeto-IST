@@ -135,7 +135,7 @@ while close is False:
         close = True
     else:
         quitbutton.unactive()
-        waiter.pathfinding(tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, roomsizeX, mouseclick)
+        waiter.pedidotacker(tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, roomsizeX, mouseclick)
     gr.update(60)
     
 win.close()

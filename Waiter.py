@@ -62,12 +62,7 @@ class Waiter():
                 obstacle.setFill("black")
                 return True
             
-    
-
-    def pathfinding(self, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, roomsizeX, mouseclick):
-        intructions = []
-        selectionlanegapY = (dividerwallgapY - platedeliveryy)/2 + platedeliveryy - self.robot.center.getY()
-        dockingplatedeliverygapX = roomsizeX/2 - self.robot.center.getX()
+    def pedidotacker(self, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, roomsizeX, mouseclick):
         mouseclickX = mouseclick.getX()
         mouseclickY = mouseclick.getY() 
         for tablenum in self.tablegroup:
@@ -79,84 +74,104 @@ class Waiter():
                 mark = gr.Circle(tablenum.getCenter(), 1)
                 mark.setFill('red')
                 mark.draw(self.win)
+                return self.pathfinding(tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, roomsizeX, currenttablestartX, currenttablefinishX, mark)
+
+        
+        
+    def obstacle(self, mouseclick):
+        if self.pedidotacker(mouseclick) == False:
+            gr.Circle(self.ped)
+            
+        
+        
+
+    def pathfinding(self, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, roomsizeX, currenttablestartX, currenttablefinishX, mark):
+        intructions = []
+        selectionlanegapY = (dividerwallgapY - platedeliveryy)/2 + platedeliveryy - self.robot.center.getY()
+        dockingplatedeliverygapX = roomsizeX/2 - self.robot.center.getX()
                 #---------------------------------------------
-                "Pathfinding"
-                self.robot.receivingRequest()
-                self.softMotionY(selectionlanegapY)
+        "Pathfinding"
+        self.robot.receivingRequest()
+        self.softMotionY(selectionlanegapY)
+        
+        "Lane Select"
+        tableeven = None
+        rownum = 0
+        while tableeven is None and rownum < numrows:
+            distancenoteven = tablewallgapX + tabledividergapX + rownum*dividergapX
+            distanceeven = distancenoteven + 2*tablesizeX + tabledividergapX + dividersizeX
+            if currenttablestartX < distancenoteven + tablesizeX:
+                tableeven = False
+            elif currenttablestartX < distanceeven:
+                tableeven = True
+            rownum += 1
                 
-                "Lane Select"
-                tableeven = None
-                rownum = 0
-                while tableeven is None and rownum < numrows:
-                    distancenoteven = tablewallgapX + tabledividergapX + rownum*dividergapX
-                    distanceeven = distancenoteven + 2*tablesizeX + tabledividergapX + dividersizeX
-                    if currenttablestartX < distancenoteven + tablesizeX:
-                        tableeven = False
-                    elif currenttablestartX < distanceeven:
-                        tableeven = True
-                    rownum += 1
+        midlanehalfsizeX = (dividergapX - dividersizeX - 2*(tablesizeX + tabledividergapX))/2
                 
-                midlanehalfsizeX = (dividergapX - dividersizeX - 2*(tablesizeX + tabledividergapX))/2
-                
-                if currenttablestartX < tablewallgapX + tablesizeX:
-                    if   tablewallgapX/2 < midlanehalfsizeX:
-                        targetX = tablewallgapX/2
-                    else:
-                        targetX = tablewallgapX - midlanehalfsizeX
-                    extremes = True
-                elif currenttablefinishX > roomsizeX - tablewallgapX - tablesizeX:
-                    if   tablewallgapX/2 < midlanehalfsizeX:
-                        targetX = roomsizeX - tablewallgapX/2
-                    else: 
-                        targetX = roomsizeX - tablewallgapX + midlanehalfsizeX
-                    extremes = True
-                elif tableeven is True:
-                    targetX = distanceeven + midlanehalfsizeX
-                    extremes = False
-                elif tableeven is False:
-                    targetX = distancenoteven - midlanehalfsizeX
-                    extremes = False
+        if currenttablestartX < tablewallgapX + tablesizeX:
+            if   tablewallgapX/2 < midlanehalfsizeX:
+                targetX = tablewallgapX/2
+            else:
+                targetX = tablewallgapX - midlanehalfsizeX
+            extremes = True
+        elif currenttablefinishX > roomsizeX - tablewallgapX - tablesizeX:
+            if   tablewallgapX/2 < midlanehalfsizeX:
+                targetX = roomsizeX - tablewallgapX/2
+            else: 
+                targetX = roomsizeX - tablewallgapX + midlanehalfsizeX
+            extremes = True
+        elif tableeven is True:
+            targetX = distanceeven + midlanehalfsizeX
+            extremes = False
+        elif tableeven is False:
+            targetX = distancenoteven - midlanehalfsizeX
+            extremes = False
                     
-                self.softMotionX(targetX - self.robot.center.getX())
+        self.softMotionX(targetX - self.robot.center.getX())
                 
-                "Table Select"
-                self.softMotionY(mark.getCenter().getY() - self.robot.center.getY())
-                if extremes is True:
-                    if tableeven is False:
-                        deliverypositionX = tablewallgapX - 6
-                    elif tableeven is True:
-                        deliverypositionX = roomsizeX - tablewallgapX + 6
-                elif extremes is False:
-                    if tableeven is True:
-                        deliverypositionX = distanceeven + 6
-                    elif tableeven is False: 
-                        deliverypositionX = distancenoteven - 6
-                        
-                self.softMotionX(deliverypositionX - self.robot.center.getX())
-                ti.sleep(2)
-                
-                #Going to Plate Delivery
-                self.softMotionX(targetX - self.robot.center.getX())
-                selectionlanegapY = (dividerwallgapY - platedeliveryy)/2 + platedeliveryy - self.robot.center.getY()
-                self.softMotionY(selectionlanegapY)
-                dockingplatedeliverygapX = roomsizeX/2 - self.robot.center.getX()
-                self.softMotionX(dockingplatedeliverygapX)
-                ti.sleep(2)
-
-                #serve table
-                self.softMotionX(targetX - self.robot.center.getX())
-                self.softMotionY(mark.getCenter().getY() - self.robot.center.getY())
-                self.softMotionX(deliverypositionX - self.robot.center.getX())
-                
-                #docking station regresso
-                self.robot.depleteBattery()
-
-
+        "Table Select"
+        self.softMotionY(mark.getCenter().getY() - self.robot.center.getY())
+        if extremes is True:
+            if tableeven is False:
+                deliverypositionX = tablewallgapX - 6
+            elif tableeven is True:
+                deliverypositionX = roomsizeX - tablewallgapX + 6
+        elif extremes is False:
+            if tableeven is True:
+                deliverypositionX = distanceeven + 6
+            elif tableeven is False: 
+                deliverypositionX = distancenoteven - 6
+                    
+        self.softMotionX(deliverypositionX - self.robot.center.getX())
+        ti.sleep(2)
+            
+        #Going to Plate Delivery
+        self.softMotionX(targetX - self.robot.center.getX())
+        selectionlanegapY = (dividerwallgapY - platedeliveryy)/2 + platedeliveryy - self.robot.center.getY()
+        self.softMotionY(selectionlanegapY)
+        dockingplatedeliverygapX = roomsizeX/2 - self.robot.center.getX()
+        self.softMotionX(dockingplatedeliverygapX)
+        ti.sleep(2)
+        #serve table
+        self.softMotionX(targetX - self.robot.center.getX())
+        self.softMotionY(mark.getCenter().getY() - self.robot.center.getY())
+        self.softMotionX(deliverypositionX - self.robot.center.getX())
+            
+        #docking station regresso
+        self.robot.depleteBattery()
+        #---------------------------------------------
+        mark.undraw()
+            
+            
+            
+    def move(self, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, roomsizeX, mouseclick):
+        self.pedidotacker(tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, roomsizeX, mouseclick)
+        for targetpoints in self.pedidotacker(tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, roomsizeX, mouseclick):
+            True
                     
 
 
                     
-                    #---------------------------------------------
-                mark.undraw()
+               
             
     
