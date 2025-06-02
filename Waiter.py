@@ -119,7 +119,7 @@ class Waiter():
         self.robot.receivingRequest()
                 
         affinity = abs(selectionlanegapY - mark.getCenter().getY()) + abs(selectionlanegapY - self.robot.center.getY())
-        targetY = selectionlanegapY - self.robot.center.getY() 
+        targetY = selectionlanegapY
         for dividernum in range(numdividers):
             currentrowY = dividerwallgapY + (dividersizeY + dividergapY)*(dividernum+1) - dividergapY
             if  abs(currentrowY - mark.getCenter().getY()) + abs(currentrowY - self.robot.center.getY()) < affinity:
