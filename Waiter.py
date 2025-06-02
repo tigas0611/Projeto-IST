@@ -11,6 +11,7 @@ import time as ti
 
 class Waiter():
     def __init__(self, win, center, size, tablegroup, dividergroup):
+        self.size = size
         self.win = win
         self.robot = ro.Robot(win, center, size)
         self.tablegroup = tablegroup
@@ -47,7 +48,6 @@ class Waiter():
                     requests.append(self.requesttacker(mouseclick))
                 self.robot.move(1, 0)
                 gr.update(60)
-        print(requests)
         return requests
 
     def softMotionY(self,dy):
@@ -69,7 +69,6 @@ class Waiter():
                     requests.append(self.requesttacker(mouseclick)) 
                 self.robot.move(0, 1)
                 gr.update(60)
-        print(requests)
         return requests
     
     def colision(self, group):
@@ -82,6 +81,7 @@ class Waiter():
             currenttablefinishY = obstacle.getP2().getY()
             if currenttablefinishX+5 > (dx**2 + dy**2)*0.5 > currenttablestartX+5 and currenttablefinishY+5 > (dx**2 + dy**2)*0.5 > currenttablestartY+5:
                 obstacle.setFill("black")
+                ti.sleep(2)
                 return True
             
     def requesttacker(self, mouseclick):
@@ -101,15 +101,13 @@ class Waiter():
         
         
     def obstacle(self, mouseclick):
-        if self.pedidotacker(mouseclick) == False:
+        if self.requesttacker(mouseclick) == None:
             gr.Circle(self.ped)
             
         
         
 
     def pathfinding(self, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividergapY, dividersizeX, dividersizeY, platedeliveryy, numrows, numdividers, roomsizeX, mark):
-        mark.setFill('red')
-        mark.draw(self.win)
         currenttablefinishX = mark.getCenter().getX() + tablesizeX/2
         currenttablestartX = mark.getCenter().getX() - tablesizeX/2
         selectionlanegapY = (dividerwallgapY - platedeliveryy)/2 + platedeliveryy
@@ -178,6 +176,62 @@ class Waiter():
             elif tableeven is False: 
                 deliverypositionX = distancenoteven - 6
                 
+        #Going to the table
+        #requests = self.Tablemove(targetX, targetY, mark, deliverypositionX)
+        #requestbetweendelivers.extend(requests)
+
+        #Going to Plate Delivery
+        #requests = self.Platedeliverymove(targetX, targetY, roomsizeX, platedeliveryy, dividerwallgapY)
+        #requestbetweendelivers.extend(requests)
+
+        #serve table
+        #requests = self.softMotionX(targetX - self.robot.center.getX())
+        #requestbetweendelivers.extend(requests)
+        
+        #requests = self.softMotionX(targetX - self.robot.center.getX())
+        #requestbetweendelivers.extend(requests)
+        #instructions.append('x')
+        #requests = self.softMotionY(mark.getCenter().getY() - self.robot.center.getY())
+        #requestbetweendelivers.extend(requests)
+        #instructions.append('x')
+        #requests = self.softMotionX(deliverypositionX - self.robot.center.getX())
+        #requestbetweendelivers.extend(requests)
+        
+        #---------------------------------------------
+        #mark.undraw()    
+        #docking station regresso
+        #self.robot.depleteBattery()
+        dados = [targetX, targetY, mark, deliverypositionX, roomsizeX, platedeliveryy, dividerwallgapY]
+        return dados
+            
+    
+    def Platedeliverymove(self, targetX, targetY, mark, roomsizeX, platedeliveryy, dividerwallgapY):
+        mark.setFill('red')
+        mark.draw(self.win)
+        requestbetweendelivers = []
+        Platedeliveryinstructions = []
+        Platedeliveryinstructions.append(targetX - self.robot.center.getX())
+        requests = self.softMotionX(targetX - self.robot.center.getX())
+        requestbetweendelivers.extend(requests)
+        
+        selectionlanegapY = (dividerwallgapY - platedeliveryy)/2 + platedeliveryy
+        Platedeliveryinstructions.append(selectionlanegapY - self.robot.center.getY())
+        requests = self.softMotionY(selectionlanegapY - self.robot.center.getY())
+        requestbetweendelivers.extend(requests)
+        
+        requests = self.softMotionX(targetX - self.robot.center.getX())   
+        requestbetweendelivers.extend(requests)
+        dockingplatedeliverygapX = roomsizeX/2 - self.robot.center.getX()
+        requests = self.softMotionX(dockingplatedeliverygapX)
+        requestbetweendelivers.extend(requests)
+        ti.sleep(2)
+        mark.undraw()    
+        return requestbetweendelivers
+
+    
+    def Tablemove(self, targetX, targetY, mark, deliverypositionX):
+        mark.setFill('red')
+        mark.draw(self.win)
         tableinstructions = []
         requestbetweendelivers = []
         #Going to the table
@@ -197,53 +251,28 @@ class Waiter():
         requests = self.softMotionX(deliverypositionX - self.robot.center.getX())
         requestbetweendelivers.extend(requests)
         ti.sleep(2)
-        
-        #Going to Plate Delivery
-        Platedeliveryinstructions = []
-        Platedeliveryinstructions.append(targetX - self.robot.center.getX())
-        requests = self.softMotionX(targetX - self.robot.center.getX())
-        requestbetweendelivers.extend(requests)
-        
-        selectionlanegapY = (dividerwallgapY - platedeliveryy)/2 + platedeliveryy
-        Platedeliveryinstructions.append(selectionlanegapY - self.robot.center.getY())
-        requests = self.softMotionY(selectionlanegapY - self.robot.center.getY())
-        requestbetweendelivers.extend(requests)
-        
-        requests = self.softMotionX(targetX - self.robot.center.getX())   
-        requestbetweendelivers.extend(requests)
-        dockingplatedeliverygapX = roomsizeX/2 - self.robot.center.getX()
-        requests = self.softMotionX(dockingplatedeliverygapX)
-        requestbetweendelivers.extend(requests)
-        requests = self.softMotionX(targetX - self.robot.center.getX())
-        requestbetweendelivers.extend(requests)
-        ti.sleep(2)
-        
-        #serve table
-        requests = self.softMotionX(targetX - self.robot.center.getX())
-        requestbetweendelivers.extend(requests)
-        #instructions.append('x')
-        requests = self.softMotionY(mark.getCenter().getY() - self.robot.center.getY())
-        requestbetweendelivers.extend(requests)
-        #instructions.append('x')
-        requests = self.softMotionX(deliverypositionX - self.robot.center.getX())
-        requestbetweendelivers.extend(requests)
-        
-        #---------------------------------------------
         mark.undraw()    
-        #docking station regresso
-        #self.robot.depleteBattery()
         return requestbetweendelivers
-            
-            
-    def move(self, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividergapY, dividersizeX, dividersizeY, platedeliveryy, numrows, numdividers, roomsizeX, mouseclick):
+
+        
+    def move(self, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividergapY, dividersizeX, dividersizeY, platedeliveryy, platedeliveryx, numrows, numdividers, roomsizeX, mouseclick):
         requestsdelivering = []
         requestbetweendelivers = []
         if self.requesttacker(mouseclick) != None:
             requestsdelivering.append(self.requesttacker(mouseclick))
             while len(requestsdelivering) != 0:
-                for mark in requestsdelivering:
-                    print(mark)
-                    requestbetweendelivers.extend(self.pathfinding(tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividergapY, dividersizeX, dividersizeY, platedeliveryy, numrows, numdividers, roomsizeX, mark))
+                for i in range(2):
+                    for mark in requestsdelivering:
+                        dados = self.pathfinding(tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividergapY, dividersizeX, dividersizeY, platedeliveryy, numrows, numdividers, roomsizeX, mark)
+                        requestbetweendelivers.extend(self.Tablemove(dados[0], dados[1], dados[2], dados[3]))
+                    requestbetweendelivers.extend(self.Platedeliverymove(dados[0], dados[1], dados[2], dados[4], dados[5], dados[6]))
+                if self.robot.depleteBattery() == True :
+                    requests = self.softMotionX(platedeliveryx/2 + 6)
+                    requestbetweendelivers.extend(requests)
+                    requests = self.softMotionY(-1*(platedeliveryy/2 + self.size))
+                    requestbetweendelivers.extend(requests)
+                    self.robot.chargeBattery()
+                    
                 requestsdelivering = requestbetweendelivers
                 requestbetweendelivers = []
             
