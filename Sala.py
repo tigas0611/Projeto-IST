@@ -101,9 +101,9 @@ class Chess():
         self.chess = []
         
     def position(self, platedeliveryY, roomsizeX):
-        for squarenum in range(int(roomsizeX/platedeliveryY) + 1):
-            currentoffsetY = 2*squarenum*platedeliveryY
+        for rownum in range(int(roomsizeX/platedeliveryY) + 1):
             for squarenum in range(int(roomsizeX/platedeliveryY) + 1):
+                currentoffsetY = 2*rownum*platedeliveryY
                 currentoffsetX = 2*squarenum*platedeliveryY
                 
                 squarestart = gr.Point(currentoffsetX, currentoffsetY)
@@ -121,6 +121,27 @@ class Chess():
                 
                 square = gr.Rectangle(squarestart, squarefinish)
                 square.setFill('thistle1')
+                
+                self.chess.append(square)
+                
+                currentoffsetX -= platedeliveryY
+                currentoffsetY += platedeliveryY
+                
+                squarestart = gr.Point(currentoffsetX, currentoffsetY)
+                squarefinish = gr.Point(currentoffsetX + platedeliveryY , currentoffsetY + platedeliveryY)
+                
+                square = gr.Rectangle(squarestart, squarefinish)
+                square.setFill('thistle1')
+                
+                self.chess.append(square)
+                
+                currentoffsetX += platedeliveryY
+                
+                squarestart = gr.Point(currentoffsetX, currentoffsetY)
+                squarefinish = gr.Point(currentoffsetX + platedeliveryY , currentoffsetY + platedeliveryY)
+                
+                square = gr.Rectangle(squarestart, squarefinish)
+                square.setFill('cadetblue1')
                 
                 self.chess.append(square)
                 
