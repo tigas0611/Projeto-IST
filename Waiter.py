@@ -8,7 +8,7 @@ Waiter
 import Robot as ro
 import graphics as gr
 import time as ti
-
+'Classe Waiter que tem como base a classe Robô'
 class Waiter():
     def __init__(self, win, center, size, tablegroup, dividergroup):
         self.size = size
@@ -17,7 +17,7 @@ class Waiter():
         self.tablegroup = tablegroup
         self.dividergroup = dividergroup
         self.obstacles = []
-        
+
     def checkX(self, targetX):
         if targetX ==self.center.getX():
             return(True)
@@ -29,7 +29,7 @@ class Waiter():
             return(True)
         else:
             return(False)
-    
+        'Para o programa ter interação com o utilizador mesmo em alturas de movimento e até mesmo animação de movimento'
     def softMotionX(self,dx):
         requests = []
         obstacles = []
@@ -89,7 +89,7 @@ class Waiter():
                 
         dados = [requests, obstacles]
         return dados
-    
+    'Quando os pontos no perimetro do robo entram em contacto com algum objeto da lista referida ele para e o objeto fica preto'
     def colision(self, group):
         dx = self.robot.center.getX()
         dy = self.robot.center.getY()
@@ -102,7 +102,9 @@ class Waiter():
                 obstacle.setFill("black")
                 ti.sleep(2)
                 obstacle.undraw()
-            
+                
+    
+    'Considera qualquer clique do utilizador q estaje no interior de alguma mesa como pedido'        
     def requesttacker(self, mouseclick):
         mouseclickX = mouseclick.getX()
         mouseclickY = mouseclick.getY() 
@@ -119,7 +121,7 @@ class Waiter():
 
                 
         
-        
+        'Criação de objetos nos pontos onde o utilizador clica'   
     def obstacle(self, mouseclick):
             obstacle = []
             obstacle.append(gr.Circle(mouseclick, 2*self.size/3 ))
@@ -131,7 +133,7 @@ class Waiter():
             
         
         
-
+    'Sistema de colunas e linhas por onde o robo se desloca para ir de encontro ao ponto desejado'
     def pathfinding(self, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividergapY, dividersizeX, dividersizeY, platedeliveryy, numrows, numdividers, roomsizeX, mark):
         currenttablefinishX = mark.getCenter().getX() + tablesizeX/2
         currenttablestartX = mark.getCenter().getX() - tablesizeX/2
@@ -202,7 +204,7 @@ class Waiter():
         dados = [targetX, targetY, mark, deliverypositionX, roomsizeX, platedeliveryy, dividerwallgapY]
         return dados
             
-    
+    'Movimento entre as colunas e linhas criadas no pathfind que leva o robo do seu ponto até a mesa de entrega de pratos'
     def Platedeliverymove(self, targetX, targetY, mark, roomsizeX, platedeliveryy, dividerwallgapY):
         mark.setFill('red')
         mark.draw(self.win)
@@ -243,7 +245,7 @@ class Waiter():
         return dados
 
 
-    
+    'Movimento entre as colunas e linhas criadas no pathfind que leva o robo do seu ponto até a mesa referida'
     def Tablemove(self, targetX, targetY, mark, deliverypositionX):
         mark.setFill('red')
         mark.draw(self.win)
@@ -282,7 +284,7 @@ class Waiter():
         dados = [requestbetweendelivers, obstacles]
         return dados
 
-        
+    'Movimento geral do robo'
     def move(self, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividergapY, dividersizeX, dividersizeY, platedeliveryy, platedeliveryx, numrows, numdividers, roomsizeX, mouseclick):
         requestsdelivering = []
         requestbetweendelivers = []        
