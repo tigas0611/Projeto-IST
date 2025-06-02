@@ -45,6 +45,7 @@ class Robot:
     def deliveringRequest(self):
         self.action.setFill('blue')
         
+    "A função depleteBattery retira uma carga à bateria do robô e atualiza o indicador da direita para refletir essa mudança."
     def depleteBattery(self):
         self.charge -= 1
         if self.charge == 1:
@@ -54,6 +55,7 @@ class Robot:
             self.battery.setFill('red')
             return(True)
         
+    "A função chargeBattery recarrega a bateria e atualiza o indicador da direita para refletir essa mudança."
     def chargeBattery(self):
         self.battery.setFill('light blue')
         ti.sleep(2)
