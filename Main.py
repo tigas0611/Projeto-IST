@@ -80,7 +80,7 @@ for line in f:
         values = line.split(': ')
         values2 = values[1].split(' x ')
         platedeliveryx = int(values2[0])
-        platedeliveryy = int(values2[1])
+        platedeliveryY = int(values2[1])
         
         'Distancia que as divisórias terão das paredes no caso da vertical'
     elif 'Gap between walls and dividers' in line:
@@ -140,14 +140,16 @@ divideroffsetY = dividersizeY + dividergapY
 
 
 'Objetos das classes Table, Divider, PlateDelivery'
+chess = sa.Chess()
 table = sa.Table()
 divider = sa.Divider()   
 platedelivery = sa.PlateDelivery()
 
-'Criação das mesas no Table, diviórias no Divider e '
+'Criação das mesas no Table, divisórias no Divider, entrega de pratos no Platedelivery e um padrão xaderz para o chão no Chess.'
+chess.position(platedeliveryY, roomsizeX)
 table.position(numrows, tablewallgapX, numtables, tablesizeX, tablesizeY, dividerwallgapY, numdividers, dividerextrasizeY, tableoffsetX, dividergapX, tableoffsetY, divideroffsetY)
 divider.position(numrows, numdividers, tablewallgapX, tablesizeX, dividergapX, dividergapY, dividersizeX, dividerwallgapY, divideroffsetY, tabledividergapX, dividersizeY)
-platedelivery.position(roomsizeX, platedeliveryx, platedeliveryy, borderX, borderY)
+platedelivery.position(roomsizeX, platedeliveryx, platedeliveryY, borderX, borderY)
 
 'Criação do ecrã'
 win = gr.GraphWin('Planta da Sala', windowsizeX, windowsizeY)
@@ -160,6 +162,7 @@ roomsizeX = windowsizeX/scale
 roomsizeY = windowsizeY/scale
             
 'Construção dos objetos no ecrã'
+chess.drawGroup(win)
 table.drawGroup(win)
 divider.drawGroup(win)
 platedelivery.draw(win)
@@ -170,7 +173,7 @@ quitbutton = qb.QuitButton(win, gr.Point(1, 1), gr.Point(12, 9), 'Quit')
 'Dropdown do trbalho'
 dropdown = dd.DropDown(win, gr.Point(17, 1), gr.Point(40, 9), 'Dropdown')
 'Classe do robô'
-waiter = wa.Waiter(win, gr.Point((roomsizeX + platedeliveryx)/2 + 6, platedeliveryy/2), 4, table.grouptables, divider.groupdividers)
+waiter = wa.Waiter(win, gr.Point((roomsizeX + platedeliveryx)/2 + 6, platedeliveryY/2), 4, table.grouptables, divider.groupdividers)
 
 'Sistema de opção escolha das possiveis ações do programa'
 close = False
@@ -190,6 +193,6 @@ while close is False:
     else:
         quitbutton.unactive()
         dropdown.unactive()
-        waiter.move(tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividergapY, dividersizeX, dividersizeY, platedeliveryy, numrows, numdividers, roomsizeX, mouseclick)
+        waiter.move(tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividergapY, dividersizeX, dividersizeY, platedeliveryY, numrows, numdividers, roomsizeX, mouseclick)
 'Com a saida do loop o botão de saida foi pressionado por isso a janela vai ser fechada' 
 win.close()

@@ -18,11 +18,13 @@ class Robot:
         self.circle.setFill('light grey')
         self.action.setFill('pink')
         self.battery.setFill('light green')
+        self.dock.setFill('white')
         self.charge = 2
+        self.dock.draw(win)
         self.circle.draw(win)
         self.battery.draw(win) 
         self.action.draw(win)
-        self.dock.draw(win)
+        
     
     def move(self, dx, dy):
         self.circle.move(dx,dy)

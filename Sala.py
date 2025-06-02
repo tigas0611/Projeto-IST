@@ -74,6 +74,7 @@ class Divider():
     "A função drawGroup desenha todos os divisores já criados."
     def drawGroup(self,win):    
             for divider in self.groupdividers:
+                divider.setFill('brown')
                 divider.draw(win)
 
 "A classe PlateDelivery é reponsável por criar e desenhar a entrega de pratos e armazenar informação sobre ela."
@@ -92,4 +93,39 @@ class PlateDelivery():
     
     "A função draw desenha a entrega de pratos."
     def draw(self,win):
+        self.platedelivery.setFill('light grey')
         self.platedelivery.draw(win)
+        
+class Chess():
+    def __init__(self):
+        self.chess = []
+        
+    def position(self, platedeliveryY, roomsizeX):
+        for squarenum in range(int(roomsizeX/platedeliveryY) + 1):
+            currentoffsetY = 2*squarenum*platedeliveryY
+            for squarenum in range(int(roomsizeX/platedeliveryY) + 1):
+                currentoffsetX = 2*squarenum*platedeliveryY
+                
+                squarestart = gr.Point(currentoffsetX, currentoffsetY)
+                squarefinish = gr.Point(currentoffsetX + platedeliveryY , currentoffsetY + platedeliveryY)
+                
+                square = gr.Rectangle(squarestart, squarefinish)
+                square.setFill('cadetblue1')
+                
+                self.chess.append(square)
+                
+                currentoffsetX += platedeliveryY
+                
+                squarestart = gr.Point(currentoffsetX, currentoffsetY)
+                squarefinish = gr.Point(currentoffsetX + platedeliveryY , currentoffsetY + platedeliveryY)
+                
+                square = gr.Rectangle(squarestart, squarefinish)
+                square.setFill('thistle1')
+                
+                self.chess.append(square)
+                
+        
+    def drawGroup(self,win):    
+            for square in self.chess:
+                square.draw(win)
+        
