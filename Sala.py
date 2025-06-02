@@ -96,12 +96,19 @@ class PlateDelivery():
         self.platedelivery.setFill('light grey')
         self.platedelivery.draw(win)
         
+"A classe Chess e responsável por criar um padrão xadrez no chão do restaurante por motivos decorativos."
 class Chess():
+    "Quando iniciada a classe cria uma lista vazia para armazenar informação sobre todos os quadrados que fazem parte do xadrez."
     def __init__(self):
         self.chess = []
-        
+       
+    "A função position recebe multiplos parâmetros do ficheiro salaxx que são utilizados para calcular a posição dos quadrados que fazem parte do xadrez."
     def position(self, platedeliveryY, roomsizeX):
+        
+        "O primeiro loop preenche a sala verticalemnete com quadrados."
         for rownum in range(int(roomsizeX/platedeliveryY) + 1):
+            
+            "O segundo loop preenche a sala horizontalmente com quadrados alternando as cores para formar um padrão xadrez."
             for squarenum in range(int(roomsizeX/platedeliveryY) + 1):
                 currentoffsetY = 2*rownum*platedeliveryY
                 currentoffsetX = 2*squarenum*platedeliveryY
@@ -145,7 +152,7 @@ class Chess():
                 
                 self.chess.append(square)
                 
-        
+    "A função drawGroup desenha todos os quadrados que fazem parte do xadrez."
     def drawGroup(self,win):    
             for square in self.chess:
                 square.draw(win)
