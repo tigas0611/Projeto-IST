@@ -8,7 +8,10 @@ Classe Robot
 import graphics as gr
 import time as ti
 
+"A classe Robot é responsável por criar o robô que serve as mesas e por implementar todos os metódos necessários ao seu funcionamento."
 class Robot:
+    
+    "Quando iniciada a classe cria e desenha todos os componentes do robô assim como a sua docking station."
     def __init__(self, win, center, size):
         self.center = center
         self.circle = gr.Circle(center, size)
@@ -25,25 +28,19 @@ class Robot:
         self.battery.draw(win) 
         self.action.draw(win)
         
-    
+    "A função move movimenta o robô e todos os seus componentes nas direções verticais e horizontais."
     def move(self, dx, dy):
         self.circle.move(dx,dy)
         self.action.move(dx, dy)
         self.battery.move(dx, dy)
         self.center = self.circle.getCenter()
-
-    def unDraw(self):
-        self.circle.undraw()
-            
-    def drawRobot(self, win):
-        self.circle.draw(win)
-        
+  
+    "As três seguintes funções alteram a cor do indicador da esquerda do robô para indicar o seu estado atual."
     def setIdle(self):
         self.action.setFill('pink')
 
     def receivingRequest(self):
-        self.action.setFill('orange')
-        
+        self.action.setFill('orange')   
         
     def deliveringRequest(self):
         self.action.setFill('blue')
