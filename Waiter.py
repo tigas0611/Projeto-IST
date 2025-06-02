@@ -44,11 +44,11 @@ class Waiter():
             dy*=-1
             for i in range(int(dy)):
                 self.robot.move(0, -1)
-                gr.update(60)
+                gr.update(120)
         else:
             for i in range(int(dy)):
                 self.robot.move(0, 1)
-                gr.update(60)
+                gr.update(120)
                 
     def colision(self, group):
         dx = self.robot.center.getX()
@@ -86,21 +86,26 @@ class Waiter():
         
 
     def pathfinding(self, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividergapY, dividersizeX, dividersizeY, platedeliveryy, numrows, numdividers, roomsizeX, currenttablestartX, currenttablefinishX, mark):
-        selectionlanegapY = (dividerwallgapY - platedeliveryy)/2 + platedeliveryy - self.robot.center.getY()
+        selectionlanegapY = (dividerwallgapY - platedeliveryy)/2 + platedeliveryy
         dockingplatedeliverygapX = roomsizeX/2 - self.robot.center.getX()
                 #---------------------------------------------
         "Pathfinding"
         self.robot.receivingRequest()
         
-        targetaverageY = (mark.getCenter().getY() - self.robot.center.getY())/2
-        affinity = abs(selectionlanegapY - targetaverageY)
-        targetY = selectionlanegapY
+        targetaverageY = (-mark.getCenter().getY() - self.robot.center.getY())/2
+        
+        affinity = abs(selectionlanegapY - mark.getCenter().getY()) + abs(selectionlanegapY - self.robot.center.getY())
+        targetY = selectionlanegapY - self.robot.center.getY() 
         for dividernum in range(numdividers):
-            currentrowY = dividerwallgapY + (dividersizeY + dividergapY)*dividernum - dividergapY
-            if  abs(currentrowY - targetaverageY) < affinity:
-                affinity = currentrowY - targetaverageY
-                targetY = currentrowY + 2*dividergapY
-            
+            currentrowY = dividerwallgapY + (dividersizeY + dividergapY)*(dividernum+1) - dividergapY
+            if  abs(currentrowY - mark.getCenter().getY()) + abs(currentrowY - self.robot.center.getY()) < affinity:
+                affinity = currentrowY
+                if dividernum == numdividers-1:
+                    targetY = currentrowY + dividerwallgapY/2 - self.robot.center.getY()
+                else:
+                    targetY = currentrowY + dividergapY/2  - self.robot.center.getY()
+
+
         self.softMotionY(targetY)
         
         "Lane Select"
