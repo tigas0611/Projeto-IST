@@ -135,74 +135,75 @@ class Waiter():
         
     'Sistema de colunas e linhas por onde o robo se desloca para ir de encontro ao ponto desejado'
     def pathfinding(self, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividergapY, dividersizeX, dividersizeY, platedeliveryy, numrows, numdividers, roomsizeX, mark):
-        currenttablefinishX = mark.getCenter().getX() + tablesizeX/2
-        currenttablestartX = mark.getCenter().getX() - tablesizeX/2
-        selectionlanegapY = (dividerwallgapY - platedeliveryy)/2 + platedeliveryy
-                #---------------------------------------------
-        "Pathfinding"
-        self.robot.receivingRequest()
-                
-        affinity = abs(selectionlanegapY - mark.getCenter().getY()) + abs(selectionlanegapY - self.robot.center.getY())
-        targetY = selectionlanegapY
-        for dividernum in range(numdividers):
-            currentrowY = dividerwallgapY + (dividersizeY + dividergapY)*(dividernum+1) - dividergapY
-            if  abs(currentrowY - mark.getCenter().getY()) + abs(currentrowY - self.robot.center.getY()) < affinity:
-                affinity = currentrowY
-                if dividernum == numdividers-1:
-                    targetY = currentrowY + dividerwallgapY/2
+        if mark != None:
+            currenttablefinishX = mark.getCenter().getX() + tablesizeX/2
+            currenttablestartX = mark.getCenter().getX() - tablesizeX/2
+            selectionlanegapY = (dividerwallgapY - platedeliveryy)/2 + platedeliveryy
+                    #---------------------------------------------
+            "Pathfinding"
+            self.robot.receivingRequest()
+                    
+            affinity = abs(selectionlanegapY - mark.getCenter().getY()) + abs(selectionlanegapY - self.robot.center.getY())
+            targetY = selectionlanegapY
+            for dividernum in range(numdividers):
+                currentrowY = dividerwallgapY + (dividersizeY + dividergapY)*(dividernum+1) - dividergapY
+                if  abs(currentrowY - mark.getCenter().getY()) + abs(currentrowY - self.robot.center.getY()) < affinity:
+                    affinity = currentrowY
+                    if dividernum == numdividers-1:
+                        targetY = currentrowY + dividerwallgapY/2
+                    else:
+                        targetY = currentrowY + dividergapY/2
+    
+    
+            
+            "Lane Select"
+            tableeven = None
+            rownum = 0
+            while tableeven is None and rownum < numrows:
+                distancenoteven = tablewallgapX + tabledividergapX + rownum*dividergapX
+                distanceeven = distancenoteven + 2*tablesizeX + tabledividergapX + dividersizeX
+                if currenttablestartX < distancenoteven + tablesizeX:
+                    tableeven = False
+                elif currenttablestartX < distanceeven:
+                    tableeven = True
+                rownum += 1
+                    
+            midlanehalfsizeX = (dividergapX - dividersizeX - 2*(tablesizeX + tabledividergapX))/2
+                    
+            if currenttablestartX < tablewallgapX + tablesizeX:
+                if   tablewallgapX/2 < midlanehalfsizeX:
+                    targetX = tablewallgapX/2
                 else:
-                    targetY = currentrowY + dividergapY/2
-
-
-        
-        "Lane Select"
-        tableeven = None
-        rownum = 0
-        while tableeven is None and rownum < numrows:
-            distancenoteven = tablewallgapX + tabledividergapX + rownum*dividergapX
-            distanceeven = distancenoteven + 2*tablesizeX + tabledividergapX + dividersizeX
-            if currenttablestartX < distancenoteven + tablesizeX:
-                tableeven = False
-            elif currenttablestartX < distanceeven:
-                tableeven = True
-            rownum += 1
-                
-        midlanehalfsizeX = (dividergapX - dividersizeX - 2*(tablesizeX + tabledividergapX))/2
-                
-        if currenttablestartX < tablewallgapX + tablesizeX:
-            if   tablewallgapX/2 < midlanehalfsizeX:
-                targetX = tablewallgapX/2
-            else:
-                targetX = tablewallgapX - midlanehalfsizeX
-            extremes = True
-        elif currenttablefinishX > roomsizeX - tablewallgapX - tablesizeX:
-            if   tablewallgapX/2 < midlanehalfsizeX:
-                targetX = roomsizeX - tablewallgapX/2
-            else: 
-                targetX = roomsizeX - tablewallgapX + midlanehalfsizeX
-            extremes = True
-        elif tableeven is True:
-            targetX = distanceeven + midlanehalfsizeX
-            extremes = False
-        elif tableeven is False:
-            targetX = distancenoteven - midlanehalfsizeX
-            extremes = False
-                
-                
-        "Table Select"
-        
-        if extremes is True:
-            if tableeven is False:
-                deliverypositionX = tablewallgapX - 6
+                    targetX = tablewallgapX - midlanehalfsizeX
+                extremes = True
+            elif currenttablefinishX > roomsizeX - tablewallgapX - tablesizeX:
+                if   tablewallgapX/2 < midlanehalfsizeX:
+                    targetX = roomsizeX - tablewallgapX/2
+                else: 
+                    targetX = roomsizeX - tablewallgapX + midlanehalfsizeX
+                extremes = True
             elif tableeven is True:
-                deliverypositionX = roomsizeX - tablewallgapX + 6
-        elif extremes is False:
-            if tableeven is True:
-                deliverypositionX = distanceeven + 6
-            elif tableeven is False: 
-                deliverypositionX = distancenoteven - 6
-        dados = [targetX, targetY, mark, deliverypositionX, roomsizeX, platedeliveryy, dividerwallgapY]
-        return dados
+                targetX = distanceeven + midlanehalfsizeX
+                extremes = False
+            elif tableeven is False:
+                targetX = distancenoteven - midlanehalfsizeX
+                extremes = False
+                    
+                    
+            "Table Select"
+            
+            if extremes is True:
+                if tableeven is False:
+                    deliverypositionX = tablewallgapX - 6
+                elif tableeven is True:
+                    deliverypositionX = roomsizeX - tablewallgapX + 6
+            elif extremes is False:
+                if tableeven is True:
+                    deliverypositionX = distanceeven + 6
+                elif tableeven is False: 
+                    deliverypositionX = distancenoteven - 6
+            dados = [targetX, targetY, mark, deliverypositionX, roomsizeX, platedeliveryy, dividerwallgapY]
+            return dados
             
     'Movimento entre as colunas e linhas criadas no pathfind que leva o robo do seu ponto até a mesa de entrega de pratos'
     def Platedeliverymove(self, targetX, targetY, mark, roomsizeX, platedeliveryy, dividerwallgapY):
