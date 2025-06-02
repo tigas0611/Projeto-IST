@@ -16,6 +16,7 @@ class Waiter():
         self.robot = ro.Robot(win, center, size)
         self.tablegroup = tablegroup
         self.dividergroup = dividergroup
+        self.obstacles = []
         
     def checkX(self, targetX):
         if targetX ==self.center.getX():
@@ -50,9 +51,9 @@ class Waiter():
                 if mouseclick != None:
                     self.requesttacker(mouseclick)
                     requests.append(self.requesttacker(mouseclick))
-                else:
-                    obstacle = self.obstacle(mouseclick)
-                    self.obstacles.extend(obstacle)
+                    if self.requesttacker(mouseclick) == None:
+                        obstacle = self.obstacle(mouseclick)
+                        self.obstacles.extend(obstacle)
                 self.robot.move(1, 0)
                 gr.update(120)
                 
@@ -69,9 +70,9 @@ class Waiter():
                 if mouseclick != None:
                     self.requesttacker(mouseclick)
                     requests.append(self.requesttacker(mouseclick)) 
-                else:
-                    obstacle = self.obstacle(mouseclick)
-                    self.obstacles.extend(obstacle)
+                    if self.requesttacker(mouseclick) == None:
+                        obstacle = self.obstacle(mouseclick)
+                        self.obstacles.extend(obstacle)
                 self.robot.move(0, -1)
                 gr.update(120)
         else:
@@ -80,9 +81,9 @@ class Waiter():
                 if mouseclick != None:
                     self.requesttacker(mouseclick)
                     requests.append(self.requesttacker(mouseclick))
-                else:
-                    obstacle = self.obstacle(mouseclick)
-                    self.obstacles.extend(obstacle) 
+                    if self.requesttacker(mouseclick) == None:
+                        obstacle = self.obstacle(mouseclick)
+                        self.obstacles.extend(obstacle)
                 self.robot.move(0, 1)
                 gr.update(120)
                 
@@ -120,9 +121,6 @@ class Waiter():
         
         
     def obstacle(self, mouseclick):
-        if self.requesttacker(mouseclick) != None:
-            None
-        else:
             obstacle = []
             obstacle.append(gr.Circle(mouseclick, 2*self.size/3 ))
             for human in obstacle:
@@ -286,7 +284,6 @@ class Waiter():
 
         
     def move(self, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividergapY, dividersizeX, dividersizeY, platedeliveryy, platedeliveryx, numrows, numdividers, roomsizeX, mouseclick):
-        obstacles = [] 
         requestsdelivering = []
         requestbetweendelivers = []        
         if self.requesttacker(mouseclick) != None:
@@ -296,10 +293,10 @@ class Waiter():
                     for mark in requestsdelivering:
                         dados = self.pathfinding(tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividergapY, dividersizeX, dividersizeY, platedeliveryy, numrows, numdividers, roomsizeX, mark)
                         requestbetweendelivers.extend(self.Tablemove(dados[0], dados[1], dados[2], dados[3])[0])
-                        obstacles.extend(self.Tablemove(dados[0], dados[1], dados[2], dados[3])[1])
+                        self.obstacles.extend(self.Tablemove(dados[0], dados[1], dados[2], dados[3])[1])
                         
                     requestbetweendelivers.extend(self.Platedeliverymove(dados[0], dados[1], dados[2], dados[4], dados[5], dados[6])[0])
-                    obstacles.extend(self.Platedeliverymove(dados[0], dados[1], dados[2], dados[4], dados[5], dados[6])[1])
+                    self.obstacles.extend(self.Platedeliverymove(dados[0], dados[1], dados[2], dados[4], dados[5], dados[6])[1])
 
                     if i == 1:
                         if  self.robot.depleteBattery() == True :
@@ -312,8 +309,7 @@ class Waiter():
                 requestsdelivering = requestbetweendelivers
                 requestbetweendelivers = []
         else:
-            #if self.obstacle(mouseclick) == None:
-            obstacles.extend(self.obstacle(mouseclick))
+            self.obstacles.extend(self.obstacle(mouseclick))
             
             
                 
