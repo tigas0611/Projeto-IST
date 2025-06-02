@@ -177,27 +177,38 @@ class Waiter():
                 deliverypositionX = distanceeven + 6
             elif tableeven is False: 
                 deliverypositionX = distancenoteven - 6
-        
+                
+        tableinstructions = []
         requestbetweendelivers = []
         #Going to the table
+        tableinstructions.append(targetY - self.robot.center.getY())
         requests = self.softMotionY(targetY - self.robot.center.getY())
         requestbetweendelivers.extend(requests)
+        
+        tableinstructions.append(targetX - self.robot.center.getX())
         requests = self.softMotionX(targetX - self.robot.center.getX())
-        requestbetweendelivers.extend(requests)  
+        requestbetweendelivers.extend(requests) 
+        
+        tableinstructions.append(mark.getCenter().getY() - self.robot.center.getY())
         requests = self.softMotionY(mark.getCenter().getY() - self.robot.center.getY())
-        requestbetweendelivers.extend(requests)  
+        requestbetweendelivers.extend(requests) 
+        
+        tableinstructions.append(deliverypositionX - self.robot.center.getX())
         requests = self.softMotionX(deliverypositionX - self.robot.center.getX())
         requestbetweendelivers.extend(requests)
-        print(requestbetweendelivers)
-        print(1)
         ti.sleep(2)
-            
+        
         #Going to Plate Delivery
+        Platedeliveryinstructions = []
+        Platedeliveryinstructions.append(targetX - self.robot.center.getX())
         requests = self.softMotionX(targetX - self.robot.center.getX())
         requestbetweendelivers.extend(requests)
-        selectionlanegapY = (dividerwallgapY - platedeliveryy)/2 + platedeliveryy - self.robot.center.getY()
-        requests = self.softMotionY(selectionlanegapY)
+        
+        selectionlanegapY = (dividerwallgapY - platedeliveryy)/2 + platedeliveryy
+        Platedeliveryinstructions.append(selectionlanegapY - self.robot.center.getY())
+        requests = self.softMotionY(selectionlanegapY - self.robot.center.getY())
         requestbetweendelivers.extend(requests)
+        
         requests = self.softMotionX(targetX - self.robot.center.getX())   
         requestbetweendelivers.extend(requests)
         dockingplatedeliverygapX = roomsizeX/2 - self.robot.center.getX()
@@ -221,7 +232,6 @@ class Waiter():
         mark.undraw()    
         #docking station regresso
         #self.robot.depleteBattery()
-        print(requestbetweendelivers)
         return requestbetweendelivers
             
             
