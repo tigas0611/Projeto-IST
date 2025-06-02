@@ -31,6 +31,7 @@ class Waiter():
     
     def softMotionX(self,dx):
         requests = []
+        obstacles = []
         if dx < 0:
             dx*=-1
             for i in range(int(dx)):
@@ -38,20 +39,29 @@ class Waiter():
                 if mouseclick != None:
                     self.requesttacker(mouseclick)
                     requests.append(self.requesttacker(mouseclick))
+                    if self.requesttacker(mouseclick) == None:
+                        obstacle = self.obstacle(mouseclick)
+                        self.obstacles.extend(obstacle)
                 self.robot.move(-1, 0)
-                gr.update(60)
+                gr.update(120)
         else:
             for i in range(int(dx)):
                 mouseclick = self.win.checkMouse()
                 if mouseclick != None:
                     self.requesttacker(mouseclick)
                     requests.append(self.requesttacker(mouseclick))
+                else:
+                    obstacle = self.obstacle(mouseclick)
+                    self.obstacles.extend(obstacle)
                 self.robot.move(1, 0)
-                gr.update(60)
-        return requests
+                gr.update(120)
+                
+        dados = [requests, obstacles]
+        return dados
 
     def softMotionY(self,dy):
         requests = []
+        obstacles = []
         if dy < 0:
             dy*=-1
             for i in range(int(dy)):
@@ -59,17 +69,25 @@ class Waiter():
                 if mouseclick != None:
                     self.requesttacker(mouseclick)
                     requests.append(self.requesttacker(mouseclick)) 
+                else:
+                    obstacle = self.obstacle(mouseclick)
+                    self.obstacles.extend(obstacle)
                 self.robot.move(0, -1)
-                gr.update(60)
+                gr.update(120)
         else:
             for i in range(int(dy)):
                 mouseclick = self.win.checkMouse()
                 if mouseclick != None:
                     self.requesttacker(mouseclick)
-                    requests.append(self.requesttacker(mouseclick)) 
+                    requests.append(self.requesttacker(mouseclick))
+                else:
+                    obstacle = self.obstacle(mouseclick)
+                    self.obstacles.extend(obstacle) 
                 self.robot.move(0, 1)
-                gr.update(60)
-        return requests
+                gr.update(120)
+                
+        dados = [requests, obstacles]
+        return dados
     
     def colision(self, group):
         dx = self.robot.center.getX()
@@ -82,7 +100,7 @@ class Waiter():
             if currenttablefinishX+5 > (dx**2 + dy**2)*0.5 > currenttablestartX+5 and currenttablefinishY+5 > (dx**2 + dy**2)*0.5 > currenttablestartY+5:
                 obstacle.setFill("black")
                 ti.sleep(2)
-                return True
+                obstacle.undraw()
             
     def requesttacker(self, mouseclick):
         mouseclickX = mouseclick.getX()
@@ -94,15 +112,24 @@ class Waiter():
             currenttablefinishY = tablenum.getP2().getY()
             if currenttablestartX < mouseclickX < currenttablefinishX and currenttablestartY < mouseclickY < currenttablefinishY:
                 mark = gr.Circle(tablenum.getCenter(), 1)
-            
                 return mark
+            
+
 
                 
         
         
     def obstacle(self, mouseclick):
-        if self.requesttacker(mouseclick) == None:
-            gr.Circle(self.ped)
+        if self.requesttacker(mouseclick) != None:
+            None
+        else:
+            obstacle = []
+            obstacle.append(gr.Circle(mouseclick, 2*self.size/3 ))
+            for human in obstacle:
+                human.setFill('black')
+                human.draw(self.win)
+            return obstacle
+                    
             
         
         
@@ -111,7 +138,6 @@ class Waiter():
         currenttablefinishX = mark.getCenter().getX() + tablesizeX/2
         currenttablestartX = mark.getCenter().getX() - tablesizeX/2
         selectionlanegapY = (dividerwallgapY - platedeliveryy)/2 + platedeliveryy
-        dockingplatedeliverygapX = roomsizeX/2 - self.robot.center.getX()
                 #---------------------------------------------
         "Pathfinding"
         self.robot.receivingRequest()
@@ -175,32 +201,6 @@ class Waiter():
                 deliverypositionX = distanceeven + 6
             elif tableeven is False: 
                 deliverypositionX = distancenoteven - 6
-                
-        #Going to the table
-        #requests = self.Tablemove(targetX, targetY, mark, deliverypositionX)
-        #requestbetweendelivers.extend(requests)
-
-        #Going to Plate Delivery
-        #requests = self.Platedeliverymove(targetX, targetY, roomsizeX, platedeliveryy, dividerwallgapY)
-        #requestbetweendelivers.extend(requests)
-
-        #serve table
-        #requests = self.softMotionX(targetX - self.robot.center.getX())
-        #requestbetweendelivers.extend(requests)
-        
-        #requests = self.softMotionX(targetX - self.robot.center.getX())
-        #requestbetweendelivers.extend(requests)
-        #instructions.append('x')
-        #requests = self.softMotionY(mark.getCenter().getY() - self.robot.center.getY())
-        #requestbetweendelivers.extend(requests)
-        #instructions.append('x')
-        #requests = self.softMotionX(deliverypositionX - self.robot.center.getX())
-        #requestbetweendelivers.extend(requests)
-        
-        #---------------------------------------------
-        #mark.undraw()    
-        #docking station regresso
-        #self.robot.depleteBattery()
         dados = [targetX, targetY, mark, deliverypositionX, roomsizeX, platedeliveryy, dividerwallgapY]
         return dados
             
@@ -209,72 +209,112 @@ class Waiter():
         mark.setFill('red')
         mark.draw(self.win)
         requestbetweendelivers = []
-        Platedeliveryinstructions = []
-        Platedeliveryinstructions.append(targetX - self.robot.center.getX())
-        requests = self.softMotionX(targetX - self.robot.center.getX())
+        obstacles = []
+        valores = self.softMotionX(targetX - self.robot.center.getX())
+        requests = valores[0]
+        obstacle = valores[1]
         requestbetweendelivers.extend(requests)
+        obstacles.extend(obstacle)
+
         
         selectionlanegapY = (dividerwallgapY - platedeliveryy)/2 + platedeliveryy
-        Platedeliveryinstructions.append(selectionlanegapY - self.robot.center.getY())
-        requests = self.softMotionY(selectionlanegapY - self.robot.center.getY())
+        valores = self.softMotionY(selectionlanegapY - self.robot.center.getY())
+        requests = valores[0]
+        obstacle = valores[1]
         requestbetweendelivers.extend(requests)
+        obstacles.extend(obstacle)
+
         
-        requests = self.softMotionX(targetX - self.robot.center.getX())   
+        valores = self.softMotionX(targetX - self.robot.center.getX())
+        requests = valores[0]
+        obstacle = valores[1]
         requestbetweendelivers.extend(requests)
+        obstacles.extend(obstacle)
+
         dockingplatedeliverygapX = roomsizeX/2 - self.robot.center.getX()
-        requests = self.softMotionX(dockingplatedeliverygapX)
+        valores = self.softMotionX(dockingplatedeliverygapX)
+        requests = valores[0]
+        obstacle = valores[1]
         requestbetweendelivers.extend(requests)
+        obstacles.extend(obstacle)
+
         ti.sleep(2)
-        mark.undraw()    
-        return requestbetweendelivers
+        mark.undraw()
+        
+        dados = [requestbetweendelivers, obstacles]
+        return dados
+
 
     
     def Tablemove(self, targetX, targetY, mark, deliverypositionX):
         mark.setFill('red')
         mark.draw(self.win)
-        tableinstructions = []
         requestbetweendelivers = []
+        obstacles = []
         #Going to the table
-        tableinstructions.append(targetY - self.robot.center.getY())
-        requests = self.softMotionY(targetY - self.robot.center.getY())
+
+        valores = self.softMotionY(targetY - self.robot.center.getY())
+        requests = valores[0]
+        obstacle = valores[1]
         requestbetweendelivers.extend(requests)
+        obstacles.extend(obstacle)
         
-        tableinstructions.append(targetX - self.robot.center.getX())
-        requests = self.softMotionX(targetX - self.robot.center.getX())
-        requestbetweendelivers.extend(requests) 
-        
-        tableinstructions.append(mark.getCenter().getY() - self.robot.center.getY())
-        requests = self.softMotionY(mark.getCenter().getY() - self.robot.center.getY())
-        requestbetweendelivers.extend(requests) 
-        
-        tableinstructions.append(deliverypositionX - self.robot.center.getX())
-        requests = self.softMotionX(deliverypositionX - self.robot.center.getX())
+        valores  = self.softMotionX(targetX - self.robot.center.getX())
+        requests = valores[0]
+        obstacle = valores[1]
         requestbetweendelivers.extend(requests)
+        obstacles.extend(obstacle)
+
+        
+        valores = self.softMotionY(mark.getCenter().getY() - self.robot.center.getY())
+        requests = valores[0]
+        obstacle = valores[1]
+        requestbetweendelivers.extend(requests)
+        obstacles.extend(obstacle)
+
+        
+        valores = self.softMotionX(deliverypositionX - self.robot.center.getX())
+        requests = valores[0]
+        obstacle = valores[1]
+        requestbetweendelivers.extend(requests)
+        obstacles.extend(obstacle)
+        
         ti.sleep(2)
-        mark.undraw()    
-        return requestbetweendelivers
+        mark.undraw()
+        dados = [requestbetweendelivers, obstacles]
+        return dados
 
         
     def move(self, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividergapY, dividersizeX, dividersizeY, platedeliveryy, platedeliveryx, numrows, numdividers, roomsizeX, mouseclick):
+        obstacles = [] 
         requestsdelivering = []
-        requestbetweendelivers = []
+        requestbetweendelivers = []        
         if self.requesttacker(mouseclick) != None:
             requestsdelivering.append(self.requesttacker(mouseclick))
             while len(requestsdelivering) != 0:
                 for i in range(2):
                     for mark in requestsdelivering:
                         dados = self.pathfinding(tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividergapY, dividersizeX, dividersizeY, platedeliveryy, numrows, numdividers, roomsizeX, mark)
-                        requestbetweendelivers.extend(self.Tablemove(dados[0], dados[1], dados[2], dados[3]))
-                    requestbetweendelivers.extend(self.Platedeliverymove(dados[0], dados[1], dados[2], dados[4], dados[5], dados[6]))
-                if self.robot.depleteBattery() == True :
-                    requests = self.softMotionX(platedeliveryx/2 + 6)
-                    requestbetweendelivers.extend(requests)
-                    requests = self.softMotionY(-1*(platedeliveryy/2 + self.size))
-                    requestbetweendelivers.extend(requests)
-                    self.robot.chargeBattery()
+                        requestbetweendelivers.extend(self.Tablemove(dados[0], dados[1], dados[2], dados[3])[0])
+                        obstacles.extend(self.Tablemove(dados[0], dados[1], dados[2], dados[3])[1])
+                        
+                    requestbetweendelivers.extend(self.Platedeliverymove(dados[0], dados[1], dados[2], dados[4], dados[5], dados[6])[0])
+                    obstacles.extend(self.Platedeliverymove(dados[0], dados[1], dados[2], dados[4], dados[5], dados[6])[1])
+
+                    if i == 1:
+                        if  self.robot.depleteBattery() == True :
+                            requests = self.softMotionX(platedeliveryx/2 + 6)
+                            requestbetweendelivers.extend(requests)
+                            requests = self.softMotionY(-1*(platedeliveryy/2 + self.size))
+                            requestbetweendelivers.extend(requests)
+                            self.robot.chargeBattery()
                     
                 requestsdelivering = requestbetweendelivers
                 requestbetweendelivers = []
+        else:
+            #if self.obstacle(mouseclick) == None:
+            obstacles.extend(self.obstacle(mouseclick))
+            
             
                 
 
