@@ -140,6 +140,6 @@ while close is False:
     else:
         quitbutton.unactive()
         dropdown.unactive()
-        waiter.pedidotacker(tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividergapY, dividersizeX, dividersizeY, platedeliveryy, numrows, numdividers, roomsizeX, mouseclick)
+        waiter.move(tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividergapY, dividersizeX, dividersizeY, platedeliveryy, numrows, numdividers, roomsizeX, mouseclick)
     
 win.close()

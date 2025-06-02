@@ -32,23 +32,35 @@ class Waiter():
         if dx < 0:
             dx*=-1
             for i in range(int(dx)):
+                mouseclick = self.win.checkMouse()
+                if mouseclick != None:
+                    self.requesttacker(mouseclick)
                 self.robot.move(-1, 0)
                 gr.update(60)
         else:
             for i in range(int(dx)):
+                mouseclick = self.win.checkMouse()
+                if mouseclick != None:
+                    self.requesttacker(mouseclick)
                 self.robot.move(1, 0)
-                gr.update(60)
+                gr.update(60) 
                 
     def softMotionY(self,dy):
         if dy < 0:
             dy*=-1
             for i in range(int(dy)):
+                mouseclick = self.win.checkMouse()
+                if mouseclick != None:
+                    self.requesttacker(mouseclick)
                 self.robot.move(0, -1)
-                gr.update(120)
+                gr.update(60)
         else:
             for i in range(int(dy)):
+                mouseclick = self.win.checkMouse()
+                if mouseclick != None:
+                    self.requesttacker(mouseclick)
                 self.robot.move(0, 1)
-                gr.update(120)
+                gr.update(60)
                 
     def colision(self, group):
         dx = self.robot.center.getX()
@@ -62,7 +74,7 @@ class Waiter():
                 obstacle.setFill("black")
                 return True
             
-    def pedidotacker(self, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividergapY, dividersizeX, dividersizeY, platedeliveryy, numrows, numdividers, roomsizeX, mouseclick):
+    def requesttacker(self, mouseclick):
         mouseclickX = mouseclick.getX()
         mouseclickY = mouseclick.getY() 
         for tablenum in self.tablegroup:
@@ -74,7 +86,7 @@ class Waiter():
                 mark = gr.Circle(tablenum.getCenter(), 1)
                 mark.setFill('red')
                 mark.draw(self.win)
-                return self.pathfinding(tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividergapY, dividersizeX, dividersizeY, platedeliveryy, numrows, numdividers, roomsizeX, currenttablestartX, currenttablefinishX, mark)
+                return mark
 
         
         
@@ -85,15 +97,15 @@ class Waiter():
         
         
 
-    def pathfinding(self, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividergapY, dividersizeX, dividersizeY, platedeliveryy, numrows, numdividers, roomsizeX, currenttablestartX, currenttablefinishX, mark):
+    def pathfinding(self, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividergapY, dividersizeX, dividersizeY, platedeliveryy, numrows, numdividers, roomsizeX, mark):
+        currenttablefinishX = mark.getCenter().getX() + tablesizeX/2
+        currenttablestartX = mark.getCenter().getX() - tablesizeX/2
         selectionlanegapY = (dividerwallgapY - platedeliveryy)/2 + platedeliveryy
         dockingplatedeliverygapX = roomsizeX/2 - self.robot.center.getX()
                 #---------------------------------------------
         "Pathfinding"
         self.robot.receivingRequest()
-        
-        targetaverageY = (-mark.getCenter().getY() - self.robot.center.getY())/2
-        
+                
         affinity = abs(selectionlanegapY - mark.getCenter().getY()) + abs(selectionlanegapY - self.robot.center.getY())
         targetY = selectionlanegapY - self.robot.center.getY() 
         for dividernum in range(numdividers):
@@ -103,10 +115,9 @@ class Waiter():
                 if dividernum == numdividers-1:
                     targetY = currentrowY + dividerwallgapY/2 - self.robot.center.getY()
                 else:
-                    targetY = currentrowY + dividergapY/2  - self.robot.center.getY()
+                    targetY = currentrowY + dividergapY/2 - self.robot.center.getY()  
 
 
-        self.softMotionY(targetY)
         
         "Lane Select"
         tableeven = None
@@ -140,11 +151,10 @@ class Waiter():
         elif tableeven is False:
             targetX = distancenoteven - midlanehalfsizeX
             extremes = False
-                    
-        self.softMotionX(targetX - self.robot.center.getX())
+                
                 
         "Table Select"
-        self.softMotionY(mark.getCenter().getY() - self.robot.center.getY())
+        
         if extremes is True:
             if tableeven is False:
                 deliverypositionX = tablewallgapX - 6
@@ -155,35 +165,58 @@ class Waiter():
                 deliverypositionX = distanceeven + 6
             elif tableeven is False: 
                 deliverypositionX = distancenoteven - 6
-                    
-        self.softMotionX(deliverypositionX - self.robot.center.getX())
+                
+        #Going to the table
+        instructions = []
+        #self.softMotionY(targetY)
+        #self.softMotionX(targetX - self.robot.center.getX())
+        #self.softMotionY(mark.getCenter().getY() - self.robot.center.getY())            
+        #self.softMotionX(deliverypositionX - self.robot.center.getX())
+        instructions.append('y') 
+        instructions.append(targetY)
+        
+        instructions.append('x')
+        instructions.append(targetX - self.robot.center.getX())
+        instructions.append('y')
+        instructions.append(mark.getCenter().getY() - self.robot.center.getY())  
+        instructions.append('x')
+        instructions.append(deliverypositionX - self.robot.center.getX())
         ti.sleep(2)
             
         #Going to Plate Delivery
-        self.softMotionX(targetX - self.robot.center.getX())
-        selectionlanegapY = (dividerwallgapY - platedeliveryy)/2 + platedeliveryy - self.robot.center.getY()
-        self.softMotionY(selectionlanegapY)
-        dockingplatedeliverygapX = roomsizeX/2 - self.robot.center.getX()
-        self.softMotionX(dockingplatedeliverygapX)
-        ti.sleep(2)
+        #self.softMotionX(targetX - self.robot.center.getX())
+        #selectionlanegapY = (dividerwallgapY - platedeliveryy)/2 + platedeliveryy - self.robot.center.getY()
+        #self.softMotionY(selectionlanegapY)
+        #dockingplatedeliverygapX = roomsizeX/2 - self.robot.center.getX()
+        #self.softMotionX(dockingplatedeliverygapX)
+        #ti.sleep(2)
         #serve table
-        self.softMotionX(targetX - self.robot.center.getX())
-        self.softMotionY(mark.getCenter().getY() - self.robot.center.getY())
-        self.softMotionX(deliverypositionX - self.robot.center.getX())
+        #self.softMotionX(targetX - self.robot.center.getX())
+        #self.softMotionY(mark.getCenter().getY() - self.robot.center.getY())
+        #self.softMotionX(deliverypositionX - self.robot.center.getX())
             
         #docking station regresso
-        self.robot.depleteBattery()
+        #self.robot.depleteBattery()
+        return instructions
+            
+            
+    def move(self, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividergapY, dividersizeX, dividersizeY, platedeliveryy, numrows, numdividers, roomsizeX, mouseclick):
+        mark = self.requesttacker(mouseclick)
+        
+        instructions = self.pathfinding(tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividergapY, dividersizeX, dividersizeY, platedeliveryy, numrows, numdividers, roomsizeX, mark)
+        print(instructions)
+        for move in range(len(instructions)):
+            if instructions[move] == 'x':
+                self.softMotionX(instructions[move+1])
+            
+            elif instructions[move] == 'y':
+                self.softMotionY(instructions[move+1])
+                
+
+                
+
         #---------------------------------------------
         mark.undraw()
-            
-            
-            
-    def move(self, tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, roomsizeX, mouseclick):
-        self.pedidotacker(tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, roomsizeX, mouseclick)
-        for targetpoints in self.pedidotacker(tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividersizeX, platedeliveryy, numrows, roomsizeX, mouseclick):
-            True
-                    
-
 
                     
                
