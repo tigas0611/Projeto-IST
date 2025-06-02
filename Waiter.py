@@ -292,18 +292,24 @@ class Waiter():
                 for i in range(2):
                     for mark in requestsdelivering:
                         dados = self.pathfinding(tablewallgapX, tablesizeX, tabledividergapX, dividerwallgapY, dividergapX, dividergapY, dividersizeX, dividersizeY, platedeliveryy, numrows, numdividers, roomsizeX, mark)
-                        requestbetweendelivers.extend(self.Tablemove(dados[0], dados[1], dados[2], dados[3])[0])
-                        self.obstacles.extend(self.Tablemove(dados[0], dados[1], dados[2], dados[3])[1])
+                        valores = self.Tablemove(dados[0], dados[1], dados[2], dados[3])
+                        requestbetweendelivers.extend(valores[0])
+                        self.obstacles.extend(valores[1])
                         
-                    requestbetweendelivers.extend(self.Platedeliverymove(dados[0], dados[1], dados[2], dados[4], dados[5], dados[6])[0])
-                    self.obstacles.extend(self.Platedeliverymove(dados[0], dados[1], dados[2], dados[4], dados[5], dados[6])[1])
+                    valores = self.Platedeliverymove(dados[0], dados[1], dados[2], dados[4], dados[5], dados[6])
+                    requestbetweendelivers.extend(valores[0])
+                    self.obstacles.extend(valores[0])
 
                     if i == 1:
                         if  self.robot.depleteBattery() == True :
-                            requests = self.softMotionX(platedeliveryx/2 + 6)
-                            requestbetweendelivers.extend(requests)
-                            requests = self.softMotionY(-1*(platedeliveryy/2 + self.size))
-                            requestbetweendelivers.extend(requests)
+                            
+                            valores = self.softMotionX(platedeliveryx/2 + 6)
+                            requestbetweendelivers.extend(valores[0])
+                            self.obstacles.extend(valores[1])
+                            
+                            valores = self.softMotionY(-1*(platedeliveryy/2 + self.size))
+                            requestbetweendelivers.extend(valores[0])
+                            self.obstacles.extend(valores[1])
                             self.robot.chargeBattery()
                     
                 requestsdelivering = requestbetweendelivers
